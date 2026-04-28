@@ -161,8 +161,13 @@ h1.hero-h .gold{background:linear-gradient(130deg,var(--g1) 0%,var(--g3) 35%,var
 .stat:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
 .stat-n{font-family:'JetBrains Mono',monospace;font-size:clamp(20px,3.5vw,28px);font-weight:700;color:var(--g2);line-height:1.1}
 .stat-l{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-top:6px}
+.stat-s{margin-top:6px;font-size:12px;color:var(--sub);line-height:1.5}
 .stat.pulse-gold .stat-n{animation:pgold .6s ease;text-shadow:0 0 20px rgba(212,168,67,.7)}
 @keyframes pgold{0%{color:var(--g4)}100%{color:var(--g2)}}
+.trust-banner{margin:22px auto 0;max-width:840px;padding:16px 18px;border-radius:18px;background:linear-gradient(135deg,rgba(0,201,167,.09),rgba(212,168,67,.08));border:1px solid rgba(0,201,167,.15);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center}
+.trust-banner strong{color:var(--text)}
+.trust-banner span{font-size:12px;color:var(--sub)}
+.paymode-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#BDEFE6}
 
 /* ═══ PROGRESS ═══ */
 .prog-wrap{max-width:740px;margin:48px auto 0}
@@ -653,7 +658,7 @@ footer strong{color:var(--g2)}
   <section id="hero" style="padding-top:28px">
     <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · Solo 80 cupos</div>
     <h1 class="hero-h fade-up a3">premio<span class="gold">nline</span></h1>
-    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por transferencia o checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo.</p>
+    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo. Todo se refleja con cupos reales y estado actualizado desde la base de datos.</p>
 
     <div class="hero-flow fade-up a5">
       <div class="hero-flow-card">
@@ -664,13 +669,42 @@ footer strong{color:var(--g2)}
       <div class="hero-flow-card">
         <div class="hero-flow-step">Paso 2</div>
         <div class="hero-flow-title">Abonás y se acredita</div>
-        <div class="hero-flow-copy">Cuando el pago queda aprobado, tu inscripción pasa a la lista pública de participantes y tus chances quedan confirmadas.</div>
+        <div class="hero-flow-copy">Cuando el pago queda aprobado, tu inscripción pasa a la lista pública de participantes, tus chances quedan confirmadas y los cupos se actualizan al instante.</div>
       </div>
       <div class="hero-flow-card">
         <div class="hero-flow-step">Paso 3</div>
         <div class="hero-flow-title">Quedás confirmado</div>
         <div class="hero-flow-copy">Una vez acreditado el pago, tu participación queda publicada y lista para entrar al sorteo de esta edición.</div>
       </div>
+    </div>
+
+    <div class="stats-grid fade-up a6">
+      <div class="stat">
+        <div class="stat-n" id="stPart">0</div>
+        <div class="stat-l">Cupos registrados</div>
+        <div class="stat-s">Confirmados en la base de datos en tiempo real</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n" id="stCups">80</div>
+        <div class="stat-l">Cupos disponibles</div>
+        <div class="stat-s">Se actualizan automáticamente con cada pago aprobado</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">100%</div>
+        <div class="stat-l">Pago protegido</div>
+        <div class="stat-s">Checkout seguro, validación del pago y publicación automática</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">24 hs</div>
+        <div class="stat-l">Premios pagados</div>
+        <div class="stat-s">Seguimiento por WhatsApp y acreditación rápida al ganador</div>
+      </div>
+    </div>
+
+    <div class="trust-banner fade-up a6">
+      <strong>Participás con respaldo visible:</strong>
+      <span>los cupos registrados y los disponibles se muestran desde la base de datos, la lista pública se actualiza con pagos aprobados y el checkout está en modo prueba para esta etapa.</span>
+      <span class="paymode-badge" id="paymentModeBadge">🧪 Checkout de prueba activo</span>
     </div>
 
     <div class="ticker-outer fade-up">
@@ -851,13 +885,13 @@ footer strong{color:var(--g2)}
         <span class="tc-tag ttg">▶ Historial público</span>
       </div>
       <div class="tc">
-        <div class="tc-title">Acreditación de pago</div>
-        <div class="tc-desc">Después de registrarte y abonar, el sistema confirma tu pago y te deja habilitado para participar oficialmente en esta edición.</div>
-        <span class="tc-tag ttgo">✓ Pagos en 24 hs</span>
+        <div class="tc-title">Cupos en tiempo real</div>
+        <div class="tc-desc">Los cupos registrados y disponibles se sincronizan con la base de datos para que veas el avance real de la edición.</div>
+        <span class="tc-tag ttgo">✓ Datos sincronizados</span>
       </div>
       <div class="tc">
-        <div class="tc-title">Premios rápidos</div>
-        <div class="tc-desc">Si resultás ganador, te notificamos por WhatsApp y coordinamos el pago del premio dentro de las 24 horas.</div>
+        <div class="tc-title">Confianza y seguridad</div>
+        <div class="tc-desc">Checkout protegido, validación del pago y seguimiento directo para que participes con tranquilidad y ganas de entrar.</div>
         <span class="tc-tag ttg">🔒 Verificado en vivo</span>
       </div>
     </div>
@@ -904,7 +938,7 @@ footer strong{color:var(--g2)}
       </div>
     </div>
     <div style="text-align:center;margin-top:14px;padding:14px 20px;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);border-radius:14px;font-size:14px;color:var(--sub);font-weight:600">
-      💡 Cuantas más chances elijas, más bolillas sumás al bombo y más posibilidades tenés de ganar.
+      💡 Cuantas más chances elijas, más bolillas sumás al bombo, más presencia tenés en el sorteo y más fuerte se ve tu participación en la lista pública.
     </div>
   </section>
 
