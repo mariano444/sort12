@@ -86,7 +86,7 @@ exports.handler = async (event) => {
     const paymentLink = await createPaymentLink(config, {
       items: [
         {
-          title: `${selectedPackage.label} - Sorteo Elite #${edition.edition_number}`,
+          title: `${selectedPackage.label} - premionline #${edition.edition_number}`,
           quantity: 1,
           unitPrice: selectedPackage.price,
           currencyId: 'ARS',
