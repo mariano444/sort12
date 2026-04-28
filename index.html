@@ -164,9 +164,6 @@ h1.hero-h .gold{background:linear-gradient(130deg,var(--g1) 0%,var(--g3) 35%,var
 .stat-s{margin-top:6px;font-size:12px;color:var(--sub);line-height:1.5}
 .stat.pulse-gold .stat-n{animation:pgold .6s ease;text-shadow:0 0 20px rgba(212,168,67,.7)}
 @keyframes pgold{0%{color:var(--g4)}100%{color:var(--g2)}}
-.trust-banner{margin:22px auto 0;max-width:840px;padding:16px 18px;border-radius:18px;background:linear-gradient(135deg,rgba(0,201,167,.09),rgba(212,168,67,.08));border:1px solid rgba(0,201,167,.15);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;text-align:center}
-.trust-banner strong{color:var(--text)}
-.trust-banner span{font-size:12px;color:var(--sub)}
 .paymode-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#BDEFE6}
 
 /* ═══ PROGRESS ═══ */
@@ -387,6 +384,23 @@ select.fi option{background:#050D1A;color:var(--text)}
 .availability-fill{height:100%;width:0;background:linear-gradient(90deg,#7A0000,#C41E3A,#D4A843);border-radius:999px;transition:width .8s cubic-bezier(.22,1,.36,1)}
 .availability-note{margin-top:12px;font-size:12px;font-weight:700;letter-spacing:.3px;color:#FFD2BF;text-align:center}
 .public-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.18);border-radius:999px;padding:7px 12px;font-size:11px;color:var(--g2);font-weight:700;letter-spacing:.7px;text-transform:uppercase}
+.live-summary{margin:0 0 18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.live-card{background:linear-gradient(135deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid rgba(212,168,67,.12);border-radius:18px;padding:16px 18px;position:relative;overflow:hidden}
+.live-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g2),transparent)}
+.live-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.live-value{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--g2);line-height:1}
+.live-sub{margin-top:6px;font-size:12px;color:var(--sub);line-height:1.45}
+.live-sub strong{color:var(--text)}
+.last-join{color:var(--teal);font-weight:700}
+.participant-feed{position:fixed;left:18px;bottom:18px;z-index:1090;pointer-events:none}
+.participant-feed-card{min-width:280px;max-width:320px;background:rgba(3,8,15,.94);backdrop-filter:blur(18px);border:1px solid rgba(212,168,67,.18);border-radius:18px;padding:14px 16px;box-shadow:0 18px 48px rgba(0,0,0,.45);display:flex;align-items:flex-start;gap:12px;transform:translateY(130%);opacity:0;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease}
+.participant-feed-card.on{transform:translateY(0);opacity:1}
+.participant-feed-avatar{width:42px;height:42px;border-radius:50%;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.24);display:flex;align-items:center;justify-content:center;color:var(--g2);font-size:16px;font-weight:700;flex-shrink:0;overflow:hidden}
+.participant-feed-avatar img{width:100%;height:100%;object-fit:cover}
+.participant-feed-copy{min-width:0}
+.participant-feed-kicker{font-size:9px;font-weight:700;letter-spacing:1.7px;text-transform:uppercase;color:var(--teal)}
+.participant-feed-text{margin-top:4px;font-size:13px;color:var(--text);line-height:1.45}
+.participant-feed-meta{margin-top:4px;font-size:11px;color:var(--sub)}
 .full-notice{display:none;margin-bottom:28px;background:rgba(0,201,167,.05);border:1px solid rgba(0,201,167,.2);border-radius:18px;padding:28px;text-align:center}
 .fn-h{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);margin-bottom:4px;margin-top:8px}
 .fn-p{font-size:13px;color:var(--sub)}
@@ -550,6 +564,7 @@ footer strong{color:var(--g2)}
   .th.col-time,.td.tm{display:none}
   .participant-stats{grid-template-columns:1fr}
   .faq-grid{grid-template-columns:1fr}
+  .live-summary{grid-template-columns:1fr}
 }
 .fade-up{opacity:0;transform:translateY(28px);animation:fadeup .8s cubic-bezier(.22,1,.36,1) both}
 @keyframes fadeup{to{opacity:1;transform:none}}
@@ -594,6 +609,8 @@ footer strong{color:var(--g2)}
   .availability-box{padding:18px}
   .availability-top{align-items:flex-start}
   .availability-count small{text-align:left}
+  .participant-feed{left:12px;right:12px;bottom:72px}
+  .participant-feed-card{min-width:0;max-width:none;width:100%}
 }
 </style>
 </head>
@@ -676,12 +693,6 @@ footer strong{color:var(--g2)}
         <div class="hero-flow-title">Quedás confirmado</div>
         <div class="hero-flow-copy">Una vez acreditado el pago, tu participación queda publicada y lista para entrar al sorteo de esta edición.</div>
       </div>
-    </div>
-
-    <div class="trust-banner fade-up a6">
-      <strong>Participás con respaldo visible:</strong>
-      <span>las chances registradas y las disponibles se muestran desde la base de datos, la lista pública se actualiza con pagos aprobados y el checkout funciona en producción.</span>
-      <span class="paymode-badge" id="paymentModeBadge">🔒 Checkout seguro en producción</span>
     </div>
 
     <div class="ticker-outer fade-up">
@@ -1032,6 +1043,23 @@ footer strong{color:var(--g2)}
       </div>
       <div class="public-pill">🇦🇷 Participan desde toda la Argentina</div>
     </div>
+    <div class="live-summary">
+      <div class="live-card">
+        <div class="live-label">Chances Reservadas</div>
+        <div class="live-value" id="reservedChances">0</div>
+        <div class="live-sub">Ya están adentro del bombo y compiten por el <strong>Sorteo 2026</strong>.</div>
+      </div>
+      <div class="live-card">
+        <div class="live-label">Chances Disponibles</div>
+        <div class="live-value" id="availableChances">150</div>
+        <div class="live-sub" id="liveUrgencyCopy">Todavía podés entrar, pero el cierre se acelera cuando quedan 20 o menos.</div>
+      </div>
+      <div class="live-card">
+        <div class="live-label">Último En Participar</div>
+        <div class="live-value last-join" id="latestParticipantName">—</div>
+        <div class="live-sub" id="latestParticipantMeta">Esperando la próxima participación confirmada.</div>
+      </div>
+    </div>
     <div class="ptbl">
       <div class="tblhd"><div class="th">Foto</div><div class="th">Participante</div><div class="th col-loc">Ubicación</div><div class="th col-date">Fecha</div><div class="th col-time">Hora</div><div class="th">🎟️ Total</div></div>
       <div class="tblbd" id="tblBody"><div class="empty-st"><span class="ei">🎟️</span>Aún no hay participantes. ¡Sé el primero!</div></div>
@@ -1099,6 +1127,17 @@ footer strong{color:var(--g2)}
 </div>
 
 <a class="wa-float" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20sorteo" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+
+<div class="participant-feed" id="participantFeed">
+  <div class="participant-feed-card" id="participantFeedCard">
+    <div class="participant-feed-avatar" id="participantFeedAvatar">👤</div>
+    <div class="participant-feed-copy">
+      <div class="participant-feed-kicker">Participación en vivo</div>
+      <div class="participant-feed-text" id="participantFeedText">Todavía no hay participantes confirmados.</div>
+      <div class="participant-feed-meta" id="participantFeedMeta">La actividad se mostrará acá automáticamente.</div>
+    </div>
+  </div>
+</div>
 
 <div class="participant-modal" id="participantModal" onclick="closeParticipantModal(event)">
   <div class="participant-card" onclick="event.stopPropagation()">
@@ -1231,6 +1270,7 @@ let selPkgIdx=null,termsOk=true,anonPublic=false;
 let drawPhase=0,isDrawing=false,drawRunning=false;
 let winners=[],edition=1,archive=[],totalPaid=2482480000;
 let cdTarget=null,cdInt=null;
+let participantFeedIndex=0, participantFeedTimer=null;
 
 /* ══════════════════════════════════════════════
    PARTICLES
@@ -2040,6 +2080,45 @@ function participantInitials(name){
     .map(part=>part.charAt(0).toUpperCase())
     .join('') || 'PP';
 }
+function latestParticipant(){
+  return participants.length ? participants[participants.length-1] : null;
+}
+function startParticipantFeed(){
+  const card=document.getElementById('participantFeedCard');
+  const avatar=document.getElementById('participantFeedAvatar');
+  const text=document.getElementById('participantFeedText');
+  const meta=document.getElementById('participantFeedMeta');
+  if(!card || !avatar || !text || !meta) return;
+  clearInterval(participantFeedTimer);
+
+  if(!participants.length){
+    avatar.textContent='👤';
+    avatar.innerHTML='👤';
+    text.textContent='Todavía no hay participantes confirmados.';
+    meta.textContent='La actividad se mostrará acá automáticamente.';
+    card.classList.remove('on');
+    return;
+  }
+
+  const renderFeedItem=()=>{
+    const p=participants[participantFeedIndex % participants.length];
+    const loc=[p.city,p.province].filter(Boolean).join(', ') || 'Argentina';
+    const total=p.totalChances || p.chances || 0;
+    if(p.photo){
+      avatar.innerHTML=`<img src="${p.photo}" alt="${publicName(p)}">`;
+    }else{
+      avatar.textContent=participantInitials(p.name);
+    }
+    text.innerHTML=`<strong>${publicName(p)}</strong> participa con <strong>${total} bolilla${total!==1?'s':''}</strong> en el bombo.`;
+    meta.textContent=`📍 ${loc} · 📅 ${p.date || nowDate()} · 🕒 ${p.time || '—'}`;
+    card.classList.remove('on');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.add('on')));
+    participantFeedIndex=(participantFeedIndex+1)%participants.length;
+  };
+
+  renderFeedItem();
+  participantFeedTimer=setInterval(renderFeedItem, 4200);
+}
 function placeWheelAfterParticipants(){
   const wheel = document.querySelector('.wheel-section');
   const list = document.querySelector('.list-section');
@@ -2205,11 +2284,18 @@ function updateUI(){
   const availabilityBox=document.getElementById('availabilityBox');
   const urgCupos=document.getElementById('urgCupos');
   const urgLbl=document.getElementById('urgLbl');
+  const reservedChances=document.getElementById('reservedChances');
+  const availableChances=document.getElementById('availableChances');
+  const liveUrgencyCopy=document.getElementById('liveUrgencyCopy');
+  const latestName=document.getElementById('latestParticipantName');
+  const latestMeta=document.getElementById('latestParticipantMeta');
   if(stDraws) stDraws.textContent=248+archive.length;
   if(stPaid) stPaid.textContent='$'+fmt(totalPaid);
   const pct=(totalChances/MAX*100).toFixed(1);
   if(progFill) progFill.style.width=pct+'%';
   const rem=MAX-totalChances;
+  if(reservedChances) reservedChances.textContent=totalChances;
+  if(availableChances) availableChances.textContent=rem;
   if(urgCupos) urgCupos.textContent=rem;
   if(availabilityBox) availabilityBox.style.display = rem <= 20 && rem > 0 ? 'block' : 'none';
   if(urgLbl){
@@ -2217,9 +2303,25 @@ function updateUI(){
     else if(rem<=0) urgLbl.textContent='Chances agotadas. El sorteo ya está en progreso.';
     else urgLbl.textContent='';
   }
+  if(liveUrgencyCopy){
+    if(rem<=20&&rem>0) liveUrgencyCopy.textContent=`Urgencia alta: quedan solo ${rem} chances disponibles antes de cerrar el bombo.`;
+    else if(rem<=0) liveUrgencyCopy.textContent='Ya no quedan chances disponibles. El sorteo entra en etapa de definición.';
+    else liveUrgencyCopy.textContent=`Todavía quedan ${rem} chances disponibles, pero el cierre se acelera cuando bajan de 20.`;
+  }
+  const latest=latestParticipant();
+  if(latestName && latestMeta){
+    if(latest){
+      latestName.textContent=publicName(latest);
+      latestMeta.textContent=`📍 ${[latest.city,latest.province].filter(Boolean).join(', ') || 'Argentina'} · ${latest.totalChances || latest.chances} bolillas en el bombo.`;
+    }else{
+      latestName.textContent='—';
+      latestMeta.textContent='Esperando la próxima participación confirmada.';
+    }
+  }
   const topEd=document.getElementById('topEd');
   if(topEd) topEd.textContent='Sorteo 2026';
   renderTable();
+  startParticipantFeed();
   updateFormBonusBanner();
   if(totalChances>=MAX){
     document.getElementById('formSection').style.display='none';
@@ -2248,7 +2350,7 @@ function renderTable(){
     const totalCh = p.totalChances || p.chances;
     const visibleName = publicName(p);
     const participationDate = p.date || nowDate();
-    const chDetail = `<span class="chance-badge"><strong>${totalCh}ch</strong> en juego</span>`;
+    const chDetail = `<span class="chance-badge"><strong>${totalCh}</strong> bolillas en el bombo</span>`;
     row.innerHTML=`
       <div class="td av">${avatarHtml}</div>
       <div class="td nm" style="${isW?'color:var(--g2)':''}">${isW?'🏆 ':''}${visibleName}<small>${participantBadge(p)}</small><div class="participant-mobile-meta"><span class="participant-mobile-chip">📍 ${locParts.join(', ') || 'Argentina'}</span><span class="participant-mobile-chip">📅 ${participationDate}</span></div></div>
@@ -2285,7 +2387,7 @@ function renderDreams(){
           <div class="dream-name">${publicName(p)}</div>
           <div class="dream-loc">📍 ${locStr}</div>
         </div>
-        <div class="dream-ch">🎟️ ${totalCh}ch</div>
+        <div class="dream-ch">🎟️ ${totalCh} bolillas</div>
       </div>`;
     grid.appendChild(card);
   });
