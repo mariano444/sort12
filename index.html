@@ -384,7 +384,7 @@ select.fi option{background:#050D1A;color:var(--text)}
 .availability-fill{height:100%;width:0;background:linear-gradient(90deg,#7A0000,#C41E3A,#D4A843);border-radius:999px;transition:width .8s cubic-bezier(.22,1,.36,1)}
 .availability-note{margin-top:12px;font-size:12px;font-weight:700;letter-spacing:.3px;color:#FFD2BF;text-align:center}
 .public-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.18);border-radius:999px;padding:7px 12px;font-size:11px;color:var(--g2);font-weight:700;letter-spacing:.7px;text-transform:uppercase}
-.live-summary{margin:0 0 18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.live-summary{margin:0 0 18px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .live-card{background:linear-gradient(135deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid rgba(212,168,67,.12);border-radius:18px;padding:16px 18px;position:relative;overflow:hidden}
 .live-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g2),transparent)}
 .live-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
@@ -614,23 +614,6 @@ footer strong{color:var(--g2)}
   .participant-feed-card{min-width:0;max-width:none;width:100%}
 }
 </style>
-      <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '675114246370648');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -691,9 +674,9 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
 <div class="W">
 
   <section id="hero" style="padding-top:28px">
-    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Sorteo 2026 · Nacional · 100.000 chances totales</div>
+    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Sorteo 2026 · Nacional · Hasta agotar stock de chances</div>
     <h1 class="hero-h fade-up a3">premio<span class="gold">nline</span></h1>
-    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo. Todo se refleja con chances reales vendidas y disponibles desde la base de datos. Participación habilitada hasta agotar stock 1000 o hasta el <strong>2 de junio de 2026</strong>.</p>
+    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo. Participación habilitada hasta agotar stock de chances o hasta el <strong>2 de julio de 2026</strong>.</p>
 
     <div class="hero-flow fade-up a5">
       <div class="hero-flow-card">
@@ -720,9 +703,9 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
       <div class="availability-top">
         <div>
           <div class="availability-kicker">Últimas chances disponibles</div>
-          <div class="availability-title">Participación abierta hasta agotar stock 1000 o hasta el 2 de junio de 2026</div>
+          <div class="availability-title">Participación abierta hasta agotar stock de chances o hasta el 2 de julio de 2026</div>
         </div>
-        <div class="availability-count"><span id="urgCupos">20</span><small>chances disponibles</small></div>
+        <div class="availability-count"><small>última etapa de participación</small></div>
       </div>
       <div class="availability-track">
         <div class="availability-fill" id="progFill"></div>
@@ -1022,13 +1005,13 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
         </div>
         <!-- Mini urgency bajo el resumen -->
         <div id="sumUrgency" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;font-size:12px;color:#FF8A80;font-weight:600;text-align:center">
-          ⏳ Últimas chances disponibles: <strong id="sumCuposLeft" style="color:#FFD740">20</strong>. Vigente hasta agotar stock 1000 o hasta el 2 de junio de 2026.
+          ⏳ Participación vigente hasta agotar stock de chances o hasta el 2 de julio de 2026.
         </div>
       </div>
       <div class="fg full">
         <div class="terms-row">
           <div class="chk on" id="chkT" onclick="toggleTerms()"></div>
-          <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que la participación está disponible hasta agotar stock 1000 o hasta el 2 de junio de 2026, y que un sistema de software avanzado selecciona de forma aleatoria al ganador o ganadora entre los participantes visibles.</div>
+          <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que la participación está disponible hasta agotar stock de chances o hasta el 2 de julio de 2026, y que un sistema de software avanzado selecciona de forma aleatoria al ganador o ganadora entre los participantes visibles.</div>
         </div>
       </div>
     </div>
@@ -1048,7 +1031,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
   <div class="full-notice" id="fullNotice">
     <div style="font-size:36px">🔒</div>
     <h3 class="fn-h">¡CHANCES AGOTADAS!</h3>
-    <p class="fn-p">Las 100.000 chances ya fueron tomadas. El sorteo comenzó automáticamente en vivo. ¡Seguilo en tiempo real!</p>
+    <p class="fn-p">El stock de chances ya fue tomado. El sorteo comenzó automáticamente en vivo. ¡Seguilo en tiempo real!</p>
   </div>
 
   <!-- ═══════ TABLE ═══════ -->
@@ -1063,19 +1046,9 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
     </div>
     <div class="live-summary">
       <div class="live-card">
-        <div class="live-label">Chances Reservadas</div>
-        <div class="live-value" id="reservedChances">0</div>
-        <div class="live-sub">Ya están confirmadas y compiten por el <strong>Sorteo 2026</strong> hasta agotar stock o fecha límite.</div>
-      </div>
-      <div class="live-card">
-        <div class="live-label">Chances Disponibles</div>
-        <div class="live-value" id="availableChances">100000</div>
-        <div class="live-sub" id="liveUrgencyCopy">Todavía podés entrar. Disponible hasta agotar stock 1000 o hasta el 2 de junio de 2026.</div>
-      </div>
-      <div class="live-card">
         <div class="live-label">Último En Participar</div>
         <div class="live-value last-join" id="latestParticipantName">—</div>
-        <div class="live-sub" id="latestParticipantMeta">Esperando la próxima participación confirmada.</div>
+        <div class="live-sub" id="latestParticipantMeta">Participación abierta hasta agotar stock de chances o hasta el 2 de julio de 2026.</div>
       </div>
     </div>
     <div class="ptbl">
@@ -1125,7 +1098,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
       </div>
       <div class="faq-card">
         <div class="faq-q">¿Cuándo se hace el sorteo?</div>
-        <div class="faq-a">El sorteo se define cuando se completa el cupo total de 100.000 chances o al llegar la fecha límite del 2 de junio de 2026.</div>
+        <div class="faq-a">El sorteo se define cuando se agota el stock de chances o al llegar la fecha límite del 2 de julio de 2026.</div>
       </div>
       <div class="faq-card">
         <div class="faq-q">¿Cómo cobran los ganadores?</div>
@@ -1998,13 +1971,7 @@ function updateFormBonusBanner(){
   const bannerCount = document.getElementById('bannerBonusCount');
   const bannerTotal = document.getElementById('bannerTotalChances');
   const sumUrgency = document.getElementById('sumUrgency');
-  const sumCuposLeft = document.getElementById('sumCuposLeft');
-  const wheelCuposLeft = document.getElementById('wheelCuposLeft');
   const rem = MAX - totalChances;
-
-  // Update cupos count everywhere
-  if(wheelCuposLeft) wheelCuposLeft.textContent = rem;
-  if(sumCuposLeft) sumCuposLeft.textContent = rem;
 
   if(bonusTotal > 0){
     if(banner) banner.style.display='block';
@@ -2306,11 +2273,7 @@ function updateUI(){
   const stPaid=document.getElementById('stPaid');
   const progFill=document.getElementById('progFill');
   const availabilityBox=document.getElementById('availabilityBox');
-  const urgCupos=document.getElementById('urgCupos');
   const urgLbl=document.getElementById('urgLbl');
-  const reservedChances=document.getElementById('reservedChances');
-  const availableChances=document.getElementById('availableChances');
-  const liveUrgencyCopy=document.getElementById('liveUrgencyCopy');
   const latestName=document.getElementById('latestParticipantName');
   const latestMeta=document.getElementById('latestParticipantMeta');
   if(stDraws) stDraws.textContent=248+archive.length;
@@ -2318,19 +2281,11 @@ function updateUI(){
   const pct=(totalChances/MAX*100).toFixed(1);
   if(progFill) progFill.style.width=pct+'%';
   const rem=MAX-totalChances;
-  if(reservedChances) reservedChances.textContent=totalChances;
-  if(availableChances) availableChances.textContent=rem;
-  if(urgCupos) urgCupos.textContent=rem;
   if(availabilityBox) availabilityBox.style.display = rem <= 20 && rem > 0 ? 'block' : 'none';
   if(urgLbl){
-    if(rem<=20&&rem>0) urgLbl.textContent=`Últimas chances disponibles: ${MAX-rem} de ${MAX} ya están tomadas. Fecha límite: 2 de junio de 2026.`;
+    if(rem<=20&&rem>0) urgLbl.textContent='Última etapa de participación. Fecha límite: 2 de julio de 2026.';
     else if(rem<=0) urgLbl.textContent='Chances agotadas. El sorteo ya está en progreso.';
     else urgLbl.textContent='';
-  }
-  if(liveUrgencyCopy){
-    if(rem<=20&&rem>0) liveUrgencyCopy.textContent=`Urgencia alta: quedan solo ${rem} chances disponibles antes del cierre del 2 de junio de 2026.`;
-    else if(rem<=0) liveUrgencyCopy.textContent='Ya no quedan chances disponibles. El sorteo entra en etapa de definición.';
-    else liveUrgencyCopy.textContent=`Todavía quedan ${rem} chances disponibles. Participación vigente hasta agotar stock 1000 o hasta el 2 de junio de 2026.`;
   }
   const latest=latestParticipant();
   if(latestName && latestMeta){
@@ -2339,7 +2294,7 @@ function updateUI(){
       latestMeta.textContent=`📍 ${[latest.city,latest.province].filter(Boolean).join(', ') || 'Argentina'} · ${latest.totalChances || latest.chances} chances confirmadas.`;
     }else{
       latestName.textContent='—';
-      latestMeta.textContent='Esperando la próxima participación confirmada.';
+      latestMeta.textContent='Participación abierta hasta agotar stock de chances o hasta el 2 de julio de 2026.';
     }
   }
   const topEd=document.getElementById('topEd');
