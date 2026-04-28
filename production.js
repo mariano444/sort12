@@ -17,6 +17,10 @@
     'Content-Type': 'application/json',
   };
 
+  if (!String(APP_CONFIG.supabaseAnonKey).startsWith('sb_')) {
+    publicHeaders.Authorization = `Bearer ${APP_CONFIG.supabaseAnonKey}`;
+  }
+
   function formatIsoTime(value) {
     if (!value) return '—';
     const date = new Date(value);
