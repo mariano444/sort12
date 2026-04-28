@@ -647,7 +647,7 @@ footer strong{color:var(--g2)}
       <div class="tb-pill tp-live"><div class="live-dot"></div>En Vivo</div>
       <div class="tb-pill tp-gold">🛡️ 100% Seguro</div>
       <div class="tb-pill tp-gray">📋 Lista Pública</div>
-      <div class="edition-tag" id="topEd">Edición #1</div>
+      <div class="edition-tag" id="topEd">Sorteo 2026</div>
     </div>
   </div>
 </div>
@@ -656,7 +656,7 @@ footer strong{color:var(--g2)}
 <div class="W">
 
   <section id="hero" style="padding-top:28px">
-    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · 150 chances totales</div>
+    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Sorteo 2026 · Nacional · 150 chances totales</div>
     <h1 class="hero-h fade-up a3">premio<span class="gold">nline</span></h1>
     <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo. Todo se refleja con chances reales vendidas y disponibles desde la base de datos.</p>
 
@@ -678,33 +678,10 @@ footer strong{color:var(--g2)}
       </div>
     </div>
 
-    <div class="stats-grid fade-up a6">
-      <div class="stat">
-        <div class="stat-n" id="stPart">0</div>
-        <div class="stat-l">Chances registradas</div>
-        <div class="stat-s">Vendidas y confirmadas en la base de datos en tiempo real</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n" id="stCups">150</div>
-        <div class="stat-l">Chances disponibles</div>
-        <div class="stat-s">Se actualizan automáticamente con cada pago aprobado</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">100%</div>
-        <div class="stat-l">Pago protegido</div>
-        <div class="stat-s">Checkout seguro, validación del pago y publicación automática</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">24 hs</div>
-        <div class="stat-l">Premios pagados</div>
-        <div class="stat-s">Seguimiento por WhatsApp y acreditación rápida al ganador</div>
-      </div>
-    </div>
-
     <div class="trust-banner fade-up a6">
       <strong>Participás con respaldo visible:</strong>
-      <span>las chances registradas y las disponibles se muestran desde la base de datos, la lista pública se actualiza con pagos aprobados y el checkout está en modo prueba para esta etapa.</span>
-      <span class="paymode-badge" id="paymentModeBadge">🧪 Checkout de prueba activo</span>
+      <span>las chances registradas y las disponibles se muestran desde la base de datos, la lista pública se actualiza con pagos aprobados y el checkout funciona en producción.</span>
+      <span class="paymode-badge" id="paymentModeBadge">🔒 Checkout seguro en producción</span>
     </div>
 
     <div class="ticker-outer fade-up">
@@ -1077,7 +1054,7 @@ footer strong{color:var(--g2)}
     </div>
     <div id="winnersList"></div>
     <button class="new-draw-btn" id="newDrawBtn" onclick="startNew()" style="display:none">
-      🎲 INICIAR EDICIÓN #<span id="nextEd">2</span> — NUEVO SORTEO
+      🎲 INICIAR NUEVO SORTEO 2026
     </button>
   </div>
 
@@ -2222,18 +2199,12 @@ function submitForm(){
    UI UPDATE
 ══════════════════════════════════════════════ */
 function updateUI(){
-  const stPart=document.getElementById('stPart');
-  const stCups=document.getElementById('stCups');
   const stDraws=document.getElementById('stDraws');
   const stPaid=document.getElementById('stPaid');
   const progFill=document.getElementById('progFill');
   const availabilityBox=document.getElementById('availabilityBox');
   const urgCupos=document.getElementById('urgCupos');
   const urgLbl=document.getElementById('urgLbl');
-  const pp=stPart ? (parseInt(stPart.textContent)||0) : 0;
-  const pc=stCups ? (parseInt(stCups.textContent)||MAX) : MAX;
-  if(stPart) animN(stPart,pp,totalChances);
-  if(stCups) animN(stCups,pc,MAX-totalChances);
   if(stDraws) stDraws.textContent=248+archive.length;
   if(stPaid) stPaid.textContent='$'+fmt(totalPaid);
   const pct=(totalChances/MAX*100).toFixed(1);
@@ -2246,9 +2217,8 @@ function updateUI(){
     else if(rem<=0) urgLbl.textContent='Chances agotadas. El sorteo ya está en progreso.';
     else urgLbl.textContent='';
   }
-  document.getElementById('heroEd').textContent=edition;
-  document.getElementById('topEd').textContent='Edición #'+edition;
-  document.getElementById('nextEd').textContent=edition+1;
+  const topEd=document.getElementById('topEd');
+  if(topEd) topEd.textContent='Sorteo 2026';
   if(pp!==participants.length){
     const sc=document.getElementById('sc1');if(sc){sc.classList.remove('pulse-gold');void sc.offsetWidth;sc.classList.add('pulse-gold');}
   }
@@ -2499,7 +2469,7 @@ function renderArchive(){
     <div class="arch-card${idx===0?' open':''}" id="ac${idx}">
       <div class="arch-head" onclick="toggleArch(${idx})">
         <div class="ah-l">
-          <span class="ah-ed">Edición #${d.edition}</span>
+          <span class="ah-ed">Sorteo 2026</span>
           <span class="ah-t">Gran Sorteo Millonario</span>
           <span class="ah-m">${d.date} · ${d.participants} participantes</span>
         </div>
@@ -2547,7 +2517,7 @@ function startNew(){
   document.getElementById('sumC').textContent='—';document.getElementById('sumT').textContent='—';
   applyDefaultSelection();
   document.getElementById('subBtn').disabled=true;
-  updateUI();toast(`🎰 ¡Edición #${edition} abierta! Inscripción disponible.`);
+  updateUI();toast('🎰 ¡Sorteo 2026 disponible para inscripciones!');
   launchConfetti(80);startCountdown();
   setTimeout(()=>document.querySelector('#hero').scrollIntoView({behavior:'smooth'}),300);
 }
