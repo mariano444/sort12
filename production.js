@@ -29,6 +29,14 @@
       : date.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
   }
 
+  function formatIsoDate(value) {
+    if (!value) return '—';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? '—'
+      : date.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
   function localRewardFor(participantId) {
     try {
       const raw = localStorage.getItem(`raffle_local_reward_${participantId}`);
@@ -39,15 +47,14 @@
   }
 
   function toParticipant(row) {
-    const localReward = localRewardFor(row.id);
-    const localBonus = Number(localReward?.bonusChances || 0);
     return {
       id: row.id,
       name: row.display_name,
       chances: row.chances_bought,
-      bonusChances: Number(row.bonus_chances || 0) + localBonus,
-      totalChances: Number(row.total_chances || row.chances_bought || 0) + localBonus,
+      bonusChances: 0,
+      totalChances: Number(row.chances_bought || 0),
       time: formatIsoTime(row.registered_at),
+      date: formatIsoDate(row.registered_at),
       province: row.province,
       city: row.city,
       photo: row.photo_url || null,
@@ -190,7 +197,7 @@
       city: document.getElementById('fCity').value.trim(),
       message: document.getElementById('fMsg').value.trim(),
       photoDataUrl: currentPhotoDataUrl,
-      bonusChances: bonusTotal,
+      bonusChances: 0,
     };
 
     button.disabled = true;
@@ -241,15 +248,6 @@
     }
 
     await refreshAfterPayment(participantId);
-    try {
-      const rewardMeta = JSON.parse(localStorage.getItem(`raffle_pending_reward_${participantId}`) || 'null');
-      const boughtChances = Number(rewardMeta?.chances || 0);
-      if (paymentState === 'success' && boughtChances > 0 && typeof window.processApprovedPaymentReward === 'function') {
-        window.processApprovedPaymentReward(participantId, boughtChances);
-      }
-    } catch (_) {
-      // noop
-    }
     localStorage.removeItem('raffle_pending_participant_id');
     localStorage.removeItem(`raffle_pending_reward_${participantId}`);
   }
