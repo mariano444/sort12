@@ -56,9 +56,13 @@ async function ensureStorageBucket(config) {
     return;
   }
 
-  if (checkResponse.status !== 404) {
-    const text = await checkResponse.text();
-    throw new Error(`Supabase storage bucket check failed (${checkResponse.status}): ${text}`);
+  const checkText = await checkResponse.text();
+  const bucketMissing =
+    checkResponse.status === 404 ||
+    (checkResponse.status === 400 && /bucket not found/i.test(checkText));
+
+  if (!bucketMissing) {
+    throw new Error(`Supabase storage bucket check failed (${checkResponse.status}): ${checkText}`);
   }
 
   const createResponse = await fetch(`${config.supabaseUrl}/storage/v1/bucket`, {
@@ -77,7 +81,13 @@ async function ensureStorageBucket(config) {
 
   if (!createResponse.ok) {
     const text = await createResponse.text();
-    throw new Error(`Supabase storage bucket create failed (${createResponse.status}): ${text}`);
+    const alreadyExists =
+      createResponse.status === 409 ||
+      /already exists/i.test(text);
+
+    if (!alreadyExists) {
+      throw new Error(`Supabase storage bucket create failed (${createResponse.status}): ${text}`);
+    }
   }
 }
 
