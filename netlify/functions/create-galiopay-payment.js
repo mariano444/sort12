@@ -72,6 +72,8 @@ exports.handler = async (event) => {
     await supabaseRequest(config, `/participants?id=eq.${normalizedParticipantId}`, {
       method: 'PATCH',
       body: {
+        display_name: `${firstName} ${lastName}`.replace(/\s+/g, ' ').trim(),
+        last_name_initial: lastName,
         photo_url: photoUrl,
         payment_provider: 'galiopay',
       },
