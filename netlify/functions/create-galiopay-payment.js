@@ -67,12 +67,7 @@ exports.handler = async (event) => {
     });
 
     const normalizedParticipantId = String(participantId).replace(/"/g, '');
-    let photoUrl = null;
-    try {
-      photoUrl = await uploadProfilePhoto(config, normalizedParticipantId, photoDataUrl);
-    } catch (error) {
-      console.warn(`Profile photo upload skipped: ${error.message}`);
-    }
+    const photoUrl = await uploadProfilePhoto(config, normalizedParticipantId, photoDataUrl);
 
     await supabaseRequest(config, `/participants?id=eq.${normalizedParticipantId}`, {
       method: 'PATCH',
