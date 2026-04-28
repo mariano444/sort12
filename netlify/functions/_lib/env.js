@@ -20,7 +20,7 @@ function getConfig() {
     publicSiteUrl: requireEnv('PUBLIC_SITE_URL').replace(/\/$/, ''),
     galiopayBaseUrl: (process.env.GALIOPAY_BASE_URL || 'https://pay.galio.app').replace(/\/$/, ''),
     profileBucket: process.env.SUPABASE_PROFILE_BUCKET || 'profile-photos',
-    sandboxMode: String(process.env.GALIOPAY_SANDBOX || 'true').toLowerCase() === 'true',
+    sandboxMode: String(process.env.GALIOPAY_SANDBOX || 'false').toLowerCase() === 'true',
   };
 }
 
