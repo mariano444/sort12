@@ -340,27 +340,36 @@ select.fi option{background:#050D1A;color:var(--text)}
 
 /* ═══ TABLE ═══ */
 .list-section{padding:0 0 64px}
+.list-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:24px;flex-wrap:wrap}
+.list-copy{max-width:680px}
+.list-note{font-size:13px;color:var(--sub);line-height:1.65;font-weight:500}
 .ptbl{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
-.tblhd{display:grid;grid-template-columns:48px 52px 1fr 130px 90px 110px;padding:13px 22px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bdr)}
+.tblhd{display:grid;grid-template-columns:64px minmax(0,1.4fr) minmax(120px,.9fr) 108px 112px;padding:13px 22px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bdr)}
 .th{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
 .tblbd{max-height:360px;overflow-y:auto}
 .tblbd::-webkit-scrollbar{width:3px}
 .tblbd::-webkit-scrollbar-thumb{background:rgba(212,168,67,.25);border-radius:2px}
-.tblrow{display:grid;grid-template-columns:48px 52px 1fr 130px 90px 110px;padding:10px 22px;border-bottom:1px solid rgba(255,255,255,.035);align-items:center;transition:background .2s;gap:0}
-.tblrow:hover{background:rgba(255,255,255,.02)}
+.tblrow{display:grid;grid-template-columns:64px minmax(0,1.4fr) minmax(120px,.9fr) 108px 112px;padding:12px 22px;border-bottom:1px solid rgba(255,255,255,.035);align-items:center;transition:background .2s,transform .2s,box-shadow .2s;gap:14px;cursor:pointer}
+.tblrow:hover{background:rgba(255,255,255,.02);transform:translateY(-1px);box-shadow:inset 0 0 0 1px rgba(212,168,67,.08)}
 .tblrow:last-child{border-bottom:none}
 .td{font-size:12.5px}
-.td.nn{font-family:'JetBrains Mono',monospace;color:var(--muted)}
-.td.av{display:flex;align-items:center}
-.av-img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid rgba(212,168,67,.3);background:rgba(212,168,67,.08);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--g2);flex-shrink:0}
+.td.av{display:flex;align-items:center;justify-content:center}
+.av-img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid rgba(212,168,67,.3);background:rgba(212,168,67,.08);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--g2);flex-shrink:0}
 .td.nm{font-weight:600;color:var(--text)}
+.td.nm small{display:block;margin-top:4px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:700}
 .td.loc{font-size:11px;color:var(--sub);line-height:1.3}
 .td.loc span{display:block}
 .td.loc .city{color:var(--text);font-weight:600;font-size:12px}
-.td.ch{font-family:'JetBrains Mono',monospace;color:var(--g2);font-weight:700;font-size:12px}
+.td.ch{font-family:'JetBrains Mono',monospace;color:var(--g2);font-weight:700;font-size:12px;justify-self:end}
 .td.tm{font-size:11px;color:var(--sub);font-family:'JetBrains Mono',monospace}
 .empty-st{padding:52px 24px;text-align:center;color:var(--sub);font-size:14px}
 .empty-st .ei{font-size:30px;display:block;margin-bottom:10px}
+.chance-stack{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.chance-total{font-size:14px;color:var(--g2);font-weight:700}
+.chance-break{font-size:9px;color:var(--teal);letter-spacing:.5px}
+.chance-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.16);font-size:11px;color:var(--teal);font-weight:700}
+.chance-badge strong{font-family:'JetBrains Mono',monospace;font-size:12px}
+.public-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.18);border-radius:999px;padding:7px 12px;font-size:11px;color:var(--g2);font-weight:700;letter-spacing:.7px;text-transform:uppercase}
 .full-notice{display:none;margin-bottom:28px;background:rgba(0,201,167,.05);border:1px solid rgba(0,201,167,.2);border-radius:18px;padding:28px;text-align:center}
 .fn-h{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);margin-bottom:4px;margin-top:8px}
 .fn-p{font-size:13px;color:var(--sub)}
@@ -477,10 +486,35 @@ footer strong{color:var(--g2)}
 .photo-btn{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g2);background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.25);border-radius:20px;padding:5px 14px;white-space:nowrap}
 #photoInput{display:none}
 
+/* ═══ PARTICIPANT MODAL ═══ */
+.participant-modal{position:fixed;inset:0;z-index:980;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(1,5,13,.78);backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:opacity .28s ease}
+.participant-modal.on{opacity:1;pointer-events:auto}
+.participant-card{width:min(720px,100%);max-height:min(92vh,900px);overflow:auto;background:linear-gradient(165deg,#091423,#06101c);border:1px solid rgba(212,168,67,.2);border-radius:24px;box-shadow:0 32px 90px rgba(0,0,0,.65);padding:28px;position:relative}
+.participant-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;font-size:18px}
+.participant-head{display:flex;gap:18px;align-items:center;padding-right:28px}
+.participant-avatar{width:82px;height:82px;border-radius:50%;border:3px solid rgba(212,168,67,.35);background:rgba(212,168,67,.08);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--g2);overflow:hidden;flex-shrink:0}
+.participant-avatar img{width:100%;height:100%;object-fit:cover}
+.participant-meta{min-width:0;flex:1}
+.participant-name{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,40px);font-weight:900;color:var(--text);line-height:1.05}
+.participant-sub{margin-top:8px;font-size:13px;color:var(--sub);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.participant-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+.participant-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:14px 16px}
+.participant-stat-label{font-size:10px;color:var(--sub);font-weight:700;letter-spacing:1.6px;text-transform:uppercase}
+.participant-stat-value{margin-top:8px;font-size:24px;color:var(--g2);font-family:'JetBrains Mono',monospace;font-weight:700}
+.participant-stat-sub{margin-top:4px;font-size:11px;color:var(--sub)}
+.participant-block{margin-top:20px;padding:18px;border-radius:18px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06)}
+.participant-block h4{margin:0 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g2)}
+.participant-msg{font-size:14px;color:var(--text);line-height:1.7}
+.ticket-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
+.ticket-chip{border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(0,201,167,.06));border:1px solid rgba(212,168,67,.16);font-size:11px;color:var(--text);font-weight:700}
+.ticket-chip span{display:block;font-size:9px;color:var(--sub);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:5px}
+
 @media(max-width:820px){
-  .tblhd{grid-template-columns:44px 40px 1fr 90px}
-  .tblrow{grid-template-columns:44px 40px 1fr 90px}
+  .list-head{align-items:flex-start}
+  .tblhd{grid-template-columns:56px minmax(0,1fr) 92px}
+  .tblrow{grid-template-columns:56px minmax(0,1fr) 92px}
   .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
+  .participant-stats{grid-template-columns:1fr}
 }
 .fade-up{opacity:0;transform:translateY(28px);animation:fadeup .8s cubic-bezier(.22,1,.36,1) both}
 @keyframes fadeup{to{opacity:1;transform:none}}
@@ -497,16 +531,27 @@ footer strong{color:var(--g2)}
   .f-grid{grid-template-columns:1fr}.fg.full{grid-column:1}
   .tb-in{flex-direction:column;align-items:flex-start;gap:8px}
   .draw-modal{padding:36px 18px}
-  .tblhd,.tblrow{grid-template-columns:44px 44px 1fr 80px}
+  .tblhd,.tblrow{grid-template-columns:56px minmax(0,1fr) 92px}
   .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
 }
 @media(max-width:480px){
   .pkg-grid,.trust-grid,.how-grid{grid-template-columns:1fr}
   .stats-grid{gap:10px}
-  .tblhd,.tblrow{grid-template-columns:36px 40px 1fr 70px}
+  .tblhd{display:none}
+  .tblbd{max-height:none;overflow:visible;padding:12px}
+  .ptbl{background:transparent;border:none}
+  .tblrow{grid-template-columns:52px minmax(0,1fr);gap:12px;padding:14px;border:1px solid var(--bdr);border-radius:18px;background:var(--card);margin-bottom:12px}
   .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
+  .td.av{grid-row:span 2}
+  .td.nm small{margin-top:6px}
+  .td.ch{grid-column:2;justify-self:start}
   .chips-row .chip{width:50px;height:50px;font-size:9px}
   .wheel-wrap{width:240px;height:240px}
+  .participant-card{padding:22px 18px}
+  .participant-head{align-items:flex-start}
+  .participant-avatar{width:68px;height:68px;font-size:28px}
+  .participant-sub{font-size:12px}
+  .ticket-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 </style>
 </head>
@@ -586,7 +631,7 @@ footer strong{color:var(--g2)}
     <div class="wheel-title-bar">
       <div class="wheel-eyebrow"><span class="wheel-fire">🔥</span>RULETA DE CHANCES · GIRÁ GRATIS AHORA</div>
       <div class="wheel-main-title">¡Multiplicá tus chances <span style="color:var(--red3)">antes</span> de inscribirte!</div>
-      <div class="wheel-sub-title">Siempre ganás 1 o 3 chances gratis · <strong style="color:var(--g2)">Comprá 3+ para ACTIVAR</strong> tu premio</div>
+      <div class="wheel-sub-title">Siempre ganás 1 o 3 chances gratis · <strong style="color:var(--g2)">Comprá 3+ para activar</strong> tu premio en el sorteo nacional</div>
       <div id="wheelUrgency" style="margin-top:10px;display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.35);border-radius:30px;padding:6px 18px;font-size:11px;font-weight:700;color:#FF8A80;letter-spacing:.5px">
         <span style="width:7px;height:7px;border-radius:50%;background:#FF6B6B;display:inline-block;animation:ldot 1.2s ease-in-out infinite;box-shadow:0 0 6px #FF6B6B"></span>
         ¡Solo <strong id="wheelCuposLeft" style="color:#FFD740;margin:0 3px">15</strong> cupos disponibles — el sorteo cierra al completarse
@@ -666,9 +711,9 @@ footer strong{color:var(--g2)}
   </div>
 
   <section id="hero" style="padding-top:28px">
-    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Solo 100 Cupos</div>
+    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · Solo 100 Cupos</div>
     <h1 class="hero-h fade-up a3">GRAN SORTEO<span class="gold">MILLONARIO</span></h1>
-    <p class="hero-sub fade-up a4">Transparente, verificado y en vivo. Al completarse los <b>100 cupos</b>, el sorteo inicia <b>automáticamente</b>. La ruleta gira sin intervención humana.</p>
+    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Transparente, verificado y en vivo: al completarse los <b>100 cupos</b>, el sorteo inicia <b>automáticamente</b> y la ruleta respeta exactamente el premio donde apunta la aguja.</p>
 
     <div class="stats-grid fade-up a5">
       <div class="stat" id="sc1"><div class="stat-n" id="stPart">0</div><div class="stat-l">Participantes</div></div>
@@ -958,7 +1003,7 @@ footer strong{color:var(--g2)}
       </div>
     </div>
     <h3 class="f-h">Completá tu inscripción</h3>
-    <p class="f-sub">Tu información es privada. Nombre, provincia y ciudad aparecen en la lista pública. Te notificamos por WhatsApp si ganás.</p>
+    <p class="f-sub">Tu información es privada. Participás desde cualquier lugar de la Argentina. En la lista pública mostramos nombre, apellido completo, provincia y ciudad, salvo que elijas aparecer de forma anónima.</p>
     <div class="f-grid">
 
       <!-- FOTO DE PERFIL -->
@@ -1016,6 +1061,14 @@ footer strong{color:var(--g2)}
         <span class="fhint" style="text-align:right;display:block" id="hMsg">Máx. 220 caracteres · aparecerá en la sección "Sueños de los participantes"</span>
       </div>
 
+      <div class="fg full">
+        <label class="flbl">Privacidad en lista pública</label>
+        <div class="terms-row" style="margin-top:0">
+          <div class="chk" id="chkAnon" onclick="toggleAnon()"></div>
+          <div class="terms-txt" onclick="toggleAnon()">Quiero aparecer como <strong>participante anónimo/a</strong> en la lista pública. Mi compra sigue participando normalmente.</div>
+        </div>
+      </div>
+
       <div class="fg full"><label class="flbl">Resumen de inscripción</label>
         <div class="sum-box">
           <div class="sum-row"><span class="sk">Pack elegido</span><span class="sv" id="sumP">— Elegí un pack arriba —</span></div>
@@ -1064,10 +1117,16 @@ footer strong{color:var(--g2)}
 
   <!-- ═══════ TABLE ═══════ -->
   <div class="list-section">
-    <span class="s-eye">👥 Lista pública de participantes</span>
-    <h2 class="s-h" style="margin-bottom:24px">Inscriptos en <em>esta edición</em></h2>
+    <div class="list-head">
+      <div class="list-copy">
+        <span class="s-eye">👥 Lista pública de participantes</span>
+        <h2 class="s-h" style="margin-bottom:10px">Inscriptos en <em>esta edición</em></h2>
+        <div class="list-note">Vista pública simple y clara. Tocá cualquier perfil para ver sus chances una por una dentro del bombo de esta edición.</div>
+      </div>
+      <div class="public-pill">🇦🇷 Participan desde toda la Argentina</div>
+    </div>
     <div class="ptbl">
-      <div class="tblhd"><div class="th">#</div><div class="th">Foto</div><div class="th">Nombre</div><div class="th col-loc">Ubicación</div><div class="th" title="Total = compradas + bonus ruleta">🎟️ Total</div><div class="th col-time">Hora</div></div>
+      <div class="tblhd"><div class="th">Foto</div><div class="th">Participante</div><div class="th col-loc">Ubicación</div><div class="th" title="Total = compradas + bonus ruleta">🎟️ Total</div><div class="th col-time">Hora</div></div>
       <div class="tblbd" id="tblBody"><div class="empty-st"><span class="ei">🎟️</span>Aún no hay participantes. ¡Sé el primero!</div></div>
     </div>
   </div>
@@ -1100,6 +1159,44 @@ footer strong{color:var(--g2)}
   </div>
 
 </div>
+</div>
+
+<div class="participant-modal" id="participantModal" onclick="closeParticipantModal(event)">
+  <div class="participant-card" onclick="event.stopPropagation()">
+    <button class="participant-close" type="button" onclick="closeParticipantModal()">×</button>
+    <div class="participant-head">
+      <div class="participant-avatar" id="pmAvatar">👤</div>
+      <div class="participant-meta">
+        <div class="participant-name" id="pmName">Participante</div>
+        <div class="participant-sub" id="pmSub"></div>
+      </div>
+    </div>
+    <div class="participant-stats">
+      <div class="participant-stat">
+        <div class="participant-stat-label">Chances compradas</div>
+        <div class="participant-stat-value" id="pmBought">0</div>
+        <div class="participant-stat-sub">paquete elegido</div>
+      </div>
+      <div class="participant-stat">
+        <div class="participant-stat-label">Bonus ruleta</div>
+        <div class="participant-stat-value" id="pmBonus">0</div>
+        <div class="participant-stat-sub">chances extra</div>
+      </div>
+      <div class="participant-stat">
+        <div class="participant-stat-label">Total en el bombo</div>
+        <div class="participant-stat-value" id="pmTotal">0</div>
+        <div class="participant-stat-sub">bolillas activas</div>
+      </div>
+    </div>
+    <div class="participant-block">
+      <h4>Chances visibles en el bombo</h4>
+      <div class="ticket-grid" id="pmTickets"></div>
+    </div>
+    <div class="participant-block" id="pmMsgWrap" style="display:none">
+      <h4>Mensaje público</h4>
+      <div class="participant-msg" id="pmMsg"></div>
+    </div>
+  </div>
 </div>
 
 <footer>
@@ -1157,21 +1254,21 @@ const PRIZES=[
 ];
 const PRIZE_TOTAL=10010000;
 const DEMO=[
-  {name:'Lucía M.',    chances:6,  bonusChances:1, totalChances:7,  time:'09:02', province:'Córdoba',       city:'Córdoba',          msg:'Compraría un auto 0km para llevar a mis hijos al colegio sin depender de nadie.'},
-  {name:'Martín R.',  chances:10, bonusChances:3, totalChances:13, time:'09:05', province:'Buenos Aires',   city:'La Plata',         msg:'Pagaría la deuda de mi casa y empezaría un pequeño negocio con mi hermano.'},
-  {name:'Sofía G.',   chances:3,  bonusChances:1, totalChances:4,  time:'09:08', province:'Santa Fe',       city:'Rosario',          msg:''},
-  {name:'Diego F.',   chances:6,  bonusChances:0, totalChances:6,  time:'09:11', province:'Mendoza',        city:'Mendoza',          msg:'Me compraría una moto y ahorraría el resto para la universidad de mi hija.'},
-  {name:'Valentina P.',chances:6, bonusChances:3, totalChances:9,  time:'09:15', province:'CABA',           city:'Buenos Aires',     msg:'Viajaría con mi familia a Europa, algo que siempre soñamos y nunca pudimos.'},
-  {name:'Carlos T.',  chances:3,  bonusChances:0, totalChances:3,  time:'09:18', province:'Tucumán',        city:'San Miguel',       msg:''},
-  {name:'Ana L.',     chances:6,  bonusChances:1, totalChances:7,  time:'09:22', province:'Salta',          city:'Salta',            msg:'Remodelaría la casa de mis padres que está muy deteriorada. Se lo merecen todo.'},
-  {name:'Federico S.',chances:6,  bonusChances:3, totalChances:9,  time:'09:26', province:'Córdoba',        city:'Villa Carlos Paz', msg:'Abriría un local de ropa con mi pareja. Tenemos el proyecto hace 3 años.'},
-  {name:'Camila B.',  chances:3,  bonusChances:1, totalChances:4,  time:'09:30', province:'Entre Ríos',     city:'Paraná',           msg:'Compraría los libros y equipos para terminar mi carrera de enfermería.'},
-  {name:'Rodrigo V.', chances:6,  bonusChances:0, totalChances:6,  time:'09:34', province:'Buenos Aires',   city:'Mar del Plata',    msg:''},
-  {name:'Florencia A.',chances:3, bonusChances:3, totalChances:6,  time:'09:38', province:'Neuquén',        city:'Neuquén',          msg:'Pagaría el tratamiento médico que necesita mi mamá y que no cubre la obra social.'},
-  {name:'Pablo N.',   chances:3,  bonusChances:0, totalChances:3,  time:'09:41', province:'Chaco',          city:'Resistencia',      msg:''},
-  {name:'Milagros C.',chances:3,  bonusChances:1, totalChances:4,  time:'09:45', province:'San Juan',       city:'San Juan',         msg:'Terminaría de construir el cuarto de mi bebé que está por nacer. 🍼'},
-  {name:'Tomás H.',   chances:1,  bonusChances:0, totalChances:1,  time:'09:48', province:'Misiones',       city:'Posadas',          msg:''},
-  {name:'Romina D.',  chances:3,  bonusChances:0, totalChances:3,  time:'09:52', province:'Santa Cruz',     city:'Río Gallegos',     msg:'Invertiría en dólares y usaría las ganancias para vivir un poco más tranquila.'},
+  {name:'Lucía Martínez',    chances:6,  bonusChances:1, totalChances:7,  time:'09:02', province:'Córdoba',       city:'Córdoba',          msg:'Compraría un auto 0km para llevar a mis hijos al colegio sin depender de nadie.', isAnonymous:false},
+  {name:'Martín Rodríguez',  chances:10, bonusChances:3, totalChances:13, time:'09:05', province:'Buenos Aires',   city:'La Plata',         msg:'Pagaría la deuda de mi casa y empezaría un pequeño negocio con mi hermano.', isAnonymous:false},
+  {name:'Sofía Gómez',       chances:3,  bonusChances:1, totalChances:4,  time:'09:08', province:'Santa Fe',       city:'Rosario',          msg:'', isAnonymous:true},
+  {name:'Diego Fernández',   chances:6,  bonusChances:0, totalChances:6,  time:'09:11', province:'Mendoza',        city:'Mendoza',          msg:'Me compraría una moto y ahorraría el resto para la universidad de mi hija.', isAnonymous:false},
+  {name:'Valentina Pérez',   chances:6,  bonusChances:3, totalChances:9,  time:'09:15', province:'CABA',           city:'Buenos Aires',     msg:'Viajaría con mi familia a Europa, algo que siempre soñamos y nunca pudimos.', isAnonymous:false},
+  {name:'Carlos Torres',     chances:3,  bonusChances:0, totalChances:3,  time:'09:18', province:'Tucumán',        city:'San Miguel',       msg:'', isAnonymous:false},
+  {name:'Ana López',         chances:6,  bonusChances:1, totalChances:7,  time:'09:22', province:'Salta',          city:'Salta',            msg:'Remodelaría la casa de mis padres que está muy deteriorada. Se lo merecen todo.', isAnonymous:false},
+  {name:'Federico Suárez',   chances:6,  bonusChances:3, totalChances:9,  time:'09:26', province:'Córdoba',        city:'Villa Carlos Paz', msg:'Abriría un local de ropa con mi pareja. Tenemos el proyecto hace 3 años.', isAnonymous:false},
+  {name:'Camila Benítez',    chances:3,  bonusChances:1, totalChances:4,  time:'09:30', province:'Entre Ríos',     city:'Paraná',           msg:'Compraría los libros y equipos para terminar mi carrera de enfermería.', isAnonymous:false},
+  {name:'Rodrigo Vargas',    chances:6,  bonusChances:0, totalChances:6,  time:'09:34', province:'Buenos Aires',   city:'Mar del Plata',    msg:'', isAnonymous:false},
+  {name:'Florencia Acosta',  chances:3,  bonusChances:3, totalChances:6,  time:'09:38', province:'Neuquén',        city:'Neuquén',          msg:'Pagaría el tratamiento médico que necesita mi mamá y que no cubre la obra social.', isAnonymous:false},
+  {name:'Pablo Núñez',       chances:3,  bonusChances:0, totalChances:3,  time:'09:41', province:'Chaco',          city:'Resistencia',      msg:'', isAnonymous:true},
+  {name:'Milagros Cabrera',  chances:3,  bonusChances:1, totalChances:4,  time:'09:45', province:'San Juan',       city:'San Juan',         msg:'Terminaría de construir el cuarto de mi bebé que está por nacer. 🍼', isAnonymous:false},
+  {name:'Tomás Herrera',     chances:1,  bonusChances:0, totalChances:1,  time:'09:48', province:'Misiones',       city:'Posadas',          msg:'', isAnonymous:false},
+  {name:'Romina Díaz',       chances:3,  bonusChances:0, totalChances:3,  time:'09:52', province:'Santa Cruz',     city:'Río Gallegos',     msg:'Invertiría en dólares y usaría las ganancias para vivir un poco más tranquila.', isAnonymous:false},
 ];
 const TICKER=[
   '🏆 Martín R. ganó $6.000.000 — Edición anterior',
@@ -1191,7 +1288,7 @@ const TICKER=[
 ══════════════════════════════════════════════ */
 let participants=[...DEMO];
 let totalChances=participants.reduce((a,p)=>a+p.chances,0);
-let selPkgIdx=null,termsOk=false;
+let selPkgIdx=null,termsOk=false,anonPublic=false;
 let drawPhase=0,isDrawing=false,drawRunning=false;
 let winners=[],edition=1,archive=[],totalPaid=2482480000;
 let cdTarget=null,cdInt=null;
@@ -1417,14 +1514,14 @@ function initBonusWheel(){
       ctx.restore();
     }
 
-    // Highlight winning segment if stopped (needle at bottom = +PI/2)
+    // Highlight winning segment if stopped (needle at top = -PI/2)
     if(!bwSpinning && lastResult!==null){
       const seg=BSEGMENTS[lastResult];
-      // Find which segment is under the bottom needle
+      // Find which segment is under the top needle
       const arc2=(Math.PI*2)/N_SEGS;
-      const bottomA = Math.PI/2 - bwAngle;
-      const segAtBottom = Math.floor(((bottomA%(Math.PI*2))+(Math.PI*2))%(Math.PI*2)/arc2)%N_SEGS;
-      const s2=bwAngle+arc2*segAtBottom, e2=s2+arc2;
+      const topA = -Math.PI/2 - bwAngle;
+      const segAtTop = Math.floor(((topA%(Math.PI*2))+(Math.PI*2))%(Math.PI*2)/arc2)%N_SEGS;
+      const s2=bwAngle+arc2*segAtTop, e2=s2+arc2;
       ctx.save();
       ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,s2,e2);ctx.closePath();
       ctx.strokeStyle=seg.rim;ctx.lineWidth=3;
@@ -1516,8 +1613,8 @@ function initBonusWheel(){
   // ── Needle tick detection ──────────────────────────────────
   let lastTickSeg = -1;
   function checkTick(a){
-    // Which segment boundary is nearest to bottom (needle at +PI/2 from center)
-    const topA = Math.PI/2 - a;
+    // Which segment boundary is nearest to top (needle at -PI/2 from center)
+    const topA = -Math.PI/2 - a;
     const arcUnit = Math.PI*2/N_SEGS;
     const segAtTop = Math.floor(((topA % (Math.PI*2)) + Math.PI*2) % (Math.PI*2) / arcUnit) % N_SEGS;
     if(segAtTop !== lastTickSeg){
@@ -1614,13 +1711,13 @@ function initBonusWheel(){
     // Calculate how many full rotations (min 5, max 10 based on speed feel)
     const minRotations = 6;
     const extraRotations = minRotations + Math.random()*4;
-    // The needle is at bottom (angle = +PI/2 from center axis)
-    // We want segment `resultIdx` to end up at bottom
+    // The needle is at top and points toward the center.
+    // We want segment `resultIdx` to end up exactly under that top needle.
     // Segment i spans [arc*i, arc*(i+1)] from current bwAngle
     const arc_u = Math.PI*2/N_SEGS;
-    // Target: segment resultIdx midpoint aligns with needle (bottom = +PI/2)
+    // Target: segment resultIdx midpoint aligns with needle (top = -PI/2)
     const segMid = resultIdx * arc_u + arc_u/2;
-    const targetSegAngle = Math.PI/2 - segMid;
+    const targetSegAngle = -Math.PI/2 - segMid;
     // Add extra rotations
     const currentNorm = ((bwAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
     const targetNorm  = ((targetSegAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
@@ -1763,8 +1860,6 @@ function initBonusWheel(){
   drawWheel(0);
   idleLoop(0);
 
-  // Auto-spin demo after 2s
-  setTimeout(()=>{ if(!bwSpinning && freeSpins>0) bonusSpin(); }, 2000);
 }
 
 // ── Add bonus chances to participant pool ───────────────────────────
@@ -1890,6 +1985,11 @@ function updateFormBonusBanner(){
 }
 
 initBonusWheel();
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeParticipantModal();
+  }
+});
 
 /* ══════════════════════════════════════════════
    TICKER
@@ -1922,6 +2022,12 @@ function tickCD(){
 const fmt=n=>n.toLocaleString('es-AR');
 function nowTime(){return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
 function nowDate(){return new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function publicName(p){
+  return p.isAnonymous ? 'Participante anónimo/a' : p.name;
+}
+function participantBadge(p){
+  return p.isAnonymous ? 'Perfil privado' : 'Perfil público';
+}
 function animN(el,from,to,dur=700){
   const s=performance.now();
   (function t(now){const p=Math.min((now-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);if(p<1)requestAnimationFrame(t);})(s);
@@ -2015,6 +2121,10 @@ function toggleTerms(){
   document.getElementById('chkT').classList.toggle('on',termsOk);
   valSub();
 }
+function toggleAnon(){
+  anonPublic=!anonPublic;
+  document.getElementById('chkAnon').classList.toggle('on',anonPublic);
+}
 function valSub(){
   const n=document.getElementById('fN').value.trim();
   const a=document.getElementById('fA').value.trim();
@@ -2036,10 +2146,11 @@ function submitForm(){
   const prov=document.getElementById('fProv').value;
   const city=document.getElementById('fCity').value.trim();
   const msg=document.getElementById('fMsg').value.trim();
-  const fullName=n+' '+a.charAt(0)+'.';
+  const fullName=(n+' '+a).replace(/\s+/g,' ').trim();
   if(totalChances+pkg.chances>MAX){toast('⚠️ No hay suficientes cupos');return;}
   const totalCh = pkg.chances + bonusTotal;
-  participants.push({name:fullName,chances:pkg.chances,bonusChances:bonusTotal,totalChances:totalCh,time:nowTime(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg});
+  const appliedBonus = bonusTotal;
+  participants.push({name:fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic});
   totalChances+=pkg.chances;
   ['fN','fA','fT','fC'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
@@ -2051,8 +2162,9 @@ function submitForm(){
   const prev=document.getElementById('photoPreview');
   prev.innerHTML='👤';prev.style.padding='';
   document.getElementById('photoInput').value='';
+  document.getElementById('chkAnon').classList.remove('on');
   document.getElementById('chkT').classList.remove('on');
-  termsOk=false;selPkgIdx=null;
+  termsOk=false;selPkgIdx=null;anonPublic=false;
   // Reset bonus
   bonusTotal=0;
   document.getElementById('sumBonusRow').style.display='none';
@@ -2063,7 +2175,6 @@ function submitForm(){
   document.getElementById('sumC').textContent='—';document.getElementById('sumT').textContent='—';
   document.getElementById('subBtn').disabled=true;
   updateUI();
-  const bonusMsg=bonusTotal>0?` + ${bonusTotal} bonus`:'';
   toast(`✅ ¡${fullName} inscripto con ${totalCh} chance${totalCh>1?'s':''}!`);
   launchConfetti(20);
   setTimeout(()=>document.querySelector('.list-section').scrollIntoView({behavior:'smooth'}),300);
@@ -2110,24 +2221,28 @@ function renderTable(){
   participants.slice().reverse().forEach((p,i)=>{
     const isW=winners.includes(p.name);
     const row=document.createElement('div');row.className='tblrow';
+    row.onclick=()=>openParticipantModal(p);
+    row.setAttribute('role','button');
+    row.setAttribute('tabindex','0');
+    row.onkeydown=(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openParticipantModal(p); } };
     const avatarHtml=p.photo
-      ?`<div class="av-img" style="padding:0"><img src="${p.photo}" alt="${p.name}" style="width:34px;height:34px;border-radius:50%;object-fit:cover"></div>`
+      ?`<div class="av-img" style="padding:0"><img src="${p.photo}" alt="${p.name}" style="width:42px;height:42px;border-radius:50%;object-fit:cover"></div>`
       :`<div class="av-img">👤</div>`;
     const locParts=[p.city,p.province].filter(Boolean);
     const locHtml=locParts.length
       ?`<div class="td loc"><span style="font-size:12px;color:var(--text)">${locParts.join(', ')}</span></div>`
       :`<div class="td loc"><span style="color:var(--muted)">—</span></div>`;
     const totalCh = p.totalChances || p.chances;
+    const visibleName = publicName(p);
     const chDetail = p.bonusChances>0
-      ? `<span title="${p.chances} compradas + ${p.bonusChances} bonus ruleta" style="cursor:help;display:flex;flex-direction:column;align-items:flex-end;gap:0">
-          <span style="font-size:13px;color:var(--g2);font-weight:700">${totalCh}ch</span>
-          <span style="font-size:9px;color:var(--teal);letter-spacing:.5px">${p.chances}+<span style="color:#FFD740">${p.bonusChances}🎡</span></span>
+      ? `<span class="chance-stack" title="${p.chances} compradas + ${p.bonusChances} bonus ruleta">
+          <span class="chance-total">${totalCh}ch</span>
+          <span class="chance-break">${p.chances}+<span style="color:#FFD740">${p.bonusChances}🎡</span></span>
          </span>`
-      : `<span style="font-size:13px;color:var(--g2);font-weight:700">${totalCh}ch</span>`;
+      : `<span class="chance-badge"><strong>${totalCh}ch</strong> en juego</span>`;
     row.innerHTML=`
-      <div class="td nn">#${String(participants.length-i).padStart(2,'0')}</div>
       <div class="td av">${avatarHtml}</div>
-      <div class="td nm" style="${isW?'color:var(--g2)':''}">${isW?'🏆 ':''}${p.name}</div>
+      <div class="td nm" style="${isW?'color:var(--g2)':''}">${isW?'🏆 ':''}${visibleName}<small>${participantBadge(p)}</small></div>
       ${locHtml}
       <div class="td ch">${chDetail}</div>
       <div class="td tm">${p.time}</div>`;
@@ -2160,13 +2275,56 @@ function renderDreams(){
       <div class="dream-author">
         ${avHtml}
         <div class="dream-inf">
-          <div class="dream-name">${p.name}</div>
+          <div class="dream-name">${publicName(p)}</div>
           <div class="dream-loc">📍 ${locStr}</div>
         </div>
         <div class="dream-ch">🎟️ ${totalCh}ch</div>
       </div>`;
     grid.appendChild(card);
   });
+}
+
+function openParticipantModal(p){
+  const modal=document.getElementById('participantModal');
+  const avatar=document.getElementById('pmAvatar');
+  const totalCh=p.totalChances||p.chances;
+  const visibleName=publicName(p);
+  avatar.innerHTML=p.photo ? `<img src="${p.photo}" alt="${visibleName}">` : '👤';
+  document.getElementById('pmName').textContent=visibleName;
+  document.getElementById('pmSub').innerHTML=`<span>${participantBadge(p)}</span><span>•</span><span>📍 ${[p.city,p.province].filter(Boolean).join(', ')||'Argentina'}</span><span>•</span><span>🕒 ${p.time}</span>`;
+  document.getElementById('pmBought').textContent=p.chances;
+  document.getElementById('pmBonus').textContent=p.bonusChances||0;
+  document.getElementById('pmTotal').textContent=totalCh;
+
+  const tickets=document.getElementById('pmTickets');
+  tickets.innerHTML='';
+  for(let i=0;i<totalCh;i++){
+    const chip=document.createElement('div');
+    chip.className='ticket-chip';
+    chip.innerHTML=`<span>Chance ${i+1}</span>${visibleName}`;
+    tickets.appendChild(chip);
+  }
+
+  const msgWrap=document.getElementById('pmMsgWrap');
+  const msg=document.getElementById('pmMsg');
+  if(p.msg && p.msg.trim()){
+    msg.textContent=p.msg.trim();
+    msgWrap.style.display='block';
+  }else{
+    msg.textContent='';
+    msgWrap.style.display='none';
+  }
+
+  modal.classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function closeParticipantModal(e){
+  if(e && e.target && e.target !== e.currentTarget) return;
+  document.getElementById('participantModal').classList.remove('on');
+  if(!document.getElementById('drawOverlay').classList.contains('on')){
+    document.body.style.overflow='';
+  }
 }
 
 /* ══════════════════════════════════════════════
@@ -2320,7 +2478,7 @@ function renderArchive(){
 function toggleArch(idx){document.getElementById('ac'+idx).classList.toggle('open');}
 
 function startNew(){
-  edition++;participants=[];totalChances=0;selPkgIdx=null;termsOk=false;
+  edition++;participants=[];totalChances=0;selPkgIdx=null;termsOk=false;anonPublic=false;
   drawPhase=0;isDrawing=false;drawRunning=false;winners=[];
   document.getElementById('winnersList').innerHTML='';
   document.getElementById('winnersSection').classList.remove('vis');
@@ -2340,7 +2498,9 @@ function startNew(){
   currentPhotoDataUrl=null;
   const prev=document.getElementById('photoPreview');if(prev){prev.innerHTML='👤';prev.style.padding='';}
   document.getElementById('photoInput').value='';
+  document.getElementById('chkAnon').classList.remove('on');
   document.getElementById('chkT').classList.remove('on');
+  closeParticipantModal();
   document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
   document.getElementById('sumP').textContent='— Elegí un pack arriba —';
   document.getElementById('sumC').textContent='—';document.getElementById('sumT').textContent='—';
