@@ -165,10 +165,6 @@
     if (submitButton) {
       submitButton.textContent = '💳 IR A PAGAR AHORA';
     }
-    const sandboxBadge = document.getElementById('paymentModeBadge');
-    if (sandboxBadge) {
-      sandboxBadge.textContent = '🔒 Checkout seguro en producción';
-    }
   }
 
   function selectedPackageId() {
