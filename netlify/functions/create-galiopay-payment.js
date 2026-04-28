@@ -56,7 +56,7 @@ exports.handler = async (event) => {
       p_edition_id: edition.edition_id,
       p_package_id: packageId,
       p_first_name: firstName,
-      p_last_name_init: lastName.charAt(0).toUpperCase(),
+      p_last_name_init: lastName,
       p_whatsapp: whatsapp,
       p_province: province,
       p_city: city,
@@ -73,7 +73,6 @@ exports.handler = async (event) => {
       method: 'PATCH',
       body: {
         display_name: `${firstName} ${lastName}`.replace(/\s+/g, ' ').trim(),
-        last_name_initial: lastName,
         photo_url: photoUrl,
         payment_provider: 'galiopay',
       },
