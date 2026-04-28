@@ -656,9 +656,9 @@ footer strong{color:var(--g2)}
 <div class="W">
 
   <section id="hero" style="padding-top:28px">
-    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · Solo 80 cupos</div>
+    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · 150 chances totales</div>
     <h1 class="hero-h fade-up a3">premio<span class="gold">nline</span></h1>
-    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo. Todo se refleja con cupos reales y estado actualizado desde la base de datos.</p>
+    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo. Todo se refleja con chances reales vendidas y disponibles desde la base de datos.</p>
 
     <div class="hero-flow fade-up a5">
       <div class="hero-flow-card">
@@ -669,7 +669,7 @@ footer strong{color:var(--g2)}
       <div class="hero-flow-card">
         <div class="hero-flow-step">Paso 2</div>
         <div class="hero-flow-title">Abonás y se acredita</div>
-        <div class="hero-flow-copy">Cuando el pago queda aprobado, tu inscripción pasa a la lista pública de participantes, tus chances quedan confirmadas y los cupos se actualizan al instante.</div>
+        <div class="hero-flow-copy">Cuando el pago queda aprobado, tu inscripción pasa a la lista pública de participantes, tus chances quedan confirmadas y la disponibilidad se actualiza al instante.</div>
       </div>
       <div class="hero-flow-card">
         <div class="hero-flow-step">Paso 3</div>
@@ -681,12 +681,12 @@ footer strong{color:var(--g2)}
     <div class="stats-grid fade-up a6">
       <div class="stat">
         <div class="stat-n" id="stPart">0</div>
-        <div class="stat-l">Cupos registrados</div>
-        <div class="stat-s">Confirmados en la base de datos en tiempo real</div>
+        <div class="stat-l">Chances registradas</div>
+        <div class="stat-s">Vendidas y confirmadas en la base de datos en tiempo real</div>
       </div>
       <div class="stat">
-        <div class="stat-n" id="stCups">80</div>
-        <div class="stat-l">Cupos disponibles</div>
+        <div class="stat-n" id="stCups">150</div>
+        <div class="stat-l">Chances disponibles</div>
         <div class="stat-s">Se actualizan automáticamente con cada pago aprobado</div>
       </div>
       <div class="stat">
@@ -703,7 +703,7 @@ footer strong{color:var(--g2)}
 
     <div class="trust-banner fade-up a6">
       <strong>Participás con respaldo visible:</strong>
-      <span>los cupos registrados y los disponibles se muestran desde la base de datos, la lista pública se actualiza con pagos aprobados y el checkout está en modo prueba para esta etapa.</span>
+      <span>las chances registradas y las disponibles se muestran desde la base de datos, la lista pública se actualiza con pagos aprobados y el checkout está en modo prueba para esta etapa.</span>
       <span class="paymode-badge" id="paymentModeBadge">🧪 Checkout de prueba activo</span>
     </div>
 
@@ -713,10 +713,10 @@ footer strong{color:var(--g2)}
     <div class="availability-box fade-up a6" id="availabilityBox">
       <div class="availability-top">
         <div>
-          <div class="availability-kicker">Últimos lugares disponibles</div>
-          <div class="availability-title">Se activa el cierre de la edición cuando queden 20 cupos o menos</div>
+          <div class="availability-kicker">Últimas chances disponibles</div>
+          <div class="availability-title">Se activa el cierre de la edición cuando queden 20 chances o menos</div>
         </div>
-        <div class="availability-count"><span id="urgCupos">20</span><small>cupos disponibles</small></div>
+        <div class="availability-count"><span id="urgCupos">20</span><small>chances disponibles</small></div>
       </div>
       <div class="availability-track">
         <div class="availability-fill" id="progFill"></div>
@@ -886,7 +886,7 @@ footer strong{color:var(--g2)}
       </div>
       <div class="tc">
         <div class="tc-title">Cupos en tiempo real</div>
-        <div class="tc-desc">Los cupos registrados y disponibles se sincronizan con la base de datos para que veas el avance real de la edición.</div>
+        <div class="tc-desc">Las chances registradas y las disponibles se sincronizan con la base de datos para que veas el avance real de la edición.</div>
         <span class="tc-tag ttgo">✓ Datos sincronizados</span>
       </div>
       <div class="tc">
@@ -971,9 +971,6 @@ footer strong{color:var(--g2)}
       <div class="fg"><label class="flbl">WhatsApp</label>
         <input type="tel" class="fi" id="fT" placeholder="Ej: 3512345678" maxlength="15" oninput="valTel(this)">
         <span class="fhint" id="hT">Para notificarte si ganás 🏆</span></div>
-      <div class="fg"><label class="flbl">CBU / Alias (opcional)</label>
-        <input type="text" class="fi" id="fC" placeholder="Para recibir el premio" maxlength="40">
-        <span class="fhint">Podés completarlo después</span></div>
 
       <!-- PROVINCIA -->
       <div class="fg"><label class="flbl">Provincia</label>
@@ -1019,13 +1016,13 @@ footer strong{color:var(--g2)}
         </div>
         <!-- Mini urgency bajo el resumen -->
         <div id="sumUrgency" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;font-size:12px;color:#FF8A80;font-weight:600;text-align:center">
-          ⏳ Últimos lugares disponibles: <strong id="sumCuposLeft" style="color:#FFD740">20</strong> cupos antes de cerrar esta edición.
+          ⏳ Últimas chances disponibles: <strong id="sumCuposLeft" style="color:#FFD740">20</strong> antes de cerrar esta edición.
         </div>
       </div>
       <div class="fg full">
         <div class="terms-row">
           <div class="chk on" id="chkT" onclick="toggleTerms()"></div>
-          <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que el sorteo se realiza en vivo automáticamente al completar los 80 cupos, y los premios se pagan dentro de las 24 hs.</div>
+          <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que el sorteo se realiza en vivo automáticamente al completar las 150 chances, y los premios se pagan dentro de las 24 hs.</div>
         </div>
       </div>
     </div>
@@ -1037,7 +1034,6 @@ footer strong{color:var(--g2)}
     <div class="pay-row">
       <span class="pm">🏦 Transferencia</span>
       <span class="pm">💳 Galiopay</span>
-      <span class="pm">💳 CBU / Alias</span>
       <span class="pm">📲 Rapipago</span>
     </div>
   </div>
@@ -1045,8 +1041,8 @@ footer strong{color:var(--g2)}
   <!-- ═══════ FULL NOTICE ═══════ -->
   <div class="full-notice" id="fullNotice">
     <div style="font-size:36px">🔒</div>
-    <h3 class="fn-h">¡CUPOS COMPLETOS!</h3>
-    <p class="fn-p">Los 80 cupos están ocupados. El sorteo comenzó automáticamente en vivo. ¡Seguilo en tiempo real!</p>
+    <h3 class="fn-h">¡CHANCES AGOTADAS!</h3>
+    <p class="fn-p">Las 150 chances ya fueron tomadas. El sorteo comenzó automáticamente en vivo. ¡Seguilo en tiempo real!</p>
   </div>
 
   <!-- ═══════ TABLE ═══════ -->
@@ -1106,7 +1102,7 @@ footer strong{color:var(--g2)}
       </div>
       <div class="faq-card">
         <div class="faq-q">¿Cuándo se hace el sorteo?</div>
-        <div class="faq-a">El sorteo arranca en vivo y de forma automática cuando se completan los 80 cupos de la edición actual.</div>
+        <div class="faq-a">El sorteo arranca en vivo y de forma automática cuando se completan las 150 chances de la edición actual.</div>
       </div>
       <div class="faq-card">
         <div class="faq-q">¿Cómo cobran los ganadores?</div>
@@ -1205,7 +1201,7 @@ footer strong{color:var(--g2)}
 /* ══════════════════════════════════════════════
    CONFIG
 ══════════════════════════════════════════════ */
-const MAX=80;
+const MAX=150;
 const PKGS=[
   {label:'1 Chance',   chances:1,  price:2000},
   {label:'3 Chances',  chances:3,  price:5000},
@@ -2101,7 +2097,7 @@ function toast(msg){
 ══════════════════════════════════════════════ */
 function selPkg(i){
   const rem=MAX-totalChances;
-  if(PKGS[i].chances>rem){toast(`⚠️ Solo quedan ${rem} cupo${rem!==1?'s':''}`);return;}
+  if(PKGS[i].chances>rem){toast(`⚠️ Solo quedan ${rem} chance${rem!==1?'s':''} disponibles`);return;}
   selPkgIdx=i;
   document.querySelectorAll('.pkg').forEach((c,j)=>c.classList.toggle('sel',j===i));
   const p=PKGS[i];
@@ -2191,11 +2187,11 @@ function submitForm(){
   const city=document.getElementById('fCity').value.trim();
   const msg=document.getElementById('fMsg').value.trim();
   const fullName=(n+' '+a).replace(/\s+/g,' ').trim();
-  if(totalChances+pkg.chances>MAX){toast('⚠️ No hay suficientes cupos');return;}
+  if(totalChances+pkg.chances>MAX){toast('⚠️ No hay suficientes chances disponibles');return;}
   const totalCh = pkg.chances;
   participants.push({name:fullName,chances:pkg.chances,bonusChances:0,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic});
   totalChances+=pkg.chances;
-  ['fN','fA','fT','fC'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
+  ['fN','fA','fT'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
   document.getElementById('fCity').value='';document.getElementById('fCity').className='fi';
   document.getElementById('fMsg').value='';
@@ -2236,7 +2232,7 @@ function updateUI(){
   const urgLbl=document.getElementById('urgLbl');
   const pp=stPart ? (parseInt(stPart.textContent)||0) : 0;
   const pc=stCups ? (parseInt(stCups.textContent)||MAX) : MAX;
-  if(stPart) animN(stPart,pp,participants.length);
+  if(stPart) animN(stPart,pp,totalChances);
   if(stCups) animN(stCups,pc,MAX-totalChances);
   if(stDraws) stDraws.textContent=248+archive.length;
   if(stPaid) stPaid.textContent='$'+fmt(totalPaid);
@@ -2246,8 +2242,8 @@ function updateUI(){
   if(urgCupos) urgCupos.textContent=rem;
   if(availabilityBox) availabilityBox.style.display = rem <= 20 && rem > 0 ? 'block' : 'none';
   if(urgLbl){
-    if(rem<=20&&rem>0) urgLbl.textContent=`Últimos lugares disponibles: ${MAX-rem} de ${MAX} cupos ya están ocupados.`;
-    else if(rem<=0) urgLbl.textContent='Cupos completos. El sorteo ya está en progreso.';
+    if(rem<=20&&rem>0) urgLbl.textContent=`Últimas chances disponibles: ${MAX-rem} de ${MAX} ya están tomadas.`;
+    else if(rem<=0) urgLbl.textContent='Chances agotadas. El sorteo ya está en progreso.';
     else urgLbl.textContent='';
   }
   document.getElementById('heroEd').textContent=edition;
@@ -2377,7 +2373,7 @@ function closeParticipantModal(e){
 function kickOff(){
   if(drawRunning)return;drawRunning=true;
   launchConfetti(100);
-  toast('🎰 ¡80 CUPOS COMPLETOS! El sorteo inicia automáticamente…');
+  toast('🎰 ¡150 CHANCES COMPLETAS! El sorteo inicia automáticamente…');
   setTimeout(()=>{openModal();setTimeout(()=>runDraw(),1100);},2200);
 }
 
@@ -2531,7 +2527,7 @@ function startNew(){
   document.getElementById('dmClose').classList.remove('vis');
   document.getElementById('newDrawBtn').style.display='none';
   document.getElementById('dmBtn').onclick=null;
-  ['fN','fA','fT','fC'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
+  ['fN','fA','fT'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
   document.getElementById('fCity').value='';document.getElementById('fCity').className='fi';
   document.getElementById('fMsg').value='';
