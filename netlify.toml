@@ -1,0 +1,18 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/create-payment"
+  to = "/.netlify/functions/create-galiopay-payment"
+  status = 200
+
+[[redirects]]
+  from = "/api/payment-status"
+  to = "/.netlify/functions/payment-status"
+  status = 200
+
+[[redirects]]
+  from = "/api/galiopay-webhook"
+  to = "/.netlify/functions/galiopay-webhook"
+  status = 200

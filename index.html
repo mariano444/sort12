@@ -1,0 +1,2475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORTEO ÉLITE — Gran Premio 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   CASINO DESIGN SYSTEM
+══════════════════════════════════════ */
+:root{
+  --bg:#01050D;--bg2:#030A16;--bg3:#05111F;
+  --felt:#031A0E;
+  --g1:#A67C00;--g2:#D4A843;--g3:#F0C96A;--g4:#FDF0B8;
+  --red:#C0392B;--red2:#E74C3C;--red3:#FF6B6B;
+  --teal:#00C9A7;--blue:#1A73E8;
+  --text:#F0EBD8;--sub:#6B8CAE;--muted:#2C4060;--faint:#0A1828;
+  --bdr:rgba(212,168,67,.14);--card:rgba(255,255,255,.022);
+  --chip-r:#C0392B;--chip-b:#1565C0;--chip-g:#1B5E20;--chip-w:#F5F5F5;
+  --r:20px;
+}
+*,::before,::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;line-height:1.65;overflow-x:hidden;min-height:100vh;cursor:default}
+
+/* ═══ CANVAS PARTICLES ═══ */
+#particles-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ═══ CASINO FELT TEXTURE ═══ */
+.felt-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(212,168,67,.07) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 80% at 0% 50%, rgba(192,57,43,.04) 0%,transparent 50%),
+    radial-gradient(ellipse 60% 80% at 100% 50%, rgba(0,201,167,.03) 0%,transparent 50%);
+}
+.felt-pattern{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;
+  background-image:repeating-linear-gradient(45deg,rgba(212,168,67,.3) 0,rgba(212,168,67,.3) 1px,transparent 0,transparent 50%);
+  background-size:20px 20px}
+.vignette{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 40%,rgba(1,5,13,.6) 100%)}
+
+/* ═══ LAYOUT ═══ */
+#root{position:relative;z-index:1}
+.W{max-width:1040px;margin:0 auto;padding:0 24px}
+
+/* ═══ NEON TEXT ═══ */
+.neon-gold{text-shadow:0 0 10px rgba(212,168,67,.8),0 0 30px rgba(212,168,67,.4),0 0 60px rgba(212,168,67,.2)}
+.neon-red{text-shadow:0 0 10px rgba(231,76,60,.8),0 0 30px rgba(231,76,60,.4)}
+
+/* ═══ TOPBAR ═══ */
+#topbar{position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(212,168,67,.18);background:rgba(1,5,13,.93);backdrop-filter:blur(24px)}
+.tb-in{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;max-width:1040px;margin:0 auto;gap:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-emblem{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--g1),var(--g3));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 24px rgba(212,168,67,.45),0 0 48px rgba(212,168,67,.15)}
+.logo-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--g2);letter-spacing:1px}
+.logo-tag{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--sub);display:block;margin-top:-2px}
+.tb-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tb-pill{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 13px;border-radius:30px;white-space:nowrap}
+.tp-live{border:1px solid rgba(0,201,167,.3);background:rgba(0,201,167,.08);color:var(--teal)}
+.tp-gold{border:1px solid rgba(212,168,67,.25);background:rgba(212,168,67,.07);color:var(--g3)}
+.tp-gray{border:1px solid var(--muted);background:rgba(255,255,255,.03);color:var(--sub)}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:ldot 1.4s ease-in-out infinite;flex-shrink:0;box-shadow:0 0 8px var(--teal)}
+@keyframes ldot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(.6)}}
+.edition-tag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:5px 13px;border-radius:30px;background:rgba(212,168,67,.06);border:1px solid var(--bdr);color:var(--g2)}
+
+/* ═══ URGENCY BAR ═══ */
+#urgBar{background:linear-gradient(90deg,rgba(192,57,43,.18),rgba(192,57,43,.08),rgba(192,57,43,.18));border-bottom:1px solid rgba(192,57,43,.25);padding:9px 0;overflow:hidden;position:relative}
+#urgBar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(192,57,43,.08),transparent);animation:sweep 3s linear infinite}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.urg-in{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;font-size:12px;font-weight:700;letter-spacing:.5px;color:#FF8A80}
+.urg-timer{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--red3);background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:3px 12px}
+.urg-cupos{color:#FFD740;font-size:14px}
+
+/* ═══ BONUS WHEEL SECTION ═══ */
+.wheel-section{display:flex;justify-content:center;padding:52px 0 0;position:relative}
+.bonus-wheel-container{display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:800px}
+.wheel-title-bar{text-align:center;margin-bottom:24px}
+.wheel-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,80,80,.35);background:rgba(255,60,60,.08);border-radius:40px;padding:6px 20px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#FF8A80;margin-bottom:10px}
+.wheel-fire{animation:blink 1s infinite}
+.wheel-main-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,36px);font-weight:900;color:var(--g2);text-shadow:0 0 20px rgba(212,168,67,.4);line-height:1.1}
+.wheel-sub-title{font-size:13px;color:var(--sub);margin-top:5px}
+.wheel-stage{position:relative;width:380px;height:380px;margin:0 auto}
+.wheel-halo{position:absolute;inset:-30px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(212,168,67,.28) 0%,transparent 68%);animation:halopulse 1.8s ease-in-out infinite alternate;pointer-events:none;z-index:0}
+@keyframes halopulse{from{opacity:.4;transform:scale(.94)}to{opacity:1;transform:scale(1.06)}}
+.wheel-bezel{position:absolute;inset:-14px;border-radius:50%;background:conic-gradient(#5A3A00 0deg,#D4A843 20deg,#FFE066 40deg,#D4A843 60deg,#7A5200 80deg,#C8960A 100deg,#FFE066 120deg,#A07010 140deg,#5A3A00 160deg,#D4A843 180deg,#FFE066 200deg,#D4A843 220deg,#7A5200 240deg,#C8960A 260deg,#FFE066 280deg,#A07010 300deg,#5A3A00 320deg,#D4A843 340deg,#5A3A00 360deg);animation:bezel-spin 22s linear infinite;box-shadow:0 0 60px rgba(212,168,67,.5),0 0 120px rgba(212,168,67,.2);z-index:1}
+@keyframes bezel-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.wheel-bezel-mask{position:absolute;inset:-8px;border-radius:50%;background:var(--bg);z-index:2}
+#ledDotsCanvas{position:absolute;inset:-14px;width:calc(100% + 28px);height:calc(100% + 28px);pointer-events:none;z-index:3}
+#wheelCanvas{border-radius:50%;position:relative;z-index:4;display:block;cursor:pointer;box-shadow:0 0 0 4px rgba(10,5,0,.95),0 0 0 7px rgba(212,168,67,.65),0 0 0 9px rgba(10,5,0,.8),0 24px 80px rgba(0,0,0,.85)}
+#wheelCanvas:hover{filter:brightness(1.07)}
+#sparksCanvas{position:absolute;inset:-100px;width:calc(100% + 200px);height:calc(100% + 200px);pointer-events:none;z-index:5}
+.wheel-needle{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);z-index:10;filter:drop-shadow(0 0 14px rgba(255,220,0,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.8))}
+.wheel-center-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF0A0,#C8960A 45%,#7A5200 75%,#3A2600);border:4px solid rgba(0,0,0,.7);box-shadow:0 0 0 2px rgba(212,168,67,.7),0 0 24px rgba(212,168,67,.8),0 0 48px rgba(212,168,67,.4);display:flex;align-items:center;justify-content:center;animation:hub-glow 2s ease-in-out infinite alternate}
+@keyframes hub-glow{from{box-shadow:0 0 0 2px rgba(212,168,67,.5),0 0 16px rgba(212,168,67,.4),0 0 36px rgba(212,168,67,.2)}to{box-shadow:0 0 0 2px rgba(255,230,80,1),0 0 30px rgba(212,168,67,1),0 0 60px rgba(212,168,67,.6)}}
+.wheel-center-icon{font-size:22px}
+.wheel-result-panel{margin-top:22px;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.wheel-result-idle{font-size:13px;color:var(--sub);text-align:center;line-height:1.7}
+.wheel-result-prize{display:none;flex-direction:column;align-items:center;gap:4px;animation:prize-pop .65s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes prize-pop{from{transform:scale(.4) translateY(24px);opacity:0}to{transform:scale(1);opacity:1}}
+.wrp-badge{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 18px;border-radius:20px}
+.wrp-icon{font-size:52px;line-height:1.1}
+.wrp-label{font-family:'Playfair Display',serif;font-size:clamp(20px,3.5vw,30px);font-weight:900;text-align:center}
+.wrp-desc{font-size:13px;color:var(--sub);text-align:center;max-width:340px;line-height:1.55}
+.wrp-add-btn{margin-top:10px;background:linear-gradient(135deg,var(--g1),var(--g3));color:var(--bg);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:50px;padding:11px 30px;cursor:pointer;transition:all .3s;box-shadow:0 6px 28px rgba(212,168,67,.4)}
+.wrp-add-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,168,67,.6)}
+.wheel-controls{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:18px}
+.spins-info{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.spins-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.25);border-radius:30px;padding:7px 18px;font-size:12px;font-weight:700;color:var(--g2)}
+.spins-count{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--g3)}
+.free-spins-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);display:block}
+.wheel-spin-btn{background:linear-gradient(135deg,#7A0000,#C41E3A,#E74C3C,#C41E3A,#7A0000);background-size:300% 100%;color:#fff;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:4px;text-transform:uppercase;border:none;border-radius:50px;padding:16px 56px;cursor:pointer;transition:all .4s;box-shadow:0 8px 36px rgba(192,57,43,.5),0 0 0 2px rgba(231,76,60,.4);position:relative;overflow:hidden;white-space:nowrap;animation:btnpulse 2.2s ease-in-out infinite}
+@keyframes btnpulse{0%,100%{box-shadow:0 8px 36px rgba(192,57,43,.5),0 0 0 2px rgba(231,76,60,.4)}50%{box-shadow:0 12px 50px rgba(192,57,43,.75),0 0 0 4px rgba(255,80,60,.55),0 0 60px rgba(231,76,60,.25)}}
+.wheel-spin-btn:hover:not(:disabled){background-position:100% 0;box-shadow:0 14px 50px rgba(192,57,43,.7),0 0 0 2px rgba(255,100,80,.6);transform:translateY(-2px);animation:none}
+.wheel-spin-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;animation:none}
+.wheel-btn{display:none}
+.wheel-prizes-row{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:22px;padding:0 8px;width:100%;max-width:720px}
+.wpr{display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:12px;padding:10px 14px;min-width:106px;text-align:center;position:relative;overflow:hidden;cursor:default;transition:transform .2s}
+.wpr:hover{transform:translateY(-2px)}
+.wpr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.wpr-ico{font-size:20px;line-height:1.2}
+.wpr-val{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700}
+.wpr-lbl{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--sub)}
+.wpr-prob{font-size:8.5px;color:var(--muted)}
+.wpr.wpr-jackpot{border-color:rgba(212,168,67,.45);background:rgba(212,168,67,.07)}
+.wpr.wpr-jackpot::before{background:linear-gradient(90deg,transparent,var(--g2),transparent)}
+.wpr.wpr-jackpot .wpr-val{color:var(--g2)}
+.wpr.wpr-big::before{background:linear-gradient(90deg,transparent,var(--teal),transparent)}
+.wpr.wpr-big .wpr-val{color:var(--teal)}
+.wpr.wpr-mid::before{background:linear-gradient(90deg,transparent,#64B5F6,transparent)}
+.wpr.wpr-mid .wpr-val{color:#64B5F6}
+.wpr.wpr-nada::before{background:linear-gradient(90deg,transparent,rgba(255,120,100,.5),transparent)}
+.wpr.wpr-nada .wpr-val{color:rgba(255,150,130,.7)}
+
+/* ═══ CHIPS ROW ═══ */
+.chips-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:20px 0 0}
+.chip{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;font-weight:700;cursor:default;position:relative;box-shadow:0 4px 16px rgba(0,0,0,.4);animation:chip-float var(--df,3s) var(--dd,0s) ease-in-out infinite alternate}
+@keyframes chip-float{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+.chip::before{content:'';position:absolute;inset:5px;border-radius:50%;border:2px dashed rgba(255,255,255,.3)}
+.chip-r{background:radial-gradient(circle at 35% 35%,#E74C3C,#922B21);border:3px solid #FF6B6B;color:#FFB3AD}
+.chip-b{background:radial-gradient(circle at 35% 35%,#1A73E8,#0D47A1);border:3px solid #64B5F6;color:#BBDEFB}
+.chip-g{background:radial-gradient(circle at 35% 35%,#2E7D32,#1B5E20);border:3px solid #81C784;color:#C8E6C9}
+.chip-w{background:radial-gradient(circle at 35% 35%,#F5F5F5,#BDBDBD);border:3px solid #EEE;color:#333}
+.chip-blk{background:radial-gradient(circle at 35% 35%,#37474F,#102027);border:3px solid #78909C;color:#B0BEC5}
+
+/* ═══ HERO ═══ */
+#hero{padding:20px 0 56px;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(212,168,67,.35);background:rgba(212,168,67,.07);border-radius:40px;padding:7px 22px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g2);margin-bottom:22px}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--g2);animation:blink 1.5s ease-in-out infinite;box-shadow:0 0 8px var(--g2)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+h1.hero-h{font-family:'Playfair Display',serif;font-size:clamp(58px,12vw,112px);font-weight:900;line-height:.88;letter-spacing:-1px;color:var(--text);margin-bottom:8px}
+h1.hero-h .gold{background:linear-gradient(130deg,var(--g1) 0%,var(--g3) 35%,var(--g4) 60%,var(--g2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+.hero-sub{font-size:16px;font-weight:500;color:var(--sub);max-width:520px;margin:18px auto 0;line-height:1.75}
+.hero-sub b{color:var(--text)}
+
+/* ═══ STATS ═══ */
+.stats-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:52px}
+.stat{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:22px 28px;min-width:150px;text-align:center;position:relative;overflow:hidden;transition:all .3s}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g2),transparent)}
+.stat:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.stat-n{font-family:'JetBrains Mono',monospace;font-size:clamp(20px,3.5vw,28px);font-weight:700;color:var(--g2);line-height:1.1}
+.stat-l{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-top:6px}
+.stat.pulse-gold .stat-n{animation:pgold .6s ease;text-shadow:0 0 20px rgba(212,168,67,.7)}
+@keyframes pgold{0%{color:var(--g4)}100%{color:var(--g2)}}
+
+/* ═══ PROGRESS ═══ */
+.prog-wrap{max-width:740px;margin:48px auto 0}
+.prog-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px}
+.prog-lbl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.prog-n{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--g2)}
+.prog-n small{font-size:12px;color:var(--sub);font-family:'Rajdhani',sans-serif}
+.prog-track{height:14px;background:var(--faint);border-radius:14px;position:relative;overflow:visible;border:1px solid rgba(255,255,255,.04)}
+.prog-fill{height:100%;border-radius:14px;background:linear-gradient(90deg,#4A2800,var(--g1),var(--g3));transition:width 1s cubic-bezier(.22,1,.36,1);position:relative;box-shadow:0 0 16px rgba(212,168,67,.25)}
+.prog-fill::after{content:'';position:absolute;right:-8px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--g2);border:3px solid var(--bg);box-shadow:0 0 16px rgba(212,168,67,.8)}
+.prog-marks{display:flex;justify-content:space-between;margin-top:8px}
+.prog-marks span{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.urg-lbl{text-align:center;margin-top:12px;font-size:12px;font-weight:700;color:var(--red3);letter-spacing:.5px;min-height:18px}
+
+/* ═══ TICKER ═══ */
+.ticker-outer{margin:36px auto 0;max-width:740px;overflow:hidden;position:relative;height:40px}
+.ticker-outer::before,.ticker-outer::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.ticker-outer::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.ticker-outer::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.ticker{display:flex;gap:14px;animation:ticker 30s linear infinite;width:max-content;height:100%;align-items:center}
+.ticker:hover{animation-play-state:paused}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:30px;padding:7px 16px;white-space:nowrap;font-size:12px;font-weight:600;color:var(--sub);flex-shrink:0}
+.ti .hi{color:var(--text)}
+.ti-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;box-shadow:0 0 6px var(--teal)}
+
+/* ═══ SECTION HEADERS ═══ */
+.s-eye{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g1);display:block;margin-bottom:10px}
+.s-h{font-family:'Playfair Display',serif;font-size:clamp(32px,5.5vw,52px);font-weight:900;color:var(--text);line-height:1.05;margin-bottom:36px}
+.s-h em{font-style:normal;background:linear-gradient(130deg,var(--g1),var(--g3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ═══ PRIZES ═══ */
+.prizes-section{padding:72px 0}
+.prizes-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pz{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:28px 24px;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden;transition:all .35s}
+.pz:hover{transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.pz::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g2),transparent);opacity:.6}
+.pz.p1{grid-column:1/-1;background:linear-gradient(135deg,rgba(212,168,67,.1),rgba(212,168,67,.02));border-color:rgba(212,168,67,.4)}
+.pz.p1::after{content:'GRAN PREMIO';position:absolute;top:14px;right:18px;font-size:9px;font-weight:700;letter-spacing:2.5px;color:var(--g2);background:rgba(212,168,67,.12);padding:4px 12px;border-radius:20px;border:1px solid rgba(212,168,67,.25)}
+.pz-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.p1 .pz-ico{background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2)}
+.p2 .pz-ico{background:rgba(180,180,210,.07);border:1px solid rgba(180,180,210,.15)}
+.p3 .pz-ico{background:rgba(205,127,50,.07);border:1px solid rgba(205,127,50,.15)}
+.pe .pz-ico{background:rgba(0,201,167,.07);border:1px solid rgba(0,201,167,.15)}
+.pz-inf{flex:1}
+.pz-pl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
+.pz-val{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,40px);font-weight:900;line-height:1.05}
+.p1 .pz-val{color:var(--g2)}
+.p2 .pz-val{color:#B8C5D8}
+.p3 .pz-val{color:#CD7F32}
+.pe .pz-val{color:var(--teal)}
+.pz-note{font-size:12px;color:var(--sub);margin-top:3px}
+.prize-total{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:18px;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:18px 24px;flex-wrap:wrap}
+.pt-label{font-size:13px;color:var(--sub);font-weight:600}
+.pt-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--g2)}
+
+/* ═══ WHAT TO BUY — CAROUSEL ═══ */
+.buy-section{padding:0 0 80px}
+.carousel-outer{position:relative;overflow:hidden;margin:0 -8px}
+.carousel-outer::before,.carousel-outer::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:10;pointer-events:none}
+.carousel-outer::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.carousel-outer::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.carousel-track{display:flex;gap:18px;padding:10px 80px 20px;transition:transform .55s cubic-bezier(.4,0,.2,1);will-change:transform}
+.carousel-track.drag-active{transition:none;cursor:grabbing}
+.buy-card{border-radius:var(--r);overflow:hidden;position:relative;cursor:default;transition:transform .35s,box-shadow .35s,border-color .35s;border:1px solid var(--bdr);flex:0 0 280px;min-width:280px;background:linear-gradient(180deg,rgba(10,18,30,.98),rgba(5,12,22,1))}
+.buy-card:hover{transform:translateY(-8px) scale(1.018);box-shadow:0 32px 80px rgba(0,0,0,.65),0 0 0 1px rgba(212,168,67,.22);border-color:rgba(212,168,67,.35)}
+.buy-card.active-card{border-color:rgba(212,168,67,.5);box-shadow:0 0 0 2px rgba(212,168,67,.25),0 28px 70px rgba(0,0,0,.55)}
+.buy-img{width:100%;height:195px;object-fit:cover;display:block;transition:transform .55s}
+.buy-card:hover .buy-img{transform:scale(1.08)}
+.buy-img-wrap{overflow:hidden;position:relative}
+.buy-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(1,5,13,.92) 100%)}
+.buy-body{padding:18px 20px 22px}
+.buy-tag{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g2);margin-bottom:6px;display:block}
+.buy-name{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.2}
+.buy-price{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--teal);font-weight:700}
+.buy-note{font-size:12px;color:var(--sub);margin-top:5px;line-height:1.5}
+.buy-badge{position:absolute;top:14px;left:14px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:20px;z-index:2;backdrop-filter:blur(8px)}
+.bb-gold{background:rgba(212,168,67,.9);color:var(--bg)}
+.bb-silver{background:rgba(185,185,215,.85);color:var(--bg)}
+.bb-teal{background:rgba(0,201,167,.9);color:var(--bg)}
+.buy-card-num{position:absolute;top:14px;right:14px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);z-index:2;background:rgba(0,0,0,.35);padding:3px 8px;border-radius:8px;backdrop-filter:blur(6px)}
+.carousel-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:18px}
+.cnav-btn{width:42px;height:42px;border-radius:50%;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.25);color:var(--g2);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;flex-shrink:0;user-select:none}
+.cnav-btn:hover{background:rgba(212,168,67,.18);transform:scale(1.1)}
+.cnav-btn:active{transform:scale(.95)}
+.carousel-dots{display:flex;gap:6px;align-items:center}
+.cdot{width:7px;height:7px;border-radius:50%;background:rgba(212,168,67,.2);transition:all .3s;cursor:pointer}
+.cdot.on{background:var(--g2);width:20px;border-radius:4px}
+
+/* ═══ TRUST ═══ */
+.trust-section{padding:0 0 72px}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tc{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:30px 26px;position:relative;overflow:hidden;transition:all .3s}
+.tc:hover{transform:translateY(-4px);box-shadow:0 20px 56px rgba(0,0,0,.3)}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g2),transparent);opacity:.7}
+.tc-big{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;line-height:1;margin-bottom:10px}
+.tc-big.g{color:var(--g2)}
+.tc-big.t{color:var(--teal)}
+.tc-big.r{color:var(--red3)}
+.tc-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:7px;letter-spacing:.5px}
+.tc-desc{font-size:13px;color:var(--sub);line-height:1.65}
+.tc-tag{display:inline-block;margin-top:14px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:20px}
+.ttg{color:var(--teal);background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.18)}
+.ttgo{color:var(--g2);background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.18)}
+.ttr{color:var(--red3);background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.18)}
+
+/* ═══ HOW ═══ */
+.how-section{padding:0 0 72px}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.how-grid::before{content:'';position:absolute;top:32px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--bdr),var(--bdr),transparent)}
+.how-step{text-align:center;padding:0 14px;position:relative;z-index:1}
+.hs-orb{width:64px;height:64px;border-radius:50%;background:var(--faint);border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;transition:all .3s;box-shadow:0 0 0 0 rgba(212,168,67,0)}
+.hs-orb.lit{background:rgba(212,168,67,.1);border-color:var(--g1);box-shadow:0 0 20px rgba(212,168,67,.25)}
+.hs-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:.3px}
+.hs-desc{font-size:12.5px;color:var(--sub);line-height:1.6}
+
+/* ═══ PACKAGES ═══ */
+.pkg-section{padding:0 0 64px}
+.pkg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.pkg{background:var(--card);border:2px solid rgba(255,255,255,.07);border-radius:var(--r);padding:26px 20px;cursor:pointer;position:relative;overflow:hidden;transition:all .25s;user-select:none}
+.pkg:hover{transform:translateY(-5px);border-color:rgba(212,168,67,.3);box-shadow:0 16px 48px rgba(0,0,0,.35)}
+.pkg.sel{border-color:var(--g1);box-shadow:0 0 0 2px rgba(212,168,67,.25),0 20px 60px rgba(212,168,67,.12)}
+.pkg-b{position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px}
+.pb-pop{background:var(--g2);color:var(--bg)}
+.pb-best{background:var(--teal);color:var(--bg)}
+.pkg-chk{position:absolute;top:12px;left:12px;width:22px;height:22px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.3);transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:2;box-shadow:0 0 12px rgba(212,168,67,.5)}
+.pkg.sel .pkg-chk{opacity:1;transform:scale(1)}
+.pkg-chk::after{content:'✓';font-size:12px;font-weight:900;color:var(--bg)}
+.pkg-n{font-family:'Playfair Display',serif;font-size:46px;font-weight:900;color:var(--g2);line-height:1;position:relative;z-index:1}
+.pkg-n small{font-size:14px;color:var(--sub);font-family:'Rajdhani',sans-serif;font-weight:500}
+.pkg-lbl{font-size:11px;color:var(--sub);margin-bottom:20px;font-weight:600;position:relative;z-index:1}
+.pkg-price{font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--text);position:relative;z-index:1}
+.pkg-pp{font-size:11px;color:var(--sub);margin-top:3px;position:relative;z-index:1}
+.pkg-pp b{color:var(--g2)}
+.pkg-save{display:inline-block;margin-top:10px;font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--teal);background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.18);padding:3px 9px;border-radius:20px;position:relative;z-index:1}
+.pkg-prob{margin-top:10px;font-size:12px;color:var(--sub);position:relative;z-index:1}
+.pkg-prob b{color:var(--text)}
+
+/* ═══ FORM ═══ */
+.form-section{background:rgba(255,255,255,.02);border:1px solid var(--bdr);border-radius:24px;padding:46px;margin-bottom:64px;position:relative;overflow:hidden}
+.form-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g2),transparent)}
+.f-h{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--text);margin-bottom:4px}
+.f-sub{font-size:13px;color:var(--sub);margin-bottom:30px;font-weight:500}
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg{display:flex;flex-direction:column;gap:7px}
+.fg.full{grid-column:1/-1}
+.flbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.fi{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:12px;padding:13px 16px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:500;outline:none;transition:all .2s;width:100%}
+.fi::placeholder{color:rgba(255,255,255,.16)}
+.fi:focus{border-color:var(--g2);background:rgba(212,168,67,.04);box-shadow:0 0 0 3px rgba(212,168,67,.08)}
+select.fi{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%236B8CAE'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+select.fi option{background:#050D1A;color:var(--text)}
+.fi.ok{border-color:var(--teal)}
+.fi.err{border-color:var(--red2)}
+.fhint{font-size:11px;color:var(--sub)}
+.fhint.e{color:var(--red2)}
+.sum-box{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.18);border-radius:14px;padding:18px}
+.sum-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.sum-row:last-child{border-bottom:none}
+.sk{font-size:13px;color:var(--sub);font-weight:500}
+.sv{font-size:13px;font-weight:700;color:var(--text);font-family:'JetBrains Mono',monospace}
+.sv.hi{color:var(--g2);font-size:18px}
+.terms-row{display:flex;gap:12px;align-items:flex-start;padding:18px 0 0}
+.chk{width:20px;height:20px;min-width:20px;border:1.5px solid rgba(255,255,255,.15);border-radius:6px;background:rgba(255,255,255,.04);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px;flex-shrink:0}
+.chk.on{background:var(--g2);border-color:var(--g2)}
+.chk.on::after{content:'✓';font-size:12px;color:var(--bg);font-weight:900}
+.terms-txt{font-size:13px;color:var(--sub);line-height:1.6;cursor:pointer;font-weight:500}
+.terms-txt a{color:var(--g2);text-decoration:none}
+.sub-btn{width:100%;margin-top:22px;background:linear-gradient(135deg,#5A3A05,var(--g1),var(--g3),var(--g1));background-size:300% 100%;color:var(--bg);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;border-radius:14px;padding:18px 32px;cursor:pointer;transition:all .5s;box-shadow:0 8px 32px rgba(212,168,67,.2)}
+.sub-btn:hover:not(:disabled){background-position:100% 0;box-shadow:0 14px 52px rgba(212,168,67,.45);transform:translateY(-2px)}
+.sub-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.sec-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:13px;font-size:12px;color:var(--sub);flex-wrap:wrap;font-weight:600}
+.pay-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:9px;flex-wrap:wrap}
+.pm{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--sub);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:5px 11px;background:rgba(255,255,255,.02);font-weight:600}
+
+/* ═══ TABLE ═══ */
+.list-section{padding:0 0 64px}
+.ptbl{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.tblhd{display:grid;grid-template-columns:48px 52px 1fr 130px 90px 110px;padding:13px 22px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bdr)}
+.th{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.tblbd{max-height:360px;overflow-y:auto}
+.tblbd::-webkit-scrollbar{width:3px}
+.tblbd::-webkit-scrollbar-thumb{background:rgba(212,168,67,.25);border-radius:2px}
+.tblrow{display:grid;grid-template-columns:48px 52px 1fr 130px 90px 110px;padding:10px 22px;border-bottom:1px solid rgba(255,255,255,.035);align-items:center;transition:background .2s;gap:0}
+.tblrow:hover{background:rgba(255,255,255,.02)}
+.tblrow:last-child{border-bottom:none}
+.td{font-size:12.5px}
+.td.nn{font-family:'JetBrains Mono',monospace;color:var(--muted)}
+.td.av{display:flex;align-items:center}
+.av-img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid rgba(212,168,67,.3);background:rgba(212,168,67,.08);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--g2);flex-shrink:0}
+.td.nm{font-weight:600;color:var(--text)}
+.td.loc{font-size:11px;color:var(--sub);line-height:1.3}
+.td.loc span{display:block}
+.td.loc .city{color:var(--text);font-weight:600;font-size:12px}
+.td.ch{font-family:'JetBrains Mono',monospace;color:var(--g2);font-weight:700;font-size:12px}
+.td.tm{font-size:11px;color:var(--sub);font-family:'JetBrains Mono',monospace}
+.empty-st{padding:52px 24px;text-align:center;color:var(--sub);font-size:14px}
+.empty-st .ei{font-size:30px;display:block;margin-bottom:10px}
+.full-notice{display:none;margin-bottom:28px;background:rgba(0,201,167,.05);border:1px solid rgba(0,201,167,.2);border-radius:18px;padding:28px;text-align:center}
+.fn-h{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);margin-bottom:4px;margin-top:8px}
+.fn-p{font-size:13px;color:var(--sub)}
+
+/* ═══ DRAW MODAL ═══ */
+.draw-overlay{position:fixed;inset:0;z-index:900;background:rgba(1,5,13,0);backdrop-filter:blur(0);display:flex;align-items:center;justify-content:center;pointer-events:none;transition:background 1s,backdrop-filter 1s}
+.draw-overlay.on{background:rgba(1,5,13,.97);backdrop-filter:blur(32px);pointer-events:all}
+.draw-modal{position:relative;width:min(780px,96vw);background:linear-gradient(160deg,#0A1628,#05101E);border:1px solid rgba(212,168,67,.25);border-radius:28px;padding:52px 44px;text-align:center;box-shadow:0 40px 120px rgba(0,0,0,.8),inset 0 1px 0 rgba(212,168,67,.1);transform:scale(.78) translateY(64px);opacity:0;transition:transform .85s cubic-bezier(.34,1.12,.64,1),opacity .6s;overflow:hidden;max-height:92vh;overflow-y:auto}
+.draw-overlay.on .draw-modal{transform:scale(1) translateY(0);opacity:1}
+.dm-shimmer{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g1),var(--g3),var(--g1),transparent);background-size:200% 100%;animation:shimmer 2.5s linear infinite}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.dm-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--sub);font-size:15px;display:none;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;z-index:2}
+.dm-close.vis{display:flex}
+.dm-close:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.dm-steps{display:flex;justify-content:center;gap:7px;margin-bottom:22px;position:relative;z-index:1}
+.ds{height:5px;border-radius:3px;background:rgba(255,255,255,.07);width:28px;transition:all .5s}
+.ds.done{background:var(--g1)}
+.ds.cur{background:rgba(212,168,67,.55);width:44px;animation:cstep 1.5s ease-in-out infinite}
+@keyframes cstep{0%,100%{opacity:1}50%{opacity:.3}}
+.dm-badge{display:inline-block;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.22);border-radius:30px;padding:6px 22px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g2);margin-bottom:22px;position:relative;z-index:1}
+.orb-wrap{position:relative;z-index:1;width:130px;height:130px;margin:0 auto 24px}
+.orb-r1{position:absolute;inset:-16px;border-radius:50%;border:1.5px solid rgba(212,168,67,.14);animation:rp 2.3s ease-in-out infinite}
+.orb-r2{position:absolute;inset:-32px;border-radius:50%;border:1px solid rgba(212,168,67,.06);animation:rp 2.3s ease-in-out .6s infinite}
+@keyframes rp{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.09);opacity:.25}}
+.orb{width:130px;height:130px;border-radius:50%;background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.05));border:2px solid rgba(212,168,67,.35);display:flex;align-items:center;justify-content:center;font-size:56px;box-shadow:0 0 70px rgba(212,168,67,.18),inset 0 0 30px rgba(212,168,67,.05);position:relative;z-index:1}
+.orb.spin{animation:ospin .11s linear infinite;box-shadow:0 0 90px rgba(212,168,67,.4)}
+@keyframes ospin{from{transform:rotate(0)scale(1.07)}to{transform:rotate(360deg)scale(1.07)}}
+.dm-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:900;color:var(--text);line-height:1;margin-bottom:5px;position:relative;z-index:1}
+.dm-sub{font-size:14px;color:var(--sub);margin-bottom:22px;position:relative;z-index:1;font-weight:500}
+.roller{font-family:'JetBrains Mono',monospace;font-size:clamp(18px,4.5vw,32px);color:var(--g2);height:56px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;overflow:hidden;margin-bottom:10px;font-weight:700;letter-spacing:1px}
+.roller.r span{animation:roll .07s linear infinite}
+.roller.rs span{animation:roll .22s linear infinite}
+.roller.rvs span{animation:roll .48s linear infinite}
+@keyframes roll{from{opacity:0;transform:translateY(-100%)}50%{opacity:1;transform:none}to{opacity:0;transform:translateY(100%)}}
+.cur-prize{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:10px 20px;font-size:13px;color:var(--sub);position:relative;z-index:1;margin-bottom:22px;font-weight:600}
+.cur-prize strong{color:var(--g2);font-family:'JetBrains Mono',monospace;font-size:18px}
+.mini-win{background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.25);border-radius:18px;padding:22px 26px;display:flex;align-items:center;gap:16px;position:relative;z-index:1;margin-bottom:22px;opacity:0;transform:scale(.86) translateY(14px);transition:all .65s cubic-bezier(.34,1.3,.64,1)}
+.mini-win.show{opacity:1;transform:scale(1) translateY(0)}
+.mw-ico{font-size:32px;flex-shrink:0}
+.mw-inf{flex:1;text-align:left}
+.mw-lbl{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.mw-name{font-family:'Playfair Display',serif;font-size:27px;font-weight:900;color:var(--text)}
+.mw-amt{font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--g2);font-weight:700}
+.dm-btn{background:linear-gradient(135deg,var(--g1),var(--g2));color:var(--bg);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;border-radius:50px;padding:16px 46px;cursor:pointer;transition:all .3s;box-shadow:0 8px 32px rgba(212,168,67,.3);position:relative;z-index:1}
+.dm-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 52px rgba(212,168,67,.5)}
+.dm-btn:disabled{opacity:.38;cursor:not-allowed}
+
+/* ═══ WINNERS ═══ */
+.winners-section{padding:0 0 64px;display:none}
+.winners-section.vis{display:block}
+.wr-row{display:flex;align-items:center;gap:18px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 26px;margin-bottom:11px;opacity:0;transform:translateY(18px);transition:all .6s cubic-bezier(.34,1.56,.64,1)}
+.wr-row.vis{opacity:1;transform:translateY(0)}
+.wr-row.gw{border-color:rgba(212,168,67,.35);background:rgba(212,168,67,.05)}
+.wr-ico{font-size:28px;flex-shrink:0;width:40px;text-align:center}
+.wr-inf{flex:1}
+.wr-pl{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.wr-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text)}
+.wr-prize{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700}
+.wr-row.gw .wr-prize{color:var(--g2)}
+.wr-row.sw .wr-prize{color:#B8C5D8}
+.wr-row.bw .wr-prize{color:#CD7F32}
+.wr-row.ew .wr-prize{color:var(--teal)}
+.new-draw-btn{width:100%;margin-top:26px;background:transparent;border:2px solid var(--g1);color:var(--g2);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border-radius:14px;padding:18px 32px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.new-draw-btn:hover{box-shadow:0 8px 32px rgba(212,168,67,.2);transform:translateY(-2px);background:rgba(212,168,67,.06)}
+
+/* ═══ ARCHIVE ═══ */
+.archive-section{padding:0 0 96px;display:none}
+.archive-section.vis{display:block}
+.arch-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.arch-head{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;cursor:pointer;transition:background .2s;gap:12px}
+.arch-head:hover{background:rgba(255,255,255,.02)}
+.ah-l{display:flex;flex-direction:column;gap:3px}
+.ah-ed{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.ah-t{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text)}
+.ah-m{font-size:12px;color:var(--sub);font-weight:500}
+.ah-r{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.ah-total{font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--g2);font-weight:700}
+.ah-arr{font-size:14px;color:var(--sub);transition:transform .3s}
+.arch-card.open .ah-arr{transform:rotate(180deg)}
+.arch-body{display:none;border-top:1px solid var(--bdr);padding:20px 24px}
+.arch-card.open .arch-body{display:block}
+.aw{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.aw:last-child{border-bottom:none}
+.aw-ico{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+.aw-inf{flex:1}
+.aw-pl{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.aw-name{font-size:14px;font-weight:700;color:var(--text)}
+.aw-prize{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--g2);font-weight:700}
+.aw-foot{text-align:right;margin-top:10px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+
+/* ═══ CONFETTI ═══ */
+#cfWrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden}
+.cf{position:absolute;top:-14px;animation:cfall var(--d) var(--dl) ease-in forwards}
+@keyframes cfall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(var(--rot)) translateX(var(--dx));opacity:0}}
+
+/* ═══ TOAST ═══ */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(3,8,15,.97);backdrop-filter:blur(20px);border:1px solid var(--bdr);border-radius:14px;padding:13px 24px;font-size:14px;font-weight:600;color:var(--text);z-index:1100;white-space:nowrap;transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+#toast.on{transform:translateX(-50%) translateY(0)}
+
+/* ═══ FOOTER ═══ */
+footer{border-top:1px solid var(--bdr);padding:32px 0;text-align:center;font-size:12px;color:var(--sub);font-weight:600}
+footer strong{color:var(--g2)}
+.ft-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:10px}
+.fti{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+
+/* ═══ PHOTO UPLOAD ═══ */
+.photo-upload-wrap{display:flex;align-items:center;gap:18px;padding:14px 18px;background:rgba(255,255,255,.03);border:1.5px dashed rgba(212,168,67,.25);border-radius:14px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.photo-upload-wrap:hover{border-color:rgba(212,168,67,.5);background:rgba(212,168,67,.04)}
+.photo-preview{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid rgba(212,168,67,.4);background:rgba(212,168,67,.08);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--g2);flex-shrink:0;overflow:hidden}
+.photo-preview img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.photo-txt{flex:1}
+.photo-lbl{font-size:13px;font-weight:700;color:var(--text)}
+.photo-sub{font-size:11px;color:var(--sub);margin-top:2px}
+.photo-btn{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g2);background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.25);border-radius:20px;padding:5px 14px;white-space:nowrap}
+#photoInput{display:none}
+
+@media(max-width:820px){
+  .tblhd{grid-template-columns:44px 40px 1fr 90px}
+  .tblrow{grid-template-columns:44px 40px 1fr 90px}
+  .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
+}
+.fade-up{opacity:0;transform:translateY(28px);animation:fadeup .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes fadeup{to{opacity:1;transform:none}}
+.a1{animation-delay:.05s}.a2{animation-delay:.15s}.a3{animation-delay:.25s}
+.a4{animation-delay:.35s}.a5{animation-delay:.45s}.a6{animation-delay:.6s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:820px){
+  .prizes-grid,.buy-grid{grid-template-columns:1fr}
+  .pz.p1{grid-column:1}
+  .pkg-grid{grid-template-columns:1fr 1fr}
+  .trust-grid,.how-grid{grid-template-columns:1fr 1fr}
+  .form-section{padding:28px 18px}
+  .f-grid{grid-template-columns:1fr}.fg.full{grid-column:1}
+  .tb-in{flex-direction:column;align-items:flex-start;gap:8px}
+  .draw-modal{padding:36px 18px}
+  .tblhd,.tblrow{grid-template-columns:44px 44px 1fr 80px}
+  .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
+}
+@media(max-width:480px){
+  .pkg-grid,.trust-grid,.how-grid{grid-template-columns:1fr}
+  .stats-grid{gap:10px}
+  .tblhd,.tblrow{grid-template-columns:36px 40px 1fr 70px}
+  .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
+  .chips-row .chip{width:50px;height:50px;font-size:9px}
+  .wheel-wrap{width:240px;height:240px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+<div class="felt-bg"></div>
+<div class="felt-pattern"></div>
+<div class="vignette"></div>
+<div id="cfWrap"></div>
+<div id="toast"></div>
+
+<!-- ═══════ DRAW MODAL ═══════ -->
+<div class="draw-overlay" id="drawOverlay">
+  <div class="draw-modal">
+    <div class="dm-shimmer"></div>
+    <button class="dm-close" id="dmClose" onclick="closeModal()">✕</button>
+    <div class="dm-steps" id="dmSteps"></div>
+    <div class="dm-badge" id="dmBadge">🎰 SORTEO EN VIVO</div>
+    <div class="orb-wrap">
+      <div class="orb-r2"></div><div class="orb-r1"></div>
+      <div class="orb" id="orb">🎲</div>
+    </div>
+    <h2 class="dm-title" id="dmTitle">Preparando el bombo…</h2>
+    <p class="dm-sub" id="dmSub">El sorteo inicia automáticamente</p>
+    <div class="roller" id="roller"><span>— — — —</span></div>
+    <div class="cur-prize" id="curPrize"><span>Premio</span><strong>—</strong></div>
+    <div class="mini-win" id="miniWin">
+      <div class="mw-ico" id="mwIco">🏆</div>
+      <div class="mw-inf">
+        <div class="mw-lbl" id="mwLbl">Premio</div>
+        <div class="mw-name" id="mwName">—</div>
+      </div>
+      <div class="mw-amt" id="mwAmt">—</div>
+    </div>
+    <button class="dm-btn" id="dmBtn" disabled>Girando el bombo…</button>
+  </div>
+</div>
+
+<!-- ═══════ TOPBAR ═══════ -->
+<div id="topbar">
+  <div class="tb-in">
+    <div class="logo">
+      <div class="logo-emblem">🏆</div>
+      <div>
+        <div class="logo-name">SORTEO ÉLITE</div>
+        <span class="logo-tag">Edición Oficial 2025 · Verificado</span>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-pill tp-live"><div class="live-dot"></div>En Vivo</div>
+      <div class="tb-pill tp-gold">🛡️ 100% Seguro</div>
+      <div class="tb-pill tp-gray">📋 Lista Pública</div>
+      <div class="edition-tag" id="topEd">Edición #1</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ URGENCY BAR ═══════ -->
+<div id="urgBar">
+  <div class="urg-in W">
+    <span>🎰 ¡CUPOS LIMITADOS!</span>
+    <span>Quedan solo <strong class="urg-cupos" id="urgCupos">15</strong> cupos en esta edición</span>
+    <span class="urg-timer" id="urgTimer">00:45:00</span>
+    <span>El sorteo inicia <b>solo</b> al completarse</span>
+  </div>
+</div>
+
+<div id="root">
+<div class="W">
+
+  <!-- ═══════ BONUS WHEEL + HERO ═══════ -->
+  <div class="wheel-section fade-up a1">
+  <div class="bonus-wheel-container">
+
+    <!-- Title -->
+    <div class="wheel-title-bar">
+      <div class="wheel-eyebrow"><span class="wheel-fire">🔥</span>RULETA DE CHANCES · GIRÁ GRATIS AHORA</div>
+      <div class="wheel-main-title">¡Multiplicá tus chances <span style="color:var(--red3)">antes</span> de inscribirte!</div>
+      <div class="wheel-sub-title">Siempre ganás 1 o 3 chances gratis · <strong style="color:var(--g2)">Comprá 3+ para ACTIVAR</strong> tu premio</div>
+      <div id="wheelUrgency" style="margin-top:10px;display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.35);border-radius:30px;padding:6px 18px;font-size:11px;font-weight:700;color:#FF8A80;letter-spacing:.5px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#FF6B6B;display:inline-block;animation:ldot 1.2s ease-in-out infinite;box-shadow:0 0 6px #FF6B6B"></span>
+        ¡Solo <strong id="wheelCuposLeft" style="color:#FFD740;margin:0 3px">15</strong> cupos disponibles — el sorteo cierra al completarse
+      </div>
+    </div>
+
+    <!-- Wheel stage -->
+    <div class="wheel-stage">
+      <div class="wheel-halo"></div>
+      <div class="wheel-bezel"></div>
+      <div class="wheel-bezel-mask"></div>
+      <canvas id="ledDotsCanvas"></canvas>
+      <canvas id="sparksCanvas"></canvas>
+      <canvas id="wheelCanvas" width="380" height="380" onclick="bonusSpin()" title="¡Hacé clic para girar!"></canvas>
+      <!-- Needle — apunta hacia abajo (al centro de la rueda) -->
+      <div class="wheel-needle">
+        <svg width="24" height="48" viewBox="0 0 24 48">
+          <defs>
+            <linearGradient id="ng2" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#FFE566"/>
+              <stop offset="60%" stop-color="#D4A843"/>
+              <stop offset="100%" stop-color="#7A5200"/>
+            </linearGradient>
+            <filter id="nf"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,.7)"/></filter>
+          </defs>
+          <polygon points="12,47 22,2 12,10 2,2" fill="url(#ng2)" filter="url(#nf)" stroke="rgba(0,0,0,.4)" stroke-width="1"/>
+          <circle cx="12" cy="38" r="3" fill="rgba(255,255,255,.7)"/>
+        </svg>
+      </div>
+      <!-- Center hub -->
+      <div class="wheel-center-hub"><span class="wheel-center-icon">🎯</span></div>
+    </div>
+
+    <!-- Result panel -->
+    <div class="wheel-result-panel" id="wheelResultPanel">
+      <div class="wheel-result-idle" id="wheelResultIdle">
+        🎡 <strong style="color:var(--text)">¡Hacé clic en la ruleta o en el botón</strong> para ganar chances gratis!<br>
+        <span style="font-size:11px">Siempre salís con 1 o 3 chances · Comprá 3+ para activar</span>
+      </div>
+      <div class="wheel-result-prize" id="wheelResultPrize">
+        <div class="wrp-badge" id="wrpBadge"></div>
+        <div class="wrp-icon" id="wrpIcon"></div>
+        <div class="wrp-label" id="wrpLabel"></div>
+        <div class="wrp-desc" id="wrpDesc"></div>
+        <button class="wrp-add-btn" id="wrpAddBtn" onclick="addBonusChances()">✅ ¡AGREGAR CHANCES Y CONTINUAR!</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="wheel-controls">
+      <div class="spins-info">
+        <div class="spins-badge">
+            <span>🎡 Tiros gratis disponibles:</span>
+            <span class="spins-count" id="freeSpinsCount">1</span>
+          </div>
+          <div class="spins-badge" style="border-color:rgba(0,201,167,.3);background:rgba(0,201,167,.06);color:var(--teal)">
+            🎁 Chances bonus: <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--teal);margin-left:4px" id="bonusChancesTotal">0</span>
+          </div>
+      </div>
+      <button class="wheel-spin-btn" id="wheelSpinBtn" onclick="bonusSpin()">🎰 &nbsp;¡GIRAR Y GANAR CHANCES GRATIS!</button>
+      <div style="font-size:11px;color:var(--muted);text-align:center">🔐 Siempre ganás · <b style="color:var(--g2)">1 o 3 chances</b> gratis · Comprá 3+ para <b style="color:var(--red3)">ACTIVAR</b></div>
+    </div>
+
+    <!-- Prize legend -->
+    <div class="wheel-prizes-row">
+      <div class="wpr wpr-mid"><div class="wpr-ico">⭐</div><div class="wpr-val">1 chance</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
+      <div class="wpr wpr-mid"><div class="wpr-ico">🎁</div><div class="wpr-val">3 chances</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
+      <div class="wpr wpr-big"><div class="wpr-ico">🔥</div><div class="wpr-val">10 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
+      <div class="wpr wpr-jackpot"><div class="wpr-ico">🏆</div><div class="wpr-val">100 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
+      <div class="wpr wpr-jackpot"><div class="wpr-ico">💎</div><div class="wpr-val">1.000 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
+      <div class="wpr wpr-nada"><div class="wpr-ico">💰</div><div class="wpr-val">$100.000</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
+    </div>
+
+
+
+  </div>
+  </div>
+
+  <section id="hero" style="padding-top:28px">
+    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Solo 100 Cupos</div>
+    <h1 class="hero-h fade-up a3">GRAN SORTEO<span class="gold">MILLONARIO</span></h1>
+    <p class="hero-sub fade-up a4">Transparente, verificado y en vivo. Al completarse los <b>100 cupos</b>, el sorteo inicia <b>automáticamente</b>. La ruleta gira sin intervención humana.</p>
+
+    <div class="stats-grid fade-up a5">
+      <div class="stat" id="sc1"><div class="stat-n" id="stPart">0</div><div class="stat-l">Participantes</div></div>
+      <div class="stat" id="sc2"><div class="stat-n" id="stCups">100</div><div class="stat-l">Cupos Restantes</div></div>
+      <div class="stat"><div class="stat-n">$10.010.000</div><div class="stat-l">En Premios</div></div>
+      <div class="stat"><div class="stat-n" id="stDraws">248</div><div class="stat-l">Sorteos Realizados</div></div>
+      <div class="stat"><div class="stat-n" id="stPaid">$2.482.480.000</div><div class="stat-l">Total Pagado</div></div>
+    </div>
+
+    <div class="prog-wrap fade-up a6">
+      <div class="prog-top">
+        <span class="prog-lbl">🎟️ Cupos Ocupados</span>
+        <span class="prog-n" id="progN">0 <small>/ 100</small></span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="prog-marks"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+      <div class="urg-lbl" id="urgLbl"></div>
+    </div>
+
+    <div class="ticker-outer fade-up">
+      <div class="ticker" id="tickerEl"></div>
+    </div>
+  </section>
+
+  <!-- ═══════ PRIZES ═══════ -->
+  <section class="prizes-section">
+    <span class="s-eye">💰 Premios de esta edición</span>
+    <h2 class="s-h">Lo que <em>podés ganar</em> hoy</h2>
+    <div class="prizes-grid">
+      <div class="pz p1">
+        <div class="pz-ico">🏆</div>
+        <div class="pz-inf">
+          <div class="pz-pl">Primer Premio</div>
+          <div class="pz-val">$6.000.000</div>
+          <div class="pz-note">Transferencia inmediata · Mercado Pago · CBU · En 24 hs</div>
+        </div>
+      </div>
+      <div class="pz p2">
+        <div class="pz-ico">🥈</div>
+        <div class="pz-inf">
+          <div class="pz-pl">Segundo Premio</div>
+          <div class="pz-val">$3.000.000</div>
+          <div class="pz-note">Pago garantizado en 24 hs</div>
+        </div>
+      </div>
+      <div class="pz p3">
+        <div class="pz-ico">🥉</div>
+        <div class="pz-inf">
+          <div class="pz-pl">Tercer Premio</div>
+          <div class="pz-val">$1.000.000</div>
+          <div class="pz-note">Pago garantizado en 24 hs</div>
+        </div>
+      </div>
+      <div class="pz pe" style="grid-column:1/-1">
+        <div class="pz-ico">⚡</div>
+        <div class="pz-inf">
+          <div class="pz-pl">Premio Sorpresa</div>
+          <div class="pz-val">$10.000</div>
+          <div class="pz-note">Para un participante adicional sorteado al azar</div>
+        </div>
+      </div>
+    </div>
+    <div class="prize-total">
+      <span class="pt-label">🎁 Pozo total esta edición</span>
+      <span>·</span>
+      <span class="pt-val">$10.010.000</span>
+      <span>·</span>
+      <span class="pt-label">Pagado en menos de 24 hs</span>
+    </div>
+  </section>
+
+  <!-- ═══════ QUÉ COMPRÁS — CAROUSEL ═══════ -->
+  <section class="buy-section">
+    <span class="s-eye">🛍️ ¿Qué podés comprar con el premio?</span>
+    <h2 class="s-h">Imaginá qué <em>harías</em> con el dinero</h2>
+    <div class="carousel-outer" id="buyCarouselOuter">
+      <div class="carousel-track" id="buyCarouselTrack">
+
+        <div class="buy-card">
+          <div class="buy-badge bb-gold">🏆 1er Premio</div>
+          <div class="buy-card-num">01</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80&auto=format&fit=crop" alt="Auto" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80&auto=format&fit=crop'">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🚗 Transporte</span>
+            <div class="buy-name">Auto 0km</div>
+            <div class="buy-price">Hasta $6.000.000</div>
+            <div class="buy-note">Un 0km de alta gama o financiá el tuyo propio. Con el 1er premio te lo comprás sin crédito.</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-badge bb-silver">🥈 2do Premio</div>
+          <div class="buy-card-num">02</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Moto" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600&q=80&auto=format&fit=crop'">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🏍️ Movilidad</span>
+            <div class="buy-name">Moto 0km Premium</div>
+            <div class="buy-price">$1.500.000 – $3.000.000</div>
+            <div class="buy-note">Una moto de alta cilindrada o varias motos para tu familia. El 2do premio te da eso y más.</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-badge bb-gold">🏆 1er Premio</div>
+          <div class="buy-card-num">03</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80&auto=format&fit=crop" alt="Viaje" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">✈️ Viajes</span>
+            <div class="buy-name">Viaje Internacional</div>
+            <div class="buy-price">Europa, USA o el mundo</div>
+            <div class="buy-note">Pasajes, hotel 5 estrellas y gastos para dos personas por 30 días en Europa o Estados Unidos.</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-badge bb-teal">⚡ Premio Sorpresa</div>
+          <div class="buy-card-num">04</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80&auto=format&fit=crop" alt="Electrodomésticos" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🏠 Hogar</span>
+            <div class="buy-name">Electrodomésticos</div>
+            <div class="buy-price">Renovación completa</div>
+            <div class="buy-note">Smart TV, lavarropas, heladera, aire acondicionado y microondas. Todo nuevo para tu hogar.</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-badge bb-silver">🥉 3er Premio</div>
+          <div class="buy-card-num">05</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80&auto=format&fit=crop" alt="Tecnología" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">📱 Tecnología</span>
+            <div class="buy-name">Pack Tech Completo</div>
+            <div class="buy-price">$600.000 – $1.000.000</div>
+            <div class="buy-note">iPhone última generación, MacBook, iPad, AirPods y accesorios. Todo lo último en tecnología.</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-badge bb-gold">🏆 1er Premio</div>
+          <div class="buy-card-num">06</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80&auto=format&fit=crop" alt="Inversión" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">💰 Inversión</span>
+            <div class="buy-name">Capital para invertir</div>
+            <div class="buy-price">Libertad financiera</div>
+            <div class="buy-note">Invertí en dólares, propiedades o tu propio negocio. Con el 1er premio empezás a generar pasivos.</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-badge bb-silver">🥈 2do Premio</div>
+          <div class="buy-card-num">07</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80&auto=format&fit=crop" alt="Casa" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🏗️ Construcción</span>
+            <div class="buy-name">Refacción del hogar</div>
+            <div class="buy-price">$1.500.000 – $3.000.000</div>
+            <div class="buy-note">Remodelá tu casa completa: pisos, baños, cocina, aberturas. El 2do premio alcanza para todo.</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-badge bb-gold">🏆 1er Premio</div>
+          <div class="buy-card-num">08</div>
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&auto=format&fit=crop" alt="Negocio" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🏪 Emprendimiento</span>
+            <div class="buy-name">Tu propio negocio</div>
+            <div class="buy-price">Independencia total</div>
+            <div class="buy-note">Abrí tu local, franquicia o emprendimiento digital. Con el 1er premio tenés el capital inicial.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="carousel-nav">
+      <button class="cnav-btn" id="carPrev" onclick="carNav(-1)">‹</button>
+      <div class="carousel-dots" id="carDots"></div>
+      <button class="cnav-btn" id="carNext" onclick="carNav(1)">›</button>
+    </div>
+  </section>
+
+  <!-- ═══════ TRUST ═══════ -->
+  <section class="trust-section">
+    <span class="s-eye">⚡ ¿Por qué elegirnos?</span>
+    <h2 class="s-h">Confianza que <em>se demuestra</em></h2>
+    <div class="trust-grid">
+      <div class="tc">
+        <div class="tc-big g">248+</div>
+        <div class="tc-title">Sorteos Realizados</div>
+        <div class="tc-desc">Más de 248 ediciones completadas con éxito. Cada sorteo fue transmitido en vivo y auditado por los participantes en tiempo real.</div>
+        <span class="tc-tag ttg">▶ Historial público</span>
+      </div>
+      <div class="tc">
+        <div class="tc-big t" id="tcPaid">$2.482M</div>
+        <div class="tc-title">En Premios Pagados</div>
+        <div class="tc-desc">El 100% de los premios acreditados dentro de las 24 hs. Transferencia bancaria, Mercado Pago o CBU a elección del ganador.</div>
+        <span class="tc-tag ttgo">✓ Pagos en 24 hs</span>
+      </div>
+      <div class="tc">
+        <div class="tc-big r">100%</div>
+        <div class="tc-title">Sorteos Transparentes</div>
+        <div class="tc-desc">Lista de participantes pública antes, durante y después. Más chances = más bolillas. El bombo gira automáticamente al completar los cupos.</div>
+        <span class="tc-tag ttg">🔒 Verificado en vivo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ HOW IT WORKS ═══════ -->
+  <section class="how-section">
+    <span class="s-eye">📋 Cómo funciona</span>
+    <h2 class="s-h" style="margin-bottom:44px">Simple, claro <em>y verificable</em></h2>
+    <div class="how-grid">
+      <div class="how-step"><div class="hs-orb lit">🎟️</div><div class="hs-title">Elegís tu pack</div><div class="hs-desc">Más chances = más bolillas en el bombo = más probabilidades de ganar el gran premio.</div></div>
+      <div class="how-step"><div class="hs-orb lit">📝</div><div class="hs-title">Te inscribís</div><div class="hs-desc">Completás tu nombre y WhatsApp. Tu nombre queda en la lista pública antes del sorteo.</div></div>
+      <div class="how-step"><div class="hs-orb lit">🎰</div><div class="hs-title">Sorteo automático</div><div class="hs-desc">Al completar los 100 cupos el bombo gira solo, en vivo, frente a todos los participantes.</div></div>
+      <div class="how-step"><div class="hs-orb lit">💸</div><div class="hs-title">Premio en 24 hs</div><div class="hs-desc">Los ganadores reciben notificación por WhatsApp y el dinero en menos de 24 horas.</div></div>
+    </div>
+  </section>
+
+  <!-- ═══════ PACKAGES ═══════ -->
+  <section class="pkg-section">
+    <span class="s-eye">🎟️ Paquetes de participación</span>
+    <h2 class="s-h">Elegí tus <em>chances</em></h2>
+    <div class="pkg-grid">
+      <div class="pkg" onclick="selPkg(0)"><div class="pkg-chk"></div>
+        <div class="pkg-n">1 <small>chance</small></div><div class="pkg-lbl">Para probar suerte</div>
+        <div class="pkg-price">$2.000</div><div class="pkg-pp">$2.000 <b>por chance</b></div>
+        <div class="pkg-prob">Prob: <b>~1%</b></div>
+      </div>
+      <div class="pkg" onclick="selPkg(1)"><div class="pkg-chk"></div>
+        <div class="pkg-b pb-pop">Popular</div>
+        <div class="pkg-n">3 <small>chances</small></div><div class="pkg-lbl">Triplicá tu suerte</div>
+        <div class="pkg-price">$5.000</div><div class="pkg-pp"><b>$1.667</b> por chance</div>
+        <div class="pkg-save">Ahorrás $1.000</div><div class="pkg-prob">Prob: <b>~3%</b></div>
+      </div>
+      <div class="pkg" onclick="selPkg(2)"><div class="pkg-chk"></div>
+        <div class="pkg-n">6 <small>chances</small></div><div class="pkg-lbl">El más elegido</div>
+        <div class="pkg-price">$10.000</div><div class="pkg-pp"><b>$1.667</b> por chance</div>
+        <div class="pkg-save">Ahorrás $2.000</div><div class="pkg-prob">Prob: <b>~6%</b></div>
+      </div>
+      <div class="pkg" onclick="selPkg(3)"><div class="pkg-chk"></div>
+        <div class="pkg-b pb-best">Mejor valor</div>
+        <div class="pkg-n">10 <small>chances</small></div><div class="pkg-lbl">Máximas posibilidades</div>
+        <div class="pkg-price">$12.000</div><div class="pkg-pp"><b>$1.200</b> por chance</div>
+        <div class="pkg-save">Ahorrás $8.000</div><div class="pkg-prob">Prob: <b>~10%</b></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding:14px 20px;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);border-radius:14px;font-size:14px;color:var(--sub);font-weight:600">
+      💡 Con el pack de <b style="color:var(--g2)">3 chances o más</b> también <b style="color:var(--red3)">activás el premio</b> que ganaste en la ruleta. ¡No lo pierdas!
+    </div>
+  </section>
+
+  <!-- ═══════ FORM ═══════ -->
+  <div class="form-section" id="formSection">
+    <!-- BANNER "UN PASO MÁS" — visible solo cuando hay bonus -->
+    <div id="formBonusBanner" style="display:none;margin-bottom:24px;border-radius:16px;overflow:hidden;position:relative">
+      <div style="background:linear-gradient(135deg,rgba(0,80,40,.35),rgba(0,201,167,.12));border:1px solid rgba(0,201,167,.4);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div style="font-size:36px;flex-shrink:0;animation:halopulse 1.5s ease-in-out infinite alternate">🎁</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:3px">¡ESTÁS A UN PASO!</div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--text);line-height:1.1">Tenés <span id="bannerBonusCount" style="color:var(--teal)">0</span> chances ganadas en la ruleta listas para activar</div>
+          <div style="font-size:12px;color:var(--sub);margin-top:4px">Completá tu inscripción con <strong style="color:var(--g2)">3 chances o más</strong> y se suman automáticamente al bombo</div>
+        </div>
+        <div style="background:rgba(0,201,167,.12);border:1px solid rgba(0,201,167,.3);border-radius:12px;padding:12px 18px;text-align:center;flex-shrink:0">
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal)">Total en el bombo</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--teal);line-height:1" id="bannerTotalChances">—</div>
+          <div style="font-size:10px;color:var(--sub)">bolillas 🎰</div>
+        </div>
+      </div>
+    </div>
+    <h3 class="f-h">Completá tu inscripción</h3>
+    <p class="f-sub">Tu información es privada. Nombre, provincia y ciudad aparecen en la lista pública. Te notificamos por WhatsApp si ganás.</p>
+    <div class="f-grid">
+
+      <!-- FOTO DE PERFIL -->
+      <div class="fg full">
+        <label class="flbl">Foto de perfil <span style="color:var(--teal);font-size:9px;letter-spacing:1px">(OPCIONAL)</span></label>
+        <div class="photo-upload-wrap" onclick="document.getElementById('photoInput').click()">
+          <div class="photo-preview" id="photoPreview">👤</div>
+          <div class="photo-txt">
+            <div class="photo-lbl">Subir foto de perfil</div>
+            <div class="photo-sub">Se mostrará en la lista pública · JPG, PNG · Máx. 2 MB</div>
+          </div>
+          <div class="photo-btn">📷 Elegir foto</div>
+        </div>
+        <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+      </div>
+
+      <div class="fg"><label class="flbl">Nombre</label>
+        <input type="text" class="fi" id="fN" placeholder="Tu nombre" maxlength="30" oninput="valF(this)">
+        <span class="fhint" id="hN"> </span></div>
+      <div class="fg"><label class="flbl">Apellido</label>
+        <input type="text" class="fi" id="fA" placeholder="Tu apellido" maxlength="30" oninput="valF(this)">
+        <span class="fhint" id="hA"> </span></div>
+      <div class="fg"><label class="flbl">WhatsApp</label>
+        <input type="tel" class="fi" id="fT" placeholder="Ej: 3512345678" maxlength="15" oninput="valTel(this)">
+        <span class="fhint" id="hT">Para notificarte si ganás 🏆</span></div>
+      <div class="fg"><label class="flbl">CBU / Alias (opcional)</label>
+        <input type="text" class="fi" id="fC" placeholder="Para recibir el premio" maxlength="40">
+        <span class="fhint">Podés completarlo después</span></div>
+
+      <!-- PROVINCIA -->
+      <div class="fg"><label class="flbl">Provincia</label>
+        <select class="fi" id="fProv" onchange="valProv()">
+          <option value="">— Seleccioná tu provincia —</option>
+          <option>Buenos Aires</option><option>CABA</option><option>Catamarca</option>
+          <option>Chaco</option><option>Chubut</option><option>Córdoba</option>
+          <option>Corrientes</option><option>Entre Ríos</option><option>Formosa</option>
+          <option>Jujuy</option><option>La Pampa</option><option>La Rioja</option>
+          <option>Mendoza</option><option>Misiones</option><option>Neuquén</option>
+          <option>Río Negro</option><option>Salta</option><option>San Juan</option>
+          <option>San Luis</option><option>Santa Cruz</option><option>Santa Fe</option>
+          <option>Santiago del Estero</option><option>Tierra del Fuego</option><option>Tucumán</option>
+        </select>
+        <span class="fhint" id="hProv"> </span>
+      </div>
+
+      <!-- CIUDAD -->
+      <div class="fg"><label class="flbl">Ciudad / Localidad</label>
+        <input type="text" class="fi" id="fCity" placeholder="Tu ciudad o localidad" maxlength="40" oninput="valCity(this)">
+        <span class="fhint" id="hCity"> </span></div>
+
+      <!-- MENSAJE -->
+      <div class="fg full">
+        <label class="flbl">💬 ¿En qué usarías el dinero? <span style="color:var(--teal);font-size:9px;letter-spacing:1px">(OPCIONAL · SE MUESTRA PÚBLICAMENTE)</span></label>
+        <textarea class="fi" id="fMsg" placeholder="Ej: Compraría un auto 0km para mi familia, pagaría la universidad de mis hijos..." maxlength="220" rows="3" style="resize:none;line-height:1.55;padding:14px 16px" oninput="this.value=this.value.slice(0,220)"></textarea>
+        <span class="fhint" style="text-align:right;display:block" id="hMsg">Máx. 220 caracteres · aparecerá en la sección "Sueños de los participantes"</span>
+      </div>
+
+      <div class="fg full"><label class="flbl">Resumen de inscripción</label>
+        <div class="sum-box">
+          <div class="sum-row"><span class="sk">Pack elegido</span><span class="sv" id="sumP">— Elegí un pack arriba —</span></div>
+          <div class="sum-row"><span class="sk">Chances compradas</span><span class="sv" id="sumC">—</span></div>
+          <div class="sum-row sum-bonus-row" id="sumBonusRow" style="display:none">
+            <span class="sk" style="color:var(--teal);display:flex;align-items:center;gap:5px"><span style="font-size:14px">🎁</span>Chances bonus (ruleta)</span>
+            <span class="sv" id="sumBonus" style="color:var(--teal)">—</span>
+          </div>
+          <div class="sum-row sum-total-row" id="sumTotalRow" style="display:none;border-top:1px solid rgba(212,168,67,.2);margin-top:6px;padding-top:8px">
+            <span class="sk" style="color:var(--g2);font-weight:700;display:flex;align-items:center;gap:5px"><span style="font-size:14px">🎰</span>Total bolillas en el bombo</span>
+            <span class="sv hi" id="sumTotalChances" style="color:var(--g2);font-size:19px;font-family:'JetBrains Mono',monospace">—</span>
+          </div>
+          <div class="sum-row" style="margin-top:6px"><span class="sk">Total a pagar</span><span class="sv hi" id="sumT">—</span></div>
+        </div>
+        <!-- Mini urgency bajo el resumen -->
+        <div id="sumUrgency" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;font-size:12px;color:#FF8A80;font-weight:600;text-align:center">
+          ⏳ ¡Quedan solo <strong id="sumCuposLeft" style="color:#FFD740">15</strong> cupos! El sorteo arranca automáticamente al completarse.
+        </div>
+      </div>
+      <div class="fg full">
+        <div class="terms-row">
+          <div class="chk" id="chkT" onclick="toggleTerms()"></div>
+          <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que el sorteo se realiza en vivo automáticamente al completar los 100 cupos, y los premios se pagan dentro de las 24 hs.</div>
+        </div>
+      </div>
+    </div>
+    <button class="sub-btn" id="subBtn" onclick="submitForm()" disabled>🎟️ CONFIRMAR INSCRIPCIÓN</button>
+    <div class="sec-row">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--teal)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Datos protegidos · SSL Encriptado · No compartimos tu información
+    </div>
+    <div class="pay-row">
+      <span class="pm">🏦 Transferencia</span>
+      <span class="pm">📱 Mercado Pago</span>
+      <span class="pm">💳 CBU / Alias</span>
+      <span class="pm">📲 Rapipago</span>
+    </div>
+  </div>
+
+  <!-- ═══════ FULL NOTICE ═══════ -->
+  <div class="full-notice" id="fullNotice">
+    <div style="font-size:36px">🔒</div>
+    <h3 class="fn-h">¡CUPOS COMPLETOS!</h3>
+    <p class="fn-p">Los 100 cupos están ocupados. El sorteo comenzó automáticamente en vivo. ¡Seguilo en tiempo real!</p>
+  </div>
+
+  <!-- ═══════ TABLE ═══════ -->
+  <div class="list-section">
+    <span class="s-eye">👥 Lista pública de participantes</span>
+    <h2 class="s-h" style="margin-bottom:24px">Inscriptos en <em>esta edición</em></h2>
+    <div class="ptbl">
+      <div class="tblhd"><div class="th">#</div><div class="th">Foto</div><div class="th">Nombre</div><div class="th col-loc">Ubicación</div><div class="th" title="Total = compradas + bonus ruleta">🎟️ Total</div><div class="th col-time">Hora</div></div>
+      <div class="tblbd" id="tblBody"><div class="empty-st"><span class="ei">🎟️</span>Aún no hay participantes. ¡Sé el primero!</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════ SUEÑOS ═══════ -->
+  <div class="dreams-section" id="dreamsSection" style="display:none">
+    <span class="s-eye">💬 Sueños de los participantes</span>
+    <h2 class="s-h" style="margin-bottom:28px">¿En qué usarían <em>el dinero</em>?</h2>
+    <div class="dreams-grid" id="dreamsGrid"></div>
+  </div>
+
+  <!-- ═══════ WINNERS ═══════ -->
+  <div class="winners-section" id="winnersSection">
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-size:64px;animation:tpop .9s cubic-bezier(.34,1.56,.64,1) both">🏆</div>
+      <span class="s-eye" style="display:block;text-align:center;margin-top:8px">Resultados Oficiales</span>
+      <h2 class="s-h" style="text-align:center;margin-bottom:0">Ganadores de <em>esta edición</em></h2>
+    </div>
+    <div id="winnersList"></div>
+    <button class="new-draw-btn" id="newDrawBtn" onclick="startNew()" style="display:none">
+      🎲 INICIAR EDICIÓN #<span id="nextEd">2</span> — NUEVO SORTEO
+    </button>
+  </div>
+
+  <!-- ═══════ ARCHIVE ═══════ -->
+  <div class="archive-section" id="archSection">
+    <span class="s-eye">📁 Historial completo</span>
+    <h2 class="s-h" style="margin-bottom:28px">Archivo de <em>ganadores</em></h2>
+    <div id="archList"></div>
+  </div>
+
+</div>
+</div>
+
+<footer>
+  <div class="W">
+    <div>SORTEO ÉLITE 2025 · <strong>Transparente · Verificado · En Vivo</strong></div>
+    <div class="ft-row">
+      <span class="fti">🔒 Sorteos verificados en vivo</span>
+      <span class="fti">✅ Premios pagados en 24 hs</span>
+      <span class="fti">📋 Lista de participantes pública</span>
+      <span class="fti">⭐ 4.9/5 en 800+ reseñas</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+@keyframes tpop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
+
+/* ══ DREAMS SECTION ══ */
+.dreams-section{padding:60px 0}
+.dreams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.dream-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:22px 20px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;animation:prize-pop .5s cubic-bezier(.34,1.56,.64,1) both}
+.dream-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g2),transparent)}
+.dream-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.dream-quote{font-size:32px;line-height:1;margin-bottom:10px}
+.dream-msg{font-size:14px;color:var(--text);line-height:1.65;font-style:italic;margin-bottom:14px}
+.dream-author{display:flex;align-items:center;gap:10px;border-top:1px solid var(--bdr);padding-top:12px}
+.dream-av{width:34px;height:34px;border-radius:50%;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.25);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden}
+.dream-av img{width:100%;height:100%;object-fit:cover}
+.dream-inf{flex:1;min-width:0}
+.dream-name{font-size:13px;font-weight:700;color:var(--g2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dream-loc{font-size:11px;color:var(--sub)}
+.dream-ch{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--teal);background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.2);border-radius:20px;padding:3px 10px;white-space:nowrap;flex-shrink:0}
+
+/* ══ SUM-BOX mejoras ══ */
+.sum-bonus-row .sk{display:flex;align-items:center;gap:5px}
+.sum-total-row{background:rgba(212,168,67,.04);border-radius:8px;padding:8px 10px !important;margin:0 -6px}
+</style>
+
+<script>
+/* ══════════════════════════════════════════════
+   CONFIG
+══════════════════════════════════════════════ */
+const MAX=100;
+const PKGS=[
+  {label:'1 Chance',   chances:1,  price:2000},
+  {label:'3 Chances',  chances:3,  price:5000},
+  {label:'6 Chances',  chances:6,  price:10000},
+  {label:'10 Chances', chances:10, price:12000},
+];
+const PRIZES=[
+  {label:'1er Premio',  amount:'$6.000.000', icon:'🏆', cls:'gw', val:6000000},
+  {label:'2do Premio',  amount:'$3.000.000', icon:'🥈', cls:'sw', val:3000000},
+  {label:'3er Premio',  amount:'$1.000.000', icon:'🥉', cls:'bw', val:1000000},
+  {label:'Premio Sorpresa', amount:'$10.000', icon:'⚡', cls:'ew', val:10000},
+];
+const PRIZE_TOTAL=10010000;
+const DEMO=[
+  {name:'Lucía M.',    chances:6,  bonusChances:1, totalChances:7,  time:'09:02', province:'Córdoba',       city:'Córdoba',          msg:'Compraría un auto 0km para llevar a mis hijos al colegio sin depender de nadie.'},
+  {name:'Martín R.',  chances:10, bonusChances:3, totalChances:13, time:'09:05', province:'Buenos Aires',   city:'La Plata',         msg:'Pagaría la deuda de mi casa y empezaría un pequeño negocio con mi hermano.'},
+  {name:'Sofía G.',   chances:3,  bonusChances:1, totalChances:4,  time:'09:08', province:'Santa Fe',       city:'Rosario',          msg:''},
+  {name:'Diego F.',   chances:6,  bonusChances:0, totalChances:6,  time:'09:11', province:'Mendoza',        city:'Mendoza',          msg:'Me compraría una moto y ahorraría el resto para la universidad de mi hija.'},
+  {name:'Valentina P.',chances:6, bonusChances:3, totalChances:9,  time:'09:15', province:'CABA',           city:'Buenos Aires',     msg:'Viajaría con mi familia a Europa, algo que siempre soñamos y nunca pudimos.'},
+  {name:'Carlos T.',  chances:3,  bonusChances:0, totalChances:3,  time:'09:18', province:'Tucumán',        city:'San Miguel',       msg:''},
+  {name:'Ana L.',     chances:6,  bonusChances:1, totalChances:7,  time:'09:22', province:'Salta',          city:'Salta',            msg:'Remodelaría la casa de mis padres que está muy deteriorada. Se lo merecen todo.'},
+  {name:'Federico S.',chances:6,  bonusChances:3, totalChances:9,  time:'09:26', province:'Córdoba',        city:'Villa Carlos Paz', msg:'Abriría un local de ropa con mi pareja. Tenemos el proyecto hace 3 años.'},
+  {name:'Camila B.',  chances:3,  bonusChances:1, totalChances:4,  time:'09:30', province:'Entre Ríos',     city:'Paraná',           msg:'Compraría los libros y equipos para terminar mi carrera de enfermería.'},
+  {name:'Rodrigo V.', chances:6,  bonusChances:0, totalChances:6,  time:'09:34', province:'Buenos Aires',   city:'Mar del Plata',    msg:''},
+  {name:'Florencia A.',chances:3, bonusChances:3, totalChances:6,  time:'09:38', province:'Neuquén',        city:'Neuquén',          msg:'Pagaría el tratamiento médico que necesita mi mamá y que no cubre la obra social.'},
+  {name:'Pablo N.',   chances:3,  bonusChances:0, totalChances:3,  time:'09:41', province:'Chaco',          city:'Resistencia',      msg:''},
+  {name:'Milagros C.',chances:3,  bonusChances:1, totalChances:4,  time:'09:45', province:'San Juan',       city:'San Juan',         msg:'Terminaría de construir el cuarto de mi bebé que está por nacer. 🍼'},
+  {name:'Tomás H.',   chances:1,  bonusChances:0, totalChances:1,  time:'09:48', province:'Misiones',       city:'Posadas',          msg:''},
+  {name:'Romina D.',  chances:3,  bonusChances:0, totalChances:3,  time:'09:52', province:'Santa Cruz',     city:'Río Gallegos',     msg:'Invertiría en dólares y usaría las ganancias para vivir un poco más tranquila.'},
+];
+const TICKER=[
+  '🏆 Martín R. ganó $6.000.000 — Edición anterior',
+  '🥈 Valentina P. ganó $3.000.000 hace 3 días',
+  '✅ 248 sorteos realizados con éxito total',
+  '💸 $2.482.480.000 en premios pagados',
+  '🔒 100% de premios pagados en menos de 24 hs',
+  '👥 +3.400 participantes en 2025',
+  '⚡ Florencia A. ganó el Premio Sorpresa',
+  '🎰 Sorteo verificado en vivo por todos',
+  '⭐ Calificación 4.9/5 en más de 800 reseñas',
+  '📲 Pagos por Mercado Pago, CBU, Transferencia',
+];
+
+/* ══════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════ */
+let participants=[...DEMO];
+let totalChances=participants.reduce((a,p)=>a+p.chances,0);
+let selPkgIdx=null,termsOk=false;
+let drawPhase=0,isDrawing=false,drawRunning=false;
+let winners=[],edition=1,archive=[],totalPaid=2482480000;
+let cdTarget=null,cdInt=null;
+
+/* ══════════════════════════════════════════════
+   PARTICLES
+══════════════════════════════════════════════ */
+(function initParticles(){
+  const c=document.getElementById('particles-canvas');
+  const ctx=c.getContext('2d');
+  let W=window.innerWidth,H=window.innerHeight;
+  c.width=W;c.height=H;
+  window.addEventListener('resize',()=>{W=window.innerWidth;H=window.innerHeight;c.width=W;c.height=H;});
+  const pts=Array.from({length:55},()=>({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
+    r:Math.random()*1.5+.3,
+    op:Math.random()*.35+.05,
+    col:Math.random()>.5?`rgba(212,168,67,VAR)`:`rgba(0,201,167,VAR)`
+  }));
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.col.replace('VAR',p.op);ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══════════════════════════════════════════════
+   BONUS WHEEL — PROFESSIONAL CASINO GRADE
+══════════════════════════════════════════════ */
+
+// ── WHEEL PRIZE SEGMENTS — exactamente 6 segmentos únicos ──
+// El random SIEMPRE elige índice 0 (1 chance) o índice 1 (3 chances).
+// Los otros 4 son visuales pero nunca sorteados (w:0).
+const BSEGMENTS = [
+  { label:'1 CHANCE',    icon:'⭐', chances:1,    cash:0,      c1:'#0A1030', c2:'#091828', rim:'#4488FF', txt:'#88BBFF', w:5, type:'mid1'    },
+  { label:'3 CHANCES',   icon:'🎁', chances:3,    cash:0,      c1:'#081818', c2:'#051010', rim:'#00C9A7', txt:'#00E8C0', w:5, type:'mid3'    },
+  { label:'10 CHANCES',  icon:'🔥', chances:10,   cash:0,      c1:'#1A0A00', c2:'#100600', rim:'#FF8C00', txt:'#FFB347', w:0, type:'big'     },
+  { label:'100 CHANCES', icon:'🏆', chances:100,  cash:0,      c1:'#1A1000', c2:'#120C00', rim:'#FFD700', txt:'#FFE066', w:0, type:'jackpot' },
+  { label:'1.000 CH.',   icon:'💎', chances:1000, cash:0,      c1:'#0A2010', c2:'#0D3518', rim:'#00FF88', txt:'#00FF88', w:0, type:'legend'  },
+  { label:'$100.000',    icon:'💰', chances:0,    cash:100000, c1:'#2A0800', c2:'#1A0400', rim:'#FF6B00', txt:'#FF9944', w:0, type:'mega'    },
+];
+const N_SEGS = BSEGMENTS.length; // 6 — uno por premio, sin repetir
+
+// Pool de random — SOLO índices con w > 0 (siempre 1 o 3 chances)
+const weightedPool = [];
+BSEGMENTS.forEach((s,i)=>{
+  for(let w=0;w<s.w;w++) weightedPool.push(i);
+});
+
+// State
+let bwAngle = 0;          // current angle (radians)
+let bwSpeed = 0;
+let bwSpinning = false;
+let bwTargetAngle = 0;    // target final angle
+let bwAnimId = null;
+let freeSpins = 1;        // 1 tiro gratis inicial
+let bonusTotal = 0;       // accumulated bonus chances
+let lastResult = null;    // last segment index
+let pendingAdd = false;   // waiting for user to click "add"
+let wheelUnlocked = false; // se desbloquea al comprar 3+ chances
+let pendingWheelResult = null; // resultado ganado pero sin activar
+const sparks2 = [];
+let bwPhase = 'decel';    // 'accel'|'coast'|'decel'
+let bwCoastTime = 0;
+let bwStartTime = 0;
+let bwDuration = 0;
+let bwStartAngle = 0;
+let bwTurns = 0;
+let needleAngle = 0;      // needle wobble
+let tickSounds = [];      // tick timestamps
+
+// ── CANVAS SETUP ──────────────────────────────────────────────────
+function initBonusWheel(){
+  const wc = document.getElementById('wheelCanvas');
+  const sc = document.getElementById('sparksCanvas');
+  const lc = document.getElementById('ledDotsCanvas');
+  if(!wc) return;
+  const ctx  = wc.getContext('2d');
+  const sctx = sc.getContext('2d');
+  const lctx = lc.getContext('2d');
+  const WS = 380, CX = 190, CY = 190, R = 180, INNER_R = 30;
+  const arc = (Math.PI * 2) / N_SEGS;
+
+  // Size sparks canvas
+  sc.width = wc.width + 200; sc.height = wc.height + 200;
+
+  // LED dots canvas size matches bezel area
+  lc.width = WS + 28; lc.height = WS + 28;
+  const LCX = lc.width/2, LCY = lc.height/2, LED_R = (WS + 28)/2 - 7;
+  const N_LEDS = 60;
+
+  // ── Draw wheel ──────────────────────────────────────────
+  function drawWheel(a){
+    ctx.clearRect(0,0,WS,WS);
+
+    // Base shadow
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=32;
+    ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);
+    ctx.fillStyle='#050200';ctx.fill();
+    ctx.restore();
+
+    // Draw each segment
+    for(let i=0;i<N_SEGS;i++){
+      const seg = BSEGMENTS[i];
+      const s = a + arc*i, e = s + arc;
+      const mid_a = s + arc/2;
+
+      // Radial gradient per segment
+      const grd = ctx.createRadialGradient(CX,CY,4,CX,CY,R);
+      grd.addColorStop(0,  seg.c1);
+      grd.addColorStop(.55, seg.c2);
+      grd.addColorStop(1,   adjustColor(seg.c2, -15));
+
+      ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,s,e);ctx.closePath();
+      ctx.fillStyle = grd; ctx.fill();
+
+      // Edge highlight stripe (outer rim color per segment)
+      ctx.save();
+      ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,s,e);ctx.closePath();
+      ctx.clip();
+      ctx.beginPath();ctx.arc(CX,CY,R,s,e);
+      ctx.lineWidth=6; ctx.strokeStyle=seg.rim+'55'; ctx.stroke();
+      ctx.restore();
+
+      // Divider lines
+      ctx.beginPath();
+      ctx.moveTo(CX + Math.cos(s)*8, CY + Math.sin(s)*8);
+      ctx.lineTo(CX + Math.cos(s)*R, CY + Math.sin(s)*R);
+      ctx.strokeStyle='rgba(0,0,0,.55)';ctx.lineWidth=1.5;ctx.stroke();
+
+      // Decorative arc at 75% radius
+      ctx.beginPath();
+      ctx.arc(CX,CY,R*0.78,s+0.02,e-0.02);
+      ctx.strokeStyle=seg.rim+'22';ctx.lineWidth=1;ctx.stroke();
+
+      // Icon
+      const iconR = R * 0.60;
+      const ix = CX + Math.cos(mid_a)*iconR;
+      const iy = CY + Math.sin(mid_a)*iconR;
+      ctx.save();
+      ctx.translate(ix,iy);
+      ctx.rotate(mid_a + Math.PI/2);
+      if(seg.type!=='none'){
+        ctx.shadowColor=seg.rim; ctx.shadowBlur=10;
+      }
+      ctx.font = `${N_SEGS<=8?'26':'16'}px sans-serif`;
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(seg.icon, 0, -10);
+      ctx.restore();
+
+      // Text label
+      const labelR = R * 0.83;
+      const lx = CX + Math.cos(mid_a)*labelR;
+      const ly = CY + Math.sin(mid_a)*labelR;
+      ctx.save();
+      ctx.translate(lx,ly);
+      ctx.rotate(mid_a + Math.PI/2);
+      ctx.shadowColor = seg.rim;
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = seg.txt;
+      const fontSize = N_SEGS<=8 ? (seg.label.length > 8 ? '12' : '14') : (seg.label.length > 10 ? '7.5' : seg.label.length > 6 ? '9' : '10');
+      ctx.font = `bold ${fontSize}px 'Rajdhani',sans-serif`;
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      // Word-wrap for long labels
+      const words = seg.label.split(' ');
+      if(words.length>2){
+        ctx.fillText(words.slice(0,2).join(' '),0,-5);
+        ctx.fillText(words.slice(2).join(' '),0,5);
+      } else {
+        ctx.fillText(seg.label,0,0);
+      }
+      ctx.restore();
+    }
+
+    // Outer rim ring
+    const rimGrd = ctx.createLinearGradient(CX-R,CY,CX+R,CY);
+    rimGrd.addColorStop(0,'#5A3800');rimGrd.addColorStop(.25,'#C8960A');
+    rimGrd.addColorStop(.5,'#FFE066');rimGrd.addColorStop(.75,'#C8960A');rimGrd.addColorStop(1,'#5A3800');
+    ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);
+    ctx.strokeStyle=rimGrd;ctx.lineWidth=5;ctx.stroke();
+
+    // Gold metal studs
+    const N_STUDS = N_SEGS * 2;
+    for(let i=0;i<N_STUDS;i++){
+      const sa = a + i*(Math.PI*2/N_STUDS);
+      const sx = CX + Math.cos(sa)*(R-3), sy = CY + Math.sin(sa)*(R-3);
+      const sg2 = ctx.createRadialGradient(sx-0.5,sy-0.5,0,sx,sy,2.5);
+      sg2.addColorStop(0,'#FFFACC');sg2.addColorStop(1,'#A07010');
+      ctx.beginPath();ctx.arc(sx,sy,2.5,0,Math.PI*2);
+      ctx.fillStyle=sg2;ctx.fill();
+    }
+
+    // Inner circle decoration
+    ctx.beginPath();ctx.arc(CX,CY,INNER_R+14,0,Math.PI*2);
+    ctx.strokeStyle='rgba(212,168,67,.2)';ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.arc(CX,CY,INNER_R+8,0,Math.PI*2);
+    ctx.strokeStyle='rgba(212,168,67,.1)';ctx.lineWidth=1;ctx.stroke();
+
+    // Center hub cover (drawn by CSS div, just clear area)
+    ctx.beginPath();ctx.arc(CX,CY,INNER_R,0,Math.PI*2);
+    ctx.fillStyle='#0A0600';ctx.fill();
+
+    // Motion streaks when fast
+    if(bwSpeed>0.10){
+      const alpha = Math.min((bwSpeed-0.10)*2.5, 0.3);
+      ctx.save();ctx.globalAlpha=alpha;
+      for(let i=0;i<N_SEGS;i++){
+        const sa = a + arc*i + arc/2;
+        ctx.beginPath();
+        ctx.moveTo(CX+Math.cos(sa)*24, CY+Math.sin(sa)*24);
+        ctx.lineTo(CX+Math.cos(sa)*R*0.9, CY+Math.sin(sa)*R*0.9);
+        ctx.strokeStyle='rgba(255,210,0,.7)';ctx.lineWidth=0.8;ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // Highlight winning segment if stopped (needle at bottom = +PI/2)
+    if(!bwSpinning && lastResult!==null){
+      const seg=BSEGMENTS[lastResult];
+      // Find which segment is under the bottom needle
+      const arc2=(Math.PI*2)/N_SEGS;
+      const bottomA = Math.PI/2 - bwAngle;
+      const segAtBottom = Math.floor(((bottomA%(Math.PI*2))+(Math.PI*2))%(Math.PI*2)/arc2)%N_SEGS;
+      const s2=bwAngle+arc2*segAtBottom, e2=s2+arc2;
+      ctx.save();
+      ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,s2,e2);ctx.closePath();
+      ctx.strokeStyle=seg.rim;ctx.lineWidth=3;
+      ctx.shadowColor=seg.rim;ctx.shadowBlur=18;
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  // ── LED dots ring ──────────────────────────────────────────
+  let ledPhase = 0;
+  function drawLEDs(t){
+    lctx.clearRect(0,0,lc.width,lc.height);
+    ledPhase = t * 0.003;
+    const speed_factor = bwSpinning ? Math.min(bwSpeed*20,1) : 0;
+    for(let i=0;i<N_LEDS;i++){
+      const a2 = (i/N_LEDS)*Math.PI*2 + ledPhase*(1+speed_factor*3);
+      const lx2 = LCX + Math.cos(a2)*LED_R;
+      const ly2 = LCY + Math.sin(a2)*LED_R;
+      const pulse = 0.5 + 0.5*Math.sin(ledPhase*4 + i*0.4 + speed_factor*10);
+      const r2 = 2.2 + pulse*1.8 + speed_factor*2;
+      const hue = (i/N_LEDS)*360 + ledPhase*30;
+      const col = i%3===0 ? `hsla(${hue},90%,65%,${0.5+pulse*0.5})`
+                : i%3===1 ? `rgba(255,215,0,${0.3+pulse*0.7})`
+                :           `rgba(255,80,80,${0.3+pulse*0.5})`;
+      const gLED = lctx.createRadialGradient(lx2,ly2,0,lx2,ly2,r2);
+      gLED.addColorStop(0,'rgba(255,255,255,.9)');
+      gLED.addColorStop(0.4,col);
+      gLED.addColorStop(1,'rgba(0,0,0,0)');
+      lctx.beginPath();lctx.arc(lx2,ly2,r2,0,Math.PI*2);
+      lctx.fillStyle=gLED;lctx.fill();
+      // glow
+      lctx.beginPath();lctx.arc(lx2,ly2,r2*2.5,0,Math.PI*2);
+      const gGlow=lctx.createRadialGradient(lx2,ly2,0,lx2,ly2,r2*2.5);
+      gGlow.addColorStop(0,col.replace(/[\d.]+\)$/,'0.3)'));
+      gGlow.addColorStop(1,'rgba(0,0,0,0)');
+      lctx.fillStyle=gGlow;lctx.fill();
+    }
+  }
+
+  // ── Sparks ──────────────────────────────────────────────────
+  const SCX = (sc.width)/2, SCY = (sc.height)/2, SPARK_R = 190+100;
+  function drawSparks2(){
+    sctx.clearRect(0,0,sc.width,sc.height);
+    for(let i=sparks2.length-1;i>=0;i--){
+      const sp=sparks2[i];
+      sp.x+=sp.vx;sp.y+=sp.vy;sp.vy+=0.15;sp.vx*=0.99;
+      sp.life--;sp.r*=0.95;
+      if(sp.life<=0||sp.r<0.3){sparks2.splice(i,1);continue;}
+      const alpha=sp.life/sp.maxLife;
+      // trail
+      sctx.beginPath();
+      sctx.moveTo(sp.x,sp.y);
+      sctx.lineTo(sp.x-sp.vx*3,sp.y-sp.vy*3);
+      sctx.strokeStyle=`rgba(${sp.col},${alpha*0.4})`;
+      sctx.lineWidth=sp.r;sctx.stroke();
+      // dot
+      const gS=sctx.createRadialGradient(sp.x,sp.y,0,sp.x,sp.y,sp.r*2);
+      gS.addColorStop(0,`rgba(255,255,220,${alpha})`);
+      gS.addColorStop(0.4,`rgba(${sp.col},${alpha})`);
+      gS.addColorStop(1,'rgba(0,0,0,0)');
+      sctx.beginPath();sctx.arc(sp.x,sp.y,sp.r*2,0,Math.PI*2);
+      sctx.fillStyle=gS;sctx.fill();
+    }
+  }
+  function spawnSparks(n, col, fromAngle){
+    const a2 = fromAngle !== undefined ? fromAngle : Math.random()*Math.PI*2;
+    const sx = SCX + Math.cos(a2)*190;
+    const sy = SCY + Math.sin(a2)*190;
+    for(let i=0;i<n;i++){
+      const sp2 = 1.5+Math.random()*3.5;
+      const da = (Math.random()-0.5)*0.8;
+      sparks2.push({
+        x:sx+Math.cos(a2+da)*6,y:sy+Math.sin(a2+da)*6,
+        vx:(Math.cos(a2+da)*sp2+(Math.random()-.5)*2),
+        vy:(Math.sin(a2+da)*sp2+(Math.random()-.5)*2),
+        r:1.5+Math.random()*2.5,life:20+Math.random()*25,maxLife:45,col:col||'255,215,0'
+      });
+    }
+  }
+  function celebrationBurst(seg){
+    const cols={'jackpot':'0,255,136','big':'255,215,0','mid':'0,201,167','respin':'170,100,255','none':'100,80,60'};
+    const c=cols[seg.type]||'255,215,0';
+    for(let i=0;i<24;i++){
+      spawnSparks(3, c, (i/24)*Math.PI*2);
+    }
+  }
+
+  // ── Needle tick detection ──────────────────────────────────
+  let lastTickSeg = -1;
+  function checkTick(a){
+    // Which segment boundary is nearest to bottom (needle at +PI/2 from center)
+    const topA = Math.PI/2 - a;
+    const arcUnit = Math.PI*2/N_SEGS;
+    const segAtTop = Math.floor(((topA % (Math.PI*2)) + Math.PI*2) % (Math.PI*2) / arcUnit) % N_SEGS;
+    if(segAtTop !== lastTickSeg){
+      lastTickSeg = segAtTop;
+      // Needle bounce animation
+      needleAngle = 18; // degrees kick
+      // Spawn sparks at needle tip
+      if(bwSpeed > 0.025){
+        const nc = bwSpeed>0.12?3:bwSpeed>0.06?2:1;
+        spawnSparks(nc, '255,200,0', Math.PI/2);
+      }
+    }
+    // Decay needle angle
+    needleAngle *= 0.82;
+  }
+
+  // ── Physics: ease-in, coast, ease-out to target ──────────────
+  function easeOut(t){ return 1 - Math.pow(1-t, 4); }
+  function easeIn(t){ return t*t*t; }
+
+  function animBonusWheel(ts){
+    if(!bwSpinning){ bwAnimId=null; return; }
+    const elapsed = (ts - bwStartTime)/1000;
+    const progress = Math.min(elapsed/bwDuration, 1);
+
+    if(progress<1){
+      // Smooth ease-in then ease-out
+      let speed;
+      if(progress < 0.15){
+        speed = easeIn(progress/0.15) * 0.35;
+      } else if(progress < 0.75){
+        speed = 0.30 + Math.sin(progress*Math.PI)*0.08;
+      } else {
+        const p2 = (progress-0.75)/0.25;
+        speed = 0.30*(1-easeOut(p2)) + 0.003;
+      }
+      bwSpeed = speed;
+      // Interpolate to target
+      const totalRotation = bwTargetAngle - bwStartAngle;
+      bwAngle = bwStartAngle + totalRotation * easeOut(progress > 0.15 ? Math.min((progress-0.05)/0.95,1) : 0);
+      if(progress<0.85) bwAngle = bwStartAngle + totalRotation * progress;
+    } else {
+      bwAngle = bwTargetAngle;
+      bwSpeed = 0;
+      bwSpinning = false;
+      onWheelStopped();
+    }
+
+    checkTick(bwAngle);
+    if(bwSpeed > 0.08 && Math.random()>0.6){
+      spawnSparks(2,'255,200,60');
+    }
+
+    drawWheel(bwAngle);
+    drawSparks2();
+    drawNeedle();
+
+    if(bwSpinning) bwAnimId = requestAnimationFrame(animBonusWheel);
+  }
+
+  // ── Idle loop ──────────────────────────────────────────────
+  function idleLoop(ts){
+    if(!bwSpinning){
+      drawWheel(bwAngle);
+      drawSparks2();
+      drawNeedle();
+    }
+    drawLEDs(ts);
+    requestAnimationFrame(idleLoop);
+  }
+
+  // ── Needle draw ───────────────────────────────────────────
+  // The needle is drawn by CSS SVG div; we animate its CSS rotation
+  function drawNeedle(){
+    const nd=document.querySelector('.wheel-needle');
+    if(nd) nd.style.transform=`translateX(-50%) rotate(${-needleAngle}deg)`;
+  }
+
+  // ── Pick result using weighted random ─────────────────────
+  function pickResult(){
+    const idx = weightedPool[Math.floor(Math.random()*weightedPool.length)];
+    return idx;
+  }
+
+  // ── Launch spin ───────────────────────────────────────────
+  window.bonusSpin = function(){
+    if(bwSpinning) return;
+    if(pendingAdd){ toast('⚠️ Primero hacé clic en "Agregar chances" para guardar el premio anterior');return; }
+    if(freeSpins <= 0){ toast('❌ Sin tiros disponibles. Comprá 3+ chances para obtener más.');return; }
+
+    const resultIdx = pickResult();
+    lastResult = null; // hide highlight while spinning
+
+    // Calculate how many full rotations (min 5, max 10 based on speed feel)
+    const minRotations = 6;
+    const extraRotations = minRotations + Math.random()*4;
+    // The needle is at bottom (angle = +PI/2 from center axis)
+    // We want segment `resultIdx` to end up at bottom
+    // Segment i spans [arc*i, arc*(i+1)] from current bwAngle
+    const arc_u = Math.PI*2/N_SEGS;
+    // Target: segment resultIdx midpoint aligns with needle (bottom = +PI/2)
+    const segMid = resultIdx * arc_u + arc_u/2;
+    const targetSegAngle = Math.PI/2 - segMid;
+    // Add extra rotations
+    const currentNorm = ((bwAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
+    const targetNorm  = ((targetSegAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
+    let delta = targetNorm - currentNorm;
+    if(delta <= 0) delta += Math.PI*2;
+    bwTargetAngle = bwAngle + extraRotations*Math.PI*2 + delta;
+    bwStartAngle  = bwAngle;
+    bwDuration    = 4.5 + Math.random()*1.5; // 4.5-6s spin
+    bwStartTime   = performance.now();
+    bwSpinning    = true;
+    freeSpins--;
+    updateSpinsUI();
+    pendingAdd = false;
+    if(bwAnimId){ cancelAnimationFrame(bwAnimId); bwAnimId=null; }
+
+    // Hide result panel while spinning
+    document.getElementById('wheelResultIdle').style.display='block';
+    document.getElementById('wheelResultPrize').style.display='none';
+    document.getElementById('wheelSpinBtn').disabled=true;
+    document.getElementById('wheelSpinBtn').textContent='🎡  Girando…';
+
+    // Pulse halo
+    const halo=document.querySelector('.wheel-halo');
+    if(halo){halo.style.animation='halopulse .25s ease-in-out infinite alternate';}
+
+    bwAnimId = requestAnimationFrame(animBonusWheel);
+
+    // After spin: store result
+    setTimeout(()=>{ lastResult = resultIdx; }, bwDuration*1000 - 100);
+  };
+
+  // ── On stop ────────────────────────────────────────────────
+  function onWheelStopped(){
+    const seg = BSEGMENTS[lastResult];
+    celebrationBurst(seg);
+    showResult(seg, lastResult);
+    // Re-enable spin btn if spins remain and result doesn't need confirm
+    setTimeout(()=>{
+      const halo=document.querySelector('.wheel-halo');
+      if(halo){halo.style.animation='halopulse 1.8s ease-in-out infinite alternate';}
+    },800);
+  }
+
+  // ── Show result ────────────────────────────────────────────
+  function showResult(seg, idx){
+    document.getElementById('wheelResultIdle').style.display='none';
+    const panel = document.getElementById('wheelResultPrize');
+    panel.style.display='flex';
+    panel.style.animation='none'; void panel.offsetWidth; panel.style.animation='';
+
+    const badgeEl = document.getElementById('wrpBadge');
+    const iconEl  = document.getElementById('wrpIcon');
+    const lblEl   = document.getElementById('wrpLabel');
+    const descEl  = document.getElementById('wrpDesc');
+    const btnEl   = document.getElementById('wrpAddBtn');
+
+    // Guardar el resultado pendiente para activar con compra
+    pendingWheelResult = seg;
+
+    if(seg.type==='jackpot'){
+      badgeEl.textContent='🏆 ¡100 CHANCES!';
+      badgeEl.style.cssText='background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.4);color:#FFE066';
+      iconEl.textContent=seg.icon;
+      lblEl.textContent='¡100 CHANCES GRATIS!';
+      lblEl.style.color='#FFE066';
+      descEl.innerHTML=`<strong style="color:#FFE066">¡Ganaste 100 chances!</strong><br><span style="color:#FF8C44;font-size:12px">⚠️ Para activar este premio necesitás comprar 3 chances o más.</span>`;
+      btnEl.style.display='none';
+      pendingAdd=true;
+      showBuyPrompt(seg);
+    } else if(seg.type==='mega'){
+      badgeEl.textContent='💰 ¡$100.000!';
+      badgeEl.style.cssText='background:rgba(255,107,0,.12);border:1px solid rgba(255,107,0,.4);color:#FF9944';
+      iconEl.textContent=seg.icon;
+      lblEl.textContent='¡$100.000 PESOS!';
+      lblEl.style.color='#FF9944';
+      descEl.innerHTML=`<strong style="color:#FF9944">¡Ganaste $100.000 en efectivo!</strong><br><span style="color:#FF8C44;font-size:12px">⚠️ Para activar este premio necesitás comprar 3 chances o más.</span>`;
+      btnEl.style.display='none';
+      pendingAdd=true;
+      showBuyPrompt(seg);
+    } else if(seg.type==='big'){
+      badgeEl.textContent='🔥 ¡10 CHANCES!';
+      badgeEl.style.cssText='background:rgba(255,140,0,.12);border:1px solid rgba(255,140,0,.4);color:#FFB347';
+      iconEl.textContent=seg.icon;
+      lblEl.textContent='¡10 CHANCES GRATIS!';
+      lblEl.style.color='#FFB347';
+      descEl.innerHTML=`<strong style="color:#FFB347">¡Ganaste 10 chances!</strong><br><span style="color:#FF8C44;font-size:12px">⚠️ Para activar este premio necesitás comprar 3 chances o más.</span>`;
+      btnEl.style.display='none';
+      pendingAdd=true;
+      showBuyPrompt(seg);
+    } else if(seg.type==='mid3'){
+      badgeEl.textContent='🎁 ¡3 CHANCES!';
+      badgeEl.style.cssText='background:rgba(0,201,167,.1);border:1px solid rgba(0,201,167,.3);color:#00C9A7';
+      iconEl.textContent=seg.icon;
+      lblEl.textContent='¡3 CHANCES GRATIS!';
+      lblEl.style.color='#00C9A7';
+      descEl.innerHTML=`<strong style="color:#00C9A7">¡Ganaste 3 chances!</strong><br><span style="color:#FF8C44;font-size:12px">⚠️ Para activar este premio necesitás comprar 3 chances o más.</span>`;
+      btnEl.style.display='none';
+      pendingAdd=true;
+      showBuyPrompt(seg);
+    } else {
+      // mid1 — 1 chance
+      badgeEl.textContent='⭐ ¡1 CHANCE!';
+      badgeEl.style.cssText='background:rgba(68,136,255,.1);border:1px solid rgba(68,136,255,.3);color:#88BBFF';
+      iconEl.textContent=seg.icon;
+      lblEl.textContent='¡1 CHANCE GRATIS!';
+      lblEl.style.color='#88BBFF';
+      descEl.innerHTML=`<strong style="color:#88BBFF">¡Ganaste 1 chance!</strong><br><span style="color:#FF8C44;font-size:12px">⚠️ Para activar este premio necesitás comprar 3 chances o más.</span>`;
+      btnEl.style.display='none';
+      pendingAdd=true;
+      showBuyPrompt(seg);
+    }
+    if(freeSpins<=0){
+      document.getElementById('wheelSpinBtn').disabled=true;
+      document.getElementById('wheelSpinBtn').textContent='Comprá 3+ chances para más tiros';
+    }
+  }
+
+  function showBuyPrompt(seg){
+    // Mostrar panel de aviso "comprá para activar"
+    const desc = document.getElementById('wrpDesc');
+    const existing = document.getElementById('buyActivatePanel');
+    if(!existing){
+      const panel2 = document.createElement('div');
+      panel2.id='buyActivatePanel';
+      panel2.style.cssText='margin-top:12px;padding:14px 20px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.3);border-radius:14px;text-align:center;width:100%;max-width:380px';
+      panel2.innerHTML=`<div style="font-size:13px;color:var(--g2);font-weight:700;margin-bottom:6px">🔐 Premio Ganado — Pendiente de activación</div>
+      <div style="font-size:12px;color:var(--sub)">Comprá <strong style="color:var(--g2)">3 chances o más</strong> en el formulario de abajo y tu premio se activa automáticamente al inscribirte.</div>
+      <div style="margin-top:10px">
+        <button onclick="document.querySelector('.pkg-section').scrollIntoView({behavior:'smooth'})" style="background:linear-gradient(135deg,#A67C00,#F0C96A);color:#000;font-family:Rajdhani,sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:30px;padding:10px 28px;cursor:pointer">🎟️ COMPRAR Y ACTIVAR PREMIO</button>
+      </div>`;
+      desc.parentNode.appendChild(panel2);
+    }
+    setTimeout(()=>{
+      document.getElementById('wheelSpinBtn').disabled=freeSpins<=0;
+      if(freeSpins>0) document.getElementById('wheelSpinBtn').textContent='🎰  ¡GIRAR DE NUEVO!';
+    },600);
+  }
+
+  // Init
+  drawWheel(0);
+  idleLoop(0);
+
+  // Auto-spin demo after 2s
+  setTimeout(()=>{ if(!bwSpinning && freeSpins>0) bonusSpin(); }, 2000);
+}
+
+// ── Add bonus chances to participant pool ───────────────────────────
+window.addBonusChances = function(){
+  if(!pendingAdd || lastResult===null) return;
+  const seg = BSEGMENTS[lastResult];
+  if(seg.chances>0) bonusTotal += seg.chances;
+  pendingAdd = false;
+  pendingWheelResult = null;
+  // Remove buy prompt panel if exists
+  const bp = document.getElementById('buyActivatePanel');
+  if(bp) bp.remove();
+  updateSpinsUI();
+  const msg = seg.type==='mega'
+    ? `💰 ¡$100.000 activados! Se aplicarán al validar tu inscripción.`
+    : `🎁 ¡${seg.chances} chances activadas! Total bonus: ${bonusTotal}`;
+  toast(msg);
+  launchConfetti(seg.type==='jackpot'||seg.type==='mega'?200:seg.type==='big'?120:60);
+  document.getElementById('wheelResultPrize').style.display='none';
+  document.getElementById('wheelResultIdle').style.display='block';
+  const bonusTxt = seg.type==='mega'
+    ? `🎉 <strong style="color:#FF9944">$100.000 bonus activados</strong>`
+    : `🎉 <strong style="color:var(--g2)">${bonusTotal} chances bonus acumuladas</strong>`;
+  document.getElementById('wheelResultIdle').innerHTML=`${bonusTxt}<br><span style="font-size:11px">Se aplicarán automáticamente al inscribirte en el sorteo</span>`;
+  document.getElementById('wheelSpinBtn').disabled = freeSpins<=0;
+  document.getElementById('wheelSpinBtn').textContent='🎰  ¡GIRAR RULETA GRATIS!';
+  updateFormBonusBanner();
+};
+
+// ── Update spins UI ─────────────────────────────────────────────────
+function updateSpinsUI(){
+  const sc_el = document.getElementById('freeSpinsCount');
+  const bt_el = document.getElementById('bonusChancesTotal');
+  if(sc_el) sc_el.textContent = freeSpins;
+  if(bt_el) bt_el.textContent = bonusTotal;
+  const btn = document.getElementById('wheelSpinBtn');
+  if(btn && !bwSpinning && !pendingAdd){
+    btn.disabled = freeSpins<=0;
+    if(freeSpins<=0) btn.textContent='Sin tiros — Comprá 3+ chances';
+    else btn.textContent='🎰  ¡GIRAR RULETA GRATIS!';
+  }
+}
+
+// ── Color utility ──────────────────────────────────────────────────
+function adjustColor(hex,pct){
+  if(!hex||hex[0]!=='#') return hex;
+  const n=parseInt(hex.slice(1),16);
+  const r=Math.max(0,Math.min(255,((n>>16)&0xFF)+pct));
+  const g=Math.max(0,Math.min(255,((n>>8)&0xFF)+pct));
+  const b=Math.max(0,Math.min(255,(n&0xFF)+pct));
+  return '#'+(r<<16|g<<8|b).toString(16).padStart(6,'0');
+}
+
+// ── Hook into package selection to activate prize + give extra spin ──
+const _origSelPkg = window.selPkg || function(){};
+window.selPkg = function(i){
+  _origSelPkg(i);
+  const pkg = PKGS[i];
+  if(pkg && pkg.chances>=3){
+    wheelUnlocked = true;
+    // Si hay un premio pendiente de activar, activarlo ahora
+    if(pendingAdd && lastResult!==null){
+      const seg = BSEGMENTS[lastResult];
+      const bp = document.getElementById('buyActivatePanel');
+      if(bp) bp.remove();
+      // Show "add" button
+      const btnEl = document.getElementById('wrpAddBtn');
+      if(btnEl){
+        btnEl.style.display='block';
+        const lbl = seg.type==='mega' ? '✅ ¡ACTIVAR $100.000!' : `✅ ¡ACTIVAR ${seg.chances} CHANCE${seg.chances>1?'S':''}!`;
+        btnEl.textContent = lbl;
+      }
+      toast(`🔓 ¡Comprando ${pkg.chances} chances desbloqueás tu premio ganado en la ruleta!`);
+    } else {
+      // Dar 1 tiro extra
+      freeSpins++;
+      updateSpinsUI();
+      toast(`🎡 ¡Comprás ${pkg.chances} chances → Recibís 1 tiro de ruleta EXTRA!`);
+    }
+  }
+};
+
+// Give bonus chances when submitting form if bonusTotal > 0
+const _origSubmit = window.submitForm;
+window.submitForm = function(){
+  if(typeof _origSubmit==='function') _origSubmit();
+  // The bonus chances are informational in this demo
+  // In production, bonusTotal would be added to the participant's chances pool
+  if(bonusTotal>0){
+    toast(`🎁 ¡${bonusTotal} chances bonus aplicadas a tu inscripción!`);
+  }
+};
+
+// ── Update bonus banner in form ─────────────────────────────────────────────
+function updateFormBonusBanner(){
+  const banner = document.getElementById('formBonusBanner');
+  const bannerCount = document.getElementById('bannerBonusCount');
+  const bannerTotal = document.getElementById('bannerTotalChances');
+  const sumUrgency = document.getElementById('sumUrgency');
+  const sumCuposLeft = document.getElementById('sumCuposLeft');
+  const wheelCuposLeft = document.getElementById('wheelCuposLeft');
+  const rem = MAX - totalChances;
+
+  // Update cupos count everywhere
+  if(wheelCuposLeft) wheelCuposLeft.textContent = rem;
+  if(sumCuposLeft) sumCuposLeft.textContent = rem;
+
+  if(bonusTotal > 0){
+    if(banner) banner.style.display='block';
+    if(bannerCount) bannerCount.textContent = bonusTotal;
+    // Show projected total
+    const pkg = selPkgIdx !== null ? PKGS[selPkgIdx] : null;
+    const bought = pkg ? pkg.chances : 0;
+    if(bannerTotal) bannerTotal.textContent = bought > 0 ? (bought + bonusTotal) : ('+'+ bonusTotal);
+  } else {
+    if(banner) banner.style.display='none';
+  }
+
+  // Show urgency hint in form if <= 20 cupos
+  if(sumUrgency){
+    sumUrgency.style.display = rem <= 20 && rem > 0 ? 'block' : 'none';
+  }
+}
+
+initBonusWheel();
+
+/* ══════════════════════════════════════════════
+   TICKER
+══════════════════════════════════════════════ */
+function buildTicker(){
+  const el=document.getElementById('tickerEl');
+  const all=[...TICKER,...TICKER];
+  el.innerHTML=all.map(m=>`<div class="ti"><span class="ti-dot"></span><span class="hi">${m}</span></div>`).join('');
+}
+
+/* ══════════════════════════════════════════════
+   COUNTDOWN
+══════════════════════════════════════════════ */
+function startCountdown(){
+  if(cdInt)clearInterval(cdInt);
+  cdTarget=Date.now()+45*60*1000;
+  cdInt=setInterval(tickCD,1000);tickCD();
+}
+function tickCD(){
+  const rem=Math.max(0,cdTarget-Date.now());
+  const h=Math.floor(rem/3600000),m=Math.floor(rem%3600000/60000),s=Math.floor(rem%60000/1000);
+  const el=document.getElementById('urgTimer');
+  if(el)el.textContent=[h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
+  if(!rem){clearInterval(cdInt);startCountdown();}
+}
+
+/* ══════════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════════ */
+const fmt=n=>n.toLocaleString('es-AR');
+function nowTime(){return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+function nowDate(){return new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function animN(el,from,to,dur=700){
+  const s=performance.now();
+  (function t(now){const p=Math.min((now-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);if(p<1)requestAnimationFrame(t);})(s);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),3500);
+}
+
+/* ══════════════════════════════════════════════
+   PACKAGES
+══════════════════════════════════════════════ */
+function selPkg(i){
+  const rem=MAX-totalChances;
+  if(PKGS[i].chances>rem){toast(`⚠️ Solo quedan ${rem} cupo${rem!==1?'s':''}`);return;}
+  selPkgIdx=i;
+  document.querySelectorAll('.pkg').forEach((c,j)=>c.classList.toggle('sel',j===i));
+  const p=PKGS[i];
+  document.getElementById('sumP').textContent=p.label;
+  document.getElementById('sumC').textContent=p.chances+(p.chances>1?' chances compradas':' chance comprada');
+  document.getElementById('sumT').textContent='$'+fmt(p.price);
+
+  // Mostrar bonus si hay
+  const brow=document.getElementById('sumBonusRow');
+  const trow=document.getElementById('sumTotalRow');
+  if(bonusTotal>0){
+    brow.style.display='flex';
+    document.getElementById('sumBonus').textContent=`+${bonusTotal} chance${bonusTotal>1?'s':''} gratis 🎡`;
+    trow.style.display='flex';
+    document.getElementById('sumTotalChances').textContent=(p.chances+bonusTotal);
+  } else {
+    brow.style.display='none';
+    trow.style.display='none';
+    document.getElementById('sumC').textContent=p.chances+(p.chances>1?' chances · ':' chance · ')+p.chances+(p.chances>1?' bolillas en el bombo':' bolilla en el bombo');
+  }
+  valSub();
+  updateFormBonusBanner();
+}
+
+/* ══════════════════════════════════════════════
+   PHOTO UPLOAD
+══════════════════════════════════════════════ */
+let currentPhotoDataUrl=null;
+
+function handlePhoto(input){
+  const file=input.files[0];
+  if(!file)return;
+  if(file.size>2*1024*1024){toast('⚠️ La imagen es muy grande (máx. 2 MB)');input.value='';return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    currentPhotoDataUrl=e.target.result;
+    const prev=document.getElementById('photoPreview');
+    prev.innerHTML=`<img src="${e.target.result}" alt="Foto">`;
+    prev.style.padding='0';
+    toast('📷 ¡Foto cargada correctamente!');
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ══════════════════════════════════════════════
+   FORM
+══════════════════════════════════════════════ */
+function valF(el){
+  const v=el.value.trim(),k='h'+el.id.slice(1);
+  const h=document.getElementById(k);
+  if(v.length<2){el.className='fi err';if(h){h.textContent='Mínimo 2 caracteres';h.className='fhint e';}}
+  else{el.className='fi ok';if(h){h.textContent='✓ Correcto';h.className='fhint';h.style.color='var(--teal)';}}
+  valSub();
+}
+function valTel(el){
+  const v=el.value.replace(/\D/g,''),h=document.getElementById('hT');
+  if(v.length<8){el.className='fi err';h.textContent='Número inválido';h.className='fhint e';}
+  else{el.className='fi ok';h.textContent='✓ WhatsApp válido';h.className='fhint';h.style.color='var(--teal)';}
+  valSub();
+}
+function valProv(){
+  const el=document.getElementById('fProv'),h=document.getElementById('hProv');
+  if(!el.value){el.className='fi err';h.textContent='Seleccioná tu provincia';h.className='fhint e';}
+  else{el.className='fi ok';h.textContent='✓ Correcto';h.className='fhint';h.style.color='var(--teal)';}
+  valSub();
+}
+function valCity(el){
+  const v=el.value.trim(),h=document.getElementById('hCity');
+  if(v.length<2){el.className='fi err';h.textContent='Mínimo 2 caracteres';h.className='fhint e';}
+  else{el.className='fi ok';h.textContent='✓ Correcto';h.className='fhint';h.style.color='var(--teal)';}
+  valSub();
+}
+function toggleTerms(){
+  termsOk=!termsOk;
+  document.getElementById('chkT').classList.toggle('on',termsOk);
+  valSub();
+}
+function valSub(){
+  const n=document.getElementById('fN').value.trim();
+  const a=document.getElementById('fA').value.trim();
+  const t=document.getElementById('fT').value.replace(/\D/g,'');
+  const prov=document.getElementById('fProv').value;
+  const city=document.getElementById('fCity').value.trim();
+  const rem=MAX-totalChances;
+  const ok=selPkgIdx!==null&&PKGS[selPkgIdx].chances<=rem;
+  document.getElementById('subBtn').disabled=!(n.length>=2&&a.length>=2&&t.length>=8&&prov&&city.length>=2&&ok&&termsOk);
+}
+
+/* ══════════════════════════════════════════════
+   SUBMIT
+══════════════════════════════════════════════ */
+function submitForm(){
+  const pkg=PKGS[selPkgIdx];
+  const n=document.getElementById('fN').value.trim();
+  const a=document.getElementById('fA').value.trim();
+  const prov=document.getElementById('fProv').value;
+  const city=document.getElementById('fCity').value.trim();
+  const msg=document.getElementById('fMsg').value.trim();
+  const fullName=n+' '+a.charAt(0)+'.';
+  if(totalChances+pkg.chances>MAX){toast('⚠️ No hay suficientes cupos');return;}
+  const totalCh = pkg.chances + bonusTotal;
+  participants.push({name:fullName,chances:pkg.chances,bonusChances:bonusTotal,totalChances:totalCh,time:nowTime(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg});
+  totalChances+=pkg.chances;
+  ['fN','fA','fT','fC'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
+  document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
+  document.getElementById('fCity').value='';document.getElementById('fCity').className='fi';
+  document.getElementById('fMsg').value='';
+  document.getElementById('hProv').textContent=' ';document.getElementById('hCity').textContent=' ';
+  // Reset photo
+  currentPhotoDataUrl=null;
+  const prev=document.getElementById('photoPreview');
+  prev.innerHTML='👤';prev.style.padding='';
+  document.getElementById('photoInput').value='';
+  document.getElementById('chkT').classList.remove('on');
+  termsOk=false;selPkgIdx=null;
+  // Reset bonus
+  bonusTotal=0;
+  document.getElementById('sumBonusRow').style.display='none';
+  document.getElementById('sumTotalRow').style.display='none';
+  updateSpinsUI();
+  document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('sumP').textContent='— Elegí un pack arriba —';
+  document.getElementById('sumC').textContent='—';document.getElementById('sumT').textContent='—';
+  document.getElementById('subBtn').disabled=true;
+  updateUI();
+  const bonusMsg=bonusTotal>0?` + ${bonusTotal} bonus`:'';
+  toast(`✅ ¡${fullName} inscripto con ${totalCh} chance${totalCh>1?'s':''}!`);
+  launchConfetti(20);
+  setTimeout(()=>document.querySelector('.list-section').scrollIntoView({behavior:'smooth'}),300);
+  if(totalChances>=MAX)setTimeout(kickOff,1200);
+}
+
+/* ══════════════════════════════════════════════
+   UI UPDATE
+══════════════════════════════════════════════ */
+function updateUI(){
+  const pp=parseInt(document.getElementById('stPart').textContent)||0;
+  const pc=parseInt(document.getElementById('stCups').textContent)||MAX;
+  animN(document.getElementById('stPart'),pp,participants.length);
+  animN(document.getElementById('stCups'),pc,MAX-totalChances);
+  document.getElementById('stDraws').textContent=248+archive.length;
+  document.getElementById('stPaid').textContent='$'+fmt(totalPaid);
+  const pct=(totalChances/MAX*100).toFixed(1);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progN').innerHTML=`${totalChances} <small>/ ${MAX}</small>`;
+  const rem=MAX-totalChances;
+  document.getElementById('urgCupos').textContent=rem;
+  const ul=document.getElementById('urgLbl');
+  if(rem<=10&&rem>0)ul.textContent=`🔴 ¡ÚLTIMOS ${rem} CUPO${rem!==1?'S':''}! Sorteo inicia automáticamente`;
+  else if(rem<=0)ul.textContent='🎰 CUPOS COMPLETOS — SORTEO EN PROGRESO';
+  else ul.textContent='';
+  document.getElementById('heroEd').textContent=edition;
+  document.getElementById('topEd').textContent='Edición #'+edition;
+  document.getElementById('nextEd').textContent=edition+1;
+  if(pp!==participants.length){
+    const sc=document.getElementById('sc1');sc.classList.remove('pulse-gold');void sc.offsetWidth;sc.classList.add('pulse-gold');
+  }
+  renderTable();
+  updateFormBonusBanner();
+  if(totalChances>=MAX){
+    document.getElementById('formSection').style.display='none';
+    document.getElementById('fullNotice').style.display='block';
+  }
+}
+
+function renderTable(){
+  const body=document.getElementById('tblBody');
+  if(!participants.length){body.innerHTML='<div class="empty-st"><span class="ei">🎟️</span>Aún no hay participantes. ¡Sé el primero!</div>';return;}
+  body.innerHTML='';
+  participants.slice().reverse().forEach((p,i)=>{
+    const isW=winners.includes(p.name);
+    const row=document.createElement('div');row.className='tblrow';
+    const avatarHtml=p.photo
+      ?`<div class="av-img" style="padding:0"><img src="${p.photo}" alt="${p.name}" style="width:34px;height:34px;border-radius:50%;object-fit:cover"></div>`
+      :`<div class="av-img">👤</div>`;
+    const locParts=[p.city,p.province].filter(Boolean);
+    const locHtml=locParts.length
+      ?`<div class="td loc"><span style="font-size:12px;color:var(--text)">${locParts.join(', ')}</span></div>`
+      :`<div class="td loc"><span style="color:var(--muted)">—</span></div>`;
+    const totalCh = p.totalChances || p.chances;
+    const chDetail = p.bonusChances>0
+      ? `<span title="${p.chances} compradas + ${p.bonusChances} bonus ruleta" style="cursor:help;display:flex;flex-direction:column;align-items:flex-end;gap:0">
+          <span style="font-size:13px;color:var(--g2);font-weight:700">${totalCh}ch</span>
+          <span style="font-size:9px;color:var(--teal);letter-spacing:.5px">${p.chances}+<span style="color:#FFD740">${p.bonusChances}🎡</span></span>
+         </span>`
+      : `<span style="font-size:13px;color:var(--g2);font-weight:700">${totalCh}ch</span>`;
+    row.innerHTML=`
+      <div class="td nn">#${String(participants.length-i).padStart(2,'0')}</div>
+      <div class="td av">${avatarHtml}</div>
+      <div class="td nm" style="${isW?'color:var(--g2)':''}">${isW?'🏆 ':''}${p.name}</div>
+      ${locHtml}
+      <div class="td ch">${chDetail}</div>
+      <div class="td tm">${p.time}</div>`;
+    body.appendChild(row);
+  });
+  renderDreams();
+}
+
+function renderDreams(){
+  const section=document.getElementById('dreamsSection');
+  const grid=document.getElementById('dreamsGrid');
+  const withMsg=participants.filter(p=>p.msg&&p.msg.trim().length>2);
+  if(!withMsg.length){section.style.display='none';return;}
+  section.style.display='block';
+  const emojis=['🚗','🏠','✈️','📚','💊','🎓','🏍️','💻','🌍','🏋️','🎸','👨‍👩‍👧','💰','🌱','🎁','🏖️'];
+  grid.innerHTML='';
+  withMsg.slice().reverse().forEach((p,idx)=>{
+    const card=document.createElement('div');
+    card.className='dream-card';
+    card.style.animationDelay=(idx*0.07)+'s';
+    const em=emojis[idx%emojis.length];
+    const avHtml=p.photo
+      ?`<div class="dream-av"><img src="${p.photo}" alt="${p.name}"></div>`
+      :`<div class="dream-av">${em}</div>`;
+    const locStr=[p.city,p.province].filter(Boolean).join(', ')||'Argentina';
+    const totalCh=p.totalChances||p.chances;
+    card.innerHTML=`
+      <div class="dream-quote">${em}</div>
+      <div class="dream-msg">"${p.msg}"</div>
+      <div class="dream-author">
+        ${avHtml}
+        <div class="dream-inf">
+          <div class="dream-name">${p.name}</div>
+          <div class="dream-loc">📍 ${locStr}</div>
+        </div>
+        <div class="dream-ch">🎟️ ${totalCh}ch</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ══════════════════════════════════════════════
+   DRAW — AUTO START
+══════════════════════════════════════════════ */
+function kickOff(){
+  if(drawRunning)return;drawRunning=true;
+  launchConfetti(100);
+  toast('🎰 ¡100 CUPOS COMPLETOS! El sorteo inicia automáticamente…');
+  setTimeout(()=>{openModal();setTimeout(()=>runDraw(),1100);},2200);
+}
+
+function openModal(){
+  buildSteps();
+  document.getElementById('drawOverlay').classList.add('on');
+  document.body.style.overflow='hidden';
+  syncSteps();syncPrizeUI();
+}
+function closeModal(){
+  document.getElementById('drawOverlay').classList.remove('on');
+  document.body.style.overflow='';
+  renderTable();
+  setTimeout(()=>{const ws=document.getElementById('winnersSection');if(ws.classList.contains('vis'))ws.scrollIntoView({behavior:'smooth',block:'start'});},300);
+}
+
+function buildSteps(){
+  document.getElementById('dmSteps').innerHTML=PRIZES.map((_,i)=>`<div class="ds" id="ds${i}"></div>`).join('');
+}
+function syncSteps(){
+  PRIZES.forEach((_,i)=>{const el=document.getElementById('ds'+i);if(!el)return;el.className='ds'+(i<drawPhase?' done':i===drawPhase?' cur':'');});
+}
+function syncPrizeUI(){
+  if(drawPhase>=PRIZES.length)return;
+  const p=PRIZES[drawPhase];
+  document.getElementById('dmBadge').textContent=`🎰 SORTEANDO ${drawPhase+1} DE ${PRIZES.length}`;
+  document.getElementById('dmTitle').textContent=p.label;
+  document.getElementById('dmSub').textContent=`Seleccionando al ganador del ${p.label.toLowerCase()}…`;
+  document.getElementById('curPrize').innerHTML=`<span>${p.label}</span><strong>${p.amount}</strong>`;
+  document.getElementById('miniWin').classList.remove('show');
+  document.getElementById('dmBtn').disabled=true;
+  document.getElementById('dmBtn').textContent='Girando el bombo…';
+  const orb=document.getElementById('orb');orb.textContent='🎲';orb.classList.remove('spin');
+  document.getElementById('roller').innerHTML='<span>— — — —</span>';
+  document.getElementById('roller').className='roller';
+}
+
+function runDraw(){
+  if(isDrawing||drawPhase>=PRIZES.length)return;
+  const ballot=[];participants.forEach(p=>{const t=p.totalChances||p.chances;for(let i=0;i<t;i++)ballot.push(p.name);});
+  const avail=ballot.filter(n=>!winners.includes(n));
+  if(!avail.length)return;
+  isDrawing=true;
+  const orb=document.getElementById('orb');
+  const roller=document.getElementById('roller');
+  const btn=document.getElementById('dmBtn');
+  orb.classList.add('spin');btn.disabled=true;btn.textContent='Sorteando…';
+  document.getElementById('miniWin').classList.remove('show');
+  let ticks=0;const total=58+Math.floor(Math.random()*22);
+  function tick(){
+    const rand=avail[Math.floor(Math.random()*avail.length)];
+    roller.innerHTML=`<span>${rand}</span>`;ticks++;
+    const prog=ticks/total;
+    roller.className='roller'+(prog<.35?' r':prog<.65?' rs':' rvs');
+    const delay=prog<.3?36:prog<.55?68:prog<.75?118:prog<.9?195:340;
+    if(ticks<total){setTimeout(tick,delay);}
+    else{
+      const pool=[...new Set(avail)];
+      const winner=pool[Math.floor(Math.random()*pool.length)];
+      winners.push(winner);
+      orb.classList.remove('spin');orb.textContent='🏆';
+      roller.className='roller';
+      roller.innerHTML=`<span style="color:var(--g2);letter-spacing:2px">${winner}</span>`;
+      const prize=PRIZES[drawPhase];drawPhase++;isDrawing=false;
+      document.getElementById('mwIco').textContent=prize.icon;
+      document.getElementById('mwLbl').textContent=prize.label;
+      document.getElementById('mwName').textContent=winner;
+      document.getElementById('mwAmt').textContent=prize.amount;
+      setTimeout(()=>{
+        document.getElementById('miniWin').classList.add('show');
+        launchConfetti(drawPhase===PRIZES.length?250:75);
+        addWinnerCard(winner,prize);syncSteps();renderTable();
+        if(drawPhase<PRIZES.length){setTimeout(()=>{syncPrizeUI();setTimeout(runDraw,700);},2900);}
+        else{finalDraw();}
+      },450);
+    }
+  }
+  setTimeout(tick,80);
+}
+
+function addWinnerCard(name,prize){
+  const sec=document.getElementById('winnersSection');
+  const list=document.getElementById('winnersList');
+  sec.classList.add('vis');
+  const row=document.createElement('div');
+  row.className=`wr-row ${prize.cls}`;
+  row.innerHTML=`<div class="wr-ico">${prize.icon}</div>
+    <div class="wr-inf"><div class="wr-pl">${prize.label}</div><div class="wr-name">${name}</div></div>
+    <div class="wr-prize">${prize.amount}</div>`;
+  list.insertBefore(row,list.firstChild);
+  setTimeout(()=>row.classList.add('vis'),60);
+}
+
+function finalDraw(){
+  document.getElementById('dmBadge').textContent='🏆 SORTEO COMPLETADO';
+  document.getElementById('dmTitle').textContent='¡TODOS LOS PREMIOS!';
+  document.getElementById('dmSub').textContent='El sorteo finalizó exitosamente. ¡Felicitaciones a los ganadores!';
+  document.getElementById('curPrize').innerHTML=`<span>Total distribuido</span><strong>$10.010.000</strong>`;
+  document.getElementById('orb').textContent='🎊';
+  document.getElementById('dmBtn').textContent='🏆 Ver Ganadores';
+  document.getElementById('dmBtn').disabled=false;
+  document.getElementById('dmBtn').onclick=()=>{closeModal();};
+  document.getElementById('dmClose').classList.add('vis');
+  document.getElementById('newDrawBtn').style.display='block';
+  launchConfetti(280);
+  saveArchive();
+}
+
+/* ══════════════════════════════════════════════
+   ARCHIVE
+══════════════════════════════════════════════ */
+function saveArchive(){
+  totalPaid+=PRIZE_TOTAL;
+  const entry={edition,date:nowDate(),participants:participants.length,
+    winners:PRIZES.map((p,i)=>({prize:p,name:winners[i]||'—'}))};
+  archive.unshift(entry);renderArchive();
+  document.getElementById('archSection').classList.add('vis');
+  updateUI();
+}
+function renderArchive(){
+  const list=document.getElementById('archList');
+  list.innerHTML=archive.map((d,idx)=>`
+    <div class="arch-card${idx===0?' open':''}" id="ac${idx}">
+      <div class="arch-head" onclick="toggleArch(${idx})">
+        <div class="ah-l">
+          <span class="ah-ed">Edición #${d.edition}</span>
+          <span class="ah-t">Gran Sorteo Millonario</span>
+          <span class="ah-m">${d.date} · ${d.participants} participantes</span>
+        </div>
+        <div class="ah-r"><span class="ah-total">$10.010.000</span><span class="ah-arr">▾</span></div>
+      </div>
+      <div class="arch-body">
+        ${d.winners.map(w=>`<div class="aw">
+          <span class="aw-ico">${w.prize.icon}</span>
+          <div class="aw-inf"><div class="aw-pl">${w.prize.label}</div><div class="aw-name">${w.name}</div></div>
+          <div class="aw-prize">${w.prize.amount}</div>
+        </div>`).join('')}
+        <div class="aw-foot">Realizado el ${d.date} · En vivo</div>
+      </div>
+    </div>`).join('');
+}
+function toggleArch(idx){document.getElementById('ac'+idx).classList.toggle('open');}
+
+function startNew(){
+  edition++;participants=[];totalChances=0;selPkgIdx=null;termsOk=false;
+  drawPhase=0;isDrawing=false;drawRunning=false;winners=[];
+  document.getElementById('winnersList').innerHTML='';
+  document.getElementById('winnersSection').classList.remove('vis');
+  document.getElementById('formSection').style.display='block';
+  document.getElementById('fullNotice').style.display='none';
+  document.getElementById('dmClose').classList.remove('vis');
+  document.getElementById('newDrawBtn').style.display='none';
+  document.getElementById('dmBtn').onclick=null;
+  ['fN','fA','fT','fC'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
+  document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
+  document.getElementById('fCity').value='';document.getElementById('fCity').className='fi';
+  document.getElementById('fMsg').value='';
+  document.getElementById('sumBonusRow').style.display='none';
+  document.getElementById('sumTotalRow').style.display='none';
+  document.getElementById('dreamsSection').style.display='none';
+  document.getElementById('dreamsGrid').innerHTML='';
+  currentPhotoDataUrl=null;
+  const prev=document.getElementById('photoPreview');if(prev){prev.innerHTML='👤';prev.style.padding='';}
+  document.getElementById('photoInput').value='';
+  document.getElementById('chkT').classList.remove('on');
+  document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('sumP').textContent='— Elegí un pack arriba —';
+  document.getElementById('sumC').textContent='—';document.getElementById('sumT').textContent='—';
+  document.getElementById('subBtn').disabled=true;
+  updateUI();toast(`🎰 ¡Edición #${edition} abierta! Inscripción disponible.`);
+  launchConfetti(80);startCountdown();
+  setTimeout(()=>document.querySelector('#hero').scrollIntoView({behavior:'smooth'}),300);
+}
+
+/* ══════════════════════════════════════════════
+   CONFETTI
+══════════════════════════════════════════════ */
+function launchConfetti(n){
+  const wrap=document.getElementById('cfWrap');
+  const cols=['#D4A843','#F0C96A','#FDF0B8','#00C9A7','#FF6B6B','#fff','#1A73E8','#FFD700','#C0392B'];
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div');el.className='cf';
+    const c=cols[Math.floor(Math.random()*cols.length)];
+    const w=4+Math.random()*11;
+    const r2=Math.random()>.5?'50%':'2px';
+    const dx=(Math.random()-.5)*560+'px';
+    const rot=(Math.random()*900-450)+'deg';
+    el.style.cssText=`left:${Math.random()*100}%;width:${w}px;height:${w}px;background:${c};border-radius:${r2};--d:${1.8+Math.random()*3.5}s;--dl:${Math.random()*1.5}s;--dx:${dx};--rot:${rot}`;
+    wrap.appendChild(el);setTimeout(()=>el.remove(),6500);
+  }
+}
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   CAROUSEL — ¿Qué podés comprar?
+══════════════════════════════════════════════ */
+(function initCarousel(){
+  const track = document.getElementById('buyCarouselTrack');
+  const dotsEl = document.getElementById('carDots');
+  if(!track) return;
+
+  const cards = track.querySelectorAll('.buy-card');
+  const N = cards.length;
+  const CARD_W = 280 + 18; // width + gap
+  let current = 0;
+  let autoTimer = null;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragOffsetX = 0;
+
+  // Build dots
+  for(let i=0;i<N;i++){
+    const d = document.createElement('div');
+    d.className='cdot'+(i===0?' on':'');
+    d.onclick=()=>goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function getVisible(){
+    const W = document.getElementById('buyCarouselOuter').offsetWidth;
+    return Math.max(1, Math.floor((W - 160) / CARD_W));
+  }
+
+  function goTo(idx, smooth=true){
+    const vis = getVisible();
+    const max = Math.max(0, N - vis);
+    current = Math.max(0, Math.min(idx, max));
+    const offset = -(current * CARD_W);
+    track.style.transition = smooth ? 'transform .55s cubic-bezier(.4,0,.2,1)' : 'none';
+    track.style.transform = `translateX(${offset}px)`;
+    // Update dots
+    dotsEl.querySelectorAll('.cdot').forEach((d,i)=>d.classList.toggle('on', i===current));
+    // Highlight active card
+    cards.forEach((c,i)=>c.classList.toggle('active-card', i===current));
+    resetAuto();
+  }
+
+  function resetAuto(){
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(()=>{
+      const vis = getVisible();
+      const max = Math.max(0, N - vis);
+      goTo(current >= max ? 0 : current + 1);
+    }, 4000);
+  }
+
+  window.carNav = function(dir){
+    goTo(current + dir);
+  };
+
+  // Touch/drag support
+  track.addEventListener('mousedown', e=>{
+    isDragging=true; dragStartX=e.clientX; dragOffsetX=0;
+    track.classList.add('drag-active');
+    clearTimeout(autoTimer);
+  });
+  window.addEventListener('mousemove', e=>{
+    if(!isDragging) return;
+    dragOffsetX = e.clientX - dragStartX;
+    const base = -(current * CARD_W);
+    track.style.transition='none';
+    track.style.transform=`translateX(${base + dragOffsetX}px)`;
+  });
+  window.addEventListener('mouseup', ()=>{
+    if(!isDragging) return;
+    isDragging=false;
+    track.classList.remove('drag-active');
+    if(Math.abs(dragOffsetX) > 60) goTo(current + (dragOffsetX < 0 ? 1 : -1));
+    else goTo(current);
+  });
+  track.addEventListener('touchstart', e=>{
+    dragStartX=e.touches[0].clientX; dragOffsetX=0;
+    clearTimeout(autoTimer);
+  },{passive:true});
+  track.addEventListener('touchmove', e=>{
+    dragOffsetX=e.touches[0].clientX - dragStartX;
+    const base=-(current*CARD_W);
+    track.style.transition='none';
+    track.style.transform=`translateX(${base+dragOffsetX}px)`;
+  },{passive:true});
+  track.addEventListener('touchend', ()=>{
+    if(Math.abs(dragOffsetX)>50) goTo(current+(dragOffsetX<0?1:-1));
+    else goTo(current);
+  });
+
+  goTo(0, false);
+  resetAuto();
+})();
+
+buildTicker();
+startCountdown();
+updateUI();
+</script>
+<script src="./production.js"></script>
+</body>
+</html>
