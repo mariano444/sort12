@@ -14,7 +14,6 @@
 
   const publicHeaders = {
     apikey: APP_CONFIG.supabaseAnonKey,
-    Authorization: `Bearer ${APP_CONFIG.supabaseAnonKey}`,
     'Content-Type': 'application/json',
   };
 
