@@ -196,7 +196,6 @@
       firstName: document.getElementById('fN').value.trim(),
       lastName: document.getElementById('fA').value.trim(),
       whatsapp: document.getElementById('fT').value.trim(),
-      payoutAccount: document.getElementById('fC').value.trim(),
       province: document.getElementById('fProv').value,
       city: document.getElementById('fCity').value.trim(),
       message: document.getElementById('fMsg').value.trim(),
