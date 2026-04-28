@@ -163,11 +163,11 @@
     });
     const submitButton = document.getElementById('subBtn');
     if (submitButton) {
-      submitButton.textContent = '🧪 IR A PAGAR EN MODO PRUEBA';
+      submitButton.textContent = '💳 IR A PAGAR AHORA';
     }
     const sandboxBadge = document.getElementById('paymentModeBadge');
     if (sandboxBadge) {
-      sandboxBadge.textContent = '🧪 Checkout de prueba activo';
+      sandboxBadge.textContent = '🔒 Checkout seguro en producción';
     }
   }
 
