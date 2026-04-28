@@ -21,7 +21,6 @@ exports.handler = async (event) => {
     const whatsapp = String(body.whatsapp || '').replace(/\D/g, '');
     const province = String(body.province || '').trim();
     const city = String(body.city || '').trim();
-    const payoutAccount = String(body.payoutAccount || '').trim();
     const message = String(body.message || '').trim();
     const packageId = Number(body.packageId);
     const bonusChances = Number(body.bonusChances || 0);
@@ -73,7 +72,6 @@ exports.handler = async (event) => {
     await supabaseRequest(config, `/participants?id=eq.${normalizedParticipantId}`, {
       method: 'PATCH',
       body: {
-        payout_account: payoutAccount || null,
         photo_url: photoUrl,
         payment_provider: 'galiopay',
       },
@@ -86,7 +84,7 @@ exports.handler = async (event) => {
     const paymentLink = await createPaymentLink(config, {
       items: [
         {
-          title: `${selectedPackage.label} - premionline #${edition.edition_number}`,
+          title: 'Chances',
           quantity: 1,
           unitPrice: selectedPackage.price,
           currencyId: 'ARS',
