@@ -4,7 +4,6 @@ async function supabaseRequest(config, path, options = {}) {
     method: options.method || 'GET',
     headers: {
       apikey: config.supabaseServiceRoleKey,
-      Authorization: `Bearer ${config.supabaseServiceRoleKey}`,
       'Content-Type': 'application/json',
       Prefer: options.prefer || 'return=representation',
       ...(options.headers || {}),
@@ -50,7 +49,6 @@ async function uploadProfilePhoto(config, participantId, dataUrl) {
     method: 'POST',
     headers: {
       apikey: config.supabaseServiceRoleKey,
-      Authorization: `Bearer ${config.supabaseServiceRoleKey}`,
       'Content-Type': mimeType,
       'x-upsert': 'true',
     },
