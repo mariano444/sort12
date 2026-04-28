@@ -2219,9 +2219,6 @@ function updateUI(){
   }
   const topEd=document.getElementById('topEd');
   if(topEd) topEd.textContent='Sorteo 2026';
-  if(pp!==participants.length){
-    const sc=document.getElementById('sc1');if(sc){sc.classList.remove('pulse-gold');void sc.offsetWidth;sc.classList.add('pulse-gold');}
-  }
   renderTable();
   updateFormBonusBanner();
   if(totalChances>=MAX){
