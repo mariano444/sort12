@@ -393,8 +393,9 @@ select.fi option{background:#050D1A;color:var(--text)}
 .live-sub strong{color:var(--text)}
 .last-join{color:var(--teal);font-weight:700}
 .participant-feed{position:fixed;left:18px;bottom:18px;z-index:1090;pointer-events:none}
-.participant-feed-card{min-width:280px;max-width:320px;background:rgba(3,8,15,.94);backdrop-filter:blur(18px);border:1px solid rgba(212,168,67,.18);border-radius:18px;padding:14px 16px;box-shadow:0 18px 48px rgba(0,0,0,.45);display:flex;align-items:flex-start;gap:12px;transform:translateY(130%);opacity:0;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease}
-.participant-feed-card.on{transform:translateY(0);opacity:1}
+.participant-feed-card{min-width:280px;max-width:320px;background:rgba(3,8,15,.94);backdrop-filter:blur(18px);border:1px solid rgba(212,168,67,.18);border-radius:18px;padding:14px 16px;box-shadow:0 18px 48px rgba(0,0,0,.45);display:flex;align-items:flex-start;gap:12px;transform:translateY(130%) scale(.94);opacity:0;transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .55s ease,filter .55s ease;filter:blur(6px)}
+.participant-feed-card.on{transform:translateY(0) scale(1);opacity:1;filter:blur(0)}
+.participant-feed-card.out{transform:translateY(18px) scale(.98);opacity:0;filter:blur(8px)}
 .participant-feed-avatar{width:42px;height:42px;border-radius:50%;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.24);display:flex;align-items:center;justify-content:center;color:var(--g2);font-size:16px;font-weight:700;flex-shrink:0;overflow:hidden}
 .participant-feed-avatar img{width:100%;height:100%;object-fit:cover}
 .participant-feed-copy{min-width:0}
@@ -634,7 +635,7 @@ footer strong{color:var(--g2)}
       <div class="orb-r2"></div><div class="orb-r1"></div>
       <div class="orb" id="orb">🎲</div>
     </div>
-    <h2 class="dm-title" id="dmTitle">Preparando el bombo…</h2>
+    <h2 class="dm-title" id="dmTitle">Preparando el sorteo…</h2>
     <p class="dm-sub" id="dmSub">El sorteo inicia automáticamente</p>
     <div class="roller" id="roller"><span>— — — —</span></div>
     <div class="cur-prize" id="curPrize"><span>Premio</span><strong>—</strong></div>
@@ -646,7 +647,7 @@ footer strong{color:var(--g2)}
       </div>
       <div class="mw-amt" id="mwAmt">—</div>
     </div>
-    <button class="dm-btn" id="dmBtn" disabled>Girando el bombo…</button>
+    <button class="dm-btn" id="dmBtn" disabled>Preparando el sorteo…</button>
   </div>
 </div>
 
@@ -890,7 +891,7 @@ footer strong{color:var(--g2)}
     <span class="s-eye">📋 Cómo funciona</span>
     <h2 class="s-h" style="margin-bottom:44px">Simple, claro <em>y verificable</em></h2>
     <div class="how-grid">
-      <div class="how-step"><div class="hs-orb lit">🎟️</div><div class="hs-title">Elegís tu pack</div><div class="hs-desc">Más chances = más bolillas en el bombo = más probabilidades de ganar el gran premio.</div></div>
+      <div class="how-step"><div class="hs-orb lit">🎟️</div><div class="hs-title">Elegís tu pack</div><div class="hs-desc">Más chances = más participación = más probabilidades de ganar el gran premio.</div></div>
       <div class="how-step"><div class="hs-orb lit">📝</div><div class="hs-title">Te registrás y abonás</div><div class="hs-desc">Completás tu nombre y WhatsApp. Después abonás por transferencia o checkout seguro para acreditar tu lugar.</div></div>
       <div class="how-step"><div class="hs-orb lit">✅</div><div class="hs-title">Pago aprobado</div><div class="hs-desc">Cuando el pago queda aprobado, pasás a la lista pública y tu lugar queda confirmado para esta edición.</div></div>
       <div class="how-step"><div class="hs-orb lit">💸</div><div class="hs-title">Participás y cobrás</div><div class="hs-desc">Tus chances quedan activas para el sorteo y, si ganás, te notificamos por WhatsApp para pagarte el premio.</div></div>
@@ -926,7 +927,7 @@ footer strong{color:var(--g2)}
       </div>
     </div>
     <div style="text-align:center;margin-top:14px;padding:14px 20px;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);border-radius:14px;font-size:14px;color:var(--sub);font-weight:600">
-      💡 Cuantas más chances elijas, más bolillas sumás al bombo, más presencia tenés en el sorteo y más fuerte se ve tu participación en la lista pública.
+      💡 Cuantas más chances elijas, más participación tenés en el sorteo y más fuerte se ve tu presencia en la lista pública.
     </div>
   </section>
 
@@ -1039,7 +1040,7 @@ footer strong{color:var(--g2)}
       <div class="list-copy">
         <span class="s-eye">👥 Lista pública de participantes</span>
         <h2 class="s-h" style="margin-bottom:10px">Inscriptos en <em>esta edición</em></h2>
-        <div class="list-note">Vista pública simple y clara. Tocá cualquier perfil para ver sus chances una por una dentro del bombo de esta edición.</div>
+        <div class="list-note">Vista pública simple y clara. Tocá cualquier perfil para ver sus chances confirmadas dentro de esta edición.</div>
       </div>
       <div class="public-pill">🇦🇷 Participan desde toda la Argentina</div>
     </div>
@@ -1047,7 +1048,7 @@ footer strong{color:var(--g2)}
       <div class="live-card">
         <div class="live-label">Chances Reservadas</div>
         <div class="live-value" id="reservedChances">0</div>
-        <div class="live-sub">Ya están adentro del bombo y compiten por el <strong>Sorteo 2026</strong>.</div>
+        <div class="live-sub">Ya están confirmadas y compiten por el <strong>Sorteo 2026</strong>.</div>
       </div>
       <div class="live-card">
         <div class="live-label">Chances Disponibles</div>
@@ -1161,13 +1162,13 @@ footer strong{color:var(--g2)}
         <div class="participant-stat-sub">registro confirmado</div>
       </div>
       <div class="participant-stat">
-        <div class="participant-stat-label">Total en el bombo</div>
+        <div class="participant-stat-label">Total de chances</div>
         <div class="participant-stat-value" id="pmTotal">0</div>
-        <div class="participant-stat-sub">bolillas activas</div>
+        <div class="participant-stat-sub">chances activas</div>
       </div>
     </div>
     <div class="participant-block">
-      <h4>Chances visibles en el bombo</h4>
+      <h4>Chances visibles</h4>
       <div class="ticket-grid" id="pmTickets"></div>
     </div>
     <div class="participant-block" id="pmMsgWrap" style="display:none">
@@ -2109,7 +2110,7 @@ function startParticipantFeed(){
     }else{
       avatar.textContent=participantInitials(p.name);
     }
-    text.innerHTML=`<strong>${publicName(p)}</strong> participa con <strong>${total} bolilla${total!==1?'s':''}</strong> en el bombo.`;
+    text.innerHTML=`<strong>${publicName(p)}</strong> participa con <strong>${total} chance${total!==1?'s':''}</strong>.`;
     meta.textContent=`📍 ${loc} · 📅 ${p.date || nowDate()} · 🕒 ${p.time || '—'}`;
     card.classList.remove('on');
     requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.add('on')));
@@ -2117,7 +2118,13 @@ function startParticipantFeed(){
   };
 
   renderFeedItem();
-  participantFeedTimer=setInterval(renderFeedItem, 4200);
+  participantFeedTimer=setInterval(()=>{
+    card.classList.add('out');
+    setTimeout(()=>{
+      card.classList.remove('on','out');
+      renderFeedItem();
+    },320);
+  }, 4300);
 }
 function placeWheelAfterParticipants(){
   const wheel = document.querySelector('.wheel-section');
@@ -2158,7 +2165,7 @@ function selPkg(i){
   document.querySelectorAll('.pkg').forEach((c,j)=>c.classList.toggle('sel',j===i));
   const p=PKGS[i];
   document.getElementById('sumP').textContent=p.label;
-  document.getElementById('sumC').textContent=p.chances+(p.chances>1?' chances · ':' chance · ')+p.chances+(p.chances>1?' bolillas en el bombo':' bolilla en el bombo');
+  document.getElementById('sumC').textContent=p.chances+(p.chances>1?' chances confirmadas':' chance confirmada');
   document.getElementById('sumT').textContent='$'+fmt(p.price);
   valSub();
   updateFormBonusBanner();
@@ -2304,7 +2311,7 @@ function updateUI(){
     else urgLbl.textContent='';
   }
   if(liveUrgencyCopy){
-    if(rem<=20&&rem>0) liveUrgencyCopy.textContent=`Urgencia alta: quedan solo ${rem} chances disponibles antes de cerrar el bombo.`;
+    if(rem<=20&&rem>0) liveUrgencyCopy.textContent=`Urgencia alta: quedan solo ${rem} chances disponibles antes del cierre.`;
     else if(rem<=0) liveUrgencyCopy.textContent='Ya no quedan chances disponibles. El sorteo entra en etapa de definición.';
     else liveUrgencyCopy.textContent=`Todavía quedan ${rem} chances disponibles, pero el cierre se acelera cuando bajan de 20.`;
   }
@@ -2312,7 +2319,7 @@ function updateUI(){
   if(latestName && latestMeta){
     if(latest){
       latestName.textContent=publicName(latest);
-      latestMeta.textContent=`📍 ${[latest.city,latest.province].filter(Boolean).join(', ') || 'Argentina'} · ${latest.totalChances || latest.chances} bolillas en el bombo.`;
+      latestMeta.textContent=`📍 ${[latest.city,latest.province].filter(Boolean).join(', ') || 'Argentina'} · ${latest.totalChances || latest.chances} chances confirmadas.`;
     }else{
       latestName.textContent='—';
       latestMeta.textContent='Esperando la próxima participación confirmada.';
@@ -2350,7 +2357,7 @@ function renderTable(){
     const totalCh = p.totalChances || p.chances;
     const visibleName = publicName(p);
     const participationDate = p.date || nowDate();
-    const chDetail = `<span class="chance-badge"><strong>${totalCh}</strong> bolillas en el bombo</span>`;
+    const chDetail = `<span class="chance-badge"><strong>${totalCh}</strong> chances</span>`;
     row.innerHTML=`
       <div class="td av">${avatarHtml}</div>
       <div class="td nm" style="${isW?'color:var(--g2)':''}">${isW?'🏆 ':''}${visibleName}<small>${participantBadge(p)}</small><div class="participant-mobile-meta"><span class="participant-mobile-chip">📍 ${locParts.join(', ') || 'Argentina'}</span><span class="participant-mobile-chip">📅 ${participationDate}</span></div></div>
@@ -2387,7 +2394,7 @@ function renderDreams(){
           <div class="dream-name">${publicName(p)}</div>
           <div class="dream-loc">📍 ${locStr}</div>
         </div>
-        <div class="dream-ch">🎟️ ${totalCh} bolillas</div>
+        <div class="dream-ch">🎟️ ${totalCh} chances</div>
       </div>`;
     grid.appendChild(card);
   });
@@ -2474,7 +2481,7 @@ function syncPrizeUI(){
   document.getElementById('curPrize').innerHTML=`<span>${p.label}</span><strong>${p.amount}</strong>`;
   document.getElementById('miniWin').classList.remove('show');
   document.getElementById('dmBtn').disabled=true;
-  document.getElementById('dmBtn').textContent='Girando el bombo…';
+  document.getElementById('dmBtn').textContent='Preparando el sorteo…';
   const orb=document.getElementById('orb');orb.textContent='🎲';orb.classList.remove('spin');
   document.getElementById('roller').innerHTML='<span>— — — —</span>';
   document.getElementById('roller').className='roller';
