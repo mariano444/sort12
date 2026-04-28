@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SORTEO ÉLITE — Gran Premio 2025</title>
+<title>premionline — Gran Premio 2025</title>
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -344,12 +344,12 @@ select.fi option{background:#050D1A;color:var(--text)}
 .list-copy{max-width:680px}
 .list-note{font-size:13px;color:var(--sub);line-height:1.65;font-weight:500}
 .ptbl{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
-.tblhd{display:grid;grid-template-columns:64px minmax(0,1.4fr) minmax(120px,.9fr) 108px 112px;padding:13px 22px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bdr)}
+.tblhd{display:grid;grid-template-columns:64px minmax(0,1.35fr) minmax(120px,1fr) 112px 86px 108px;padding:13px 22px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bdr)}
 .th{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
 .tblbd{max-height:360px;overflow-y:auto}
 .tblbd::-webkit-scrollbar{width:3px}
 .tblbd::-webkit-scrollbar-thumb{background:rgba(212,168,67,.25);border-radius:2px}
-.tblrow{display:grid;grid-template-columns:64px minmax(0,1.4fr) minmax(120px,.9fr) 108px 112px;padding:12px 22px;border-bottom:1px solid rgba(255,255,255,.035);align-items:center;transition:background .2s,transform .2s,box-shadow .2s;gap:14px;cursor:pointer}
+.tblrow{display:grid;grid-template-columns:64px minmax(0,1.35fr) minmax(120px,1fr) 112px 86px 108px;padding:12px 22px;border-bottom:1px solid rgba(255,255,255,.035);align-items:center;transition:background .2s,transform .2s,box-shadow .2s;gap:14px;cursor:pointer}
 .tblrow:hover{background:rgba(255,255,255,.02);transform:translateY(-1px);box-shadow:inset 0 0 0 1px rgba(212,168,67,.08)}
 .tblrow:last-child{border-bottom:none}
 .td{font-size:12.5px}
@@ -357,9 +357,12 @@ select.fi option{background:#050D1A;color:var(--text)}
 .av-img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid rgba(212,168,67,.3);background:rgba(212,168,67,.08);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--g2);flex-shrink:0}
 .td.nm{font-weight:600;color:var(--text)}
 .td.nm small{display:block;margin-top:4px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.participant-mobile-meta{display:none;margin-top:7px;gap:6px;flex-wrap:wrap}
+.participant-mobile-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:10px;color:var(--sub);line-height:1.2}
 .td.loc{font-size:11px;color:var(--sub);line-height:1.3}
 .td.loc span{display:block}
 .td.loc .city{color:var(--text);font-weight:600;font-size:12px}
+.td.dt{font-size:11px;color:var(--sub);font-family:'JetBrains Mono',monospace}
 .td.ch{font-family:'JetBrains Mono',monospace;color:var(--g2);font-weight:700;font-size:12px;justify-self:end}
 .td.tm{font-size:11px;color:var(--sub);font-family:'JetBrains Mono',monospace}
 .empty-st{padding:52px 24px;text-align:center;color:var(--sub);font-size:14px}
@@ -369,10 +372,24 @@ select.fi option{background:#050D1A;color:var(--text)}
 .chance-break{font-size:9px;color:var(--teal);letter-spacing:.5px}
 .chance-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.16);font-size:11px;color:var(--teal);font-weight:700}
 .chance-badge strong{font-family:'JetBrains Mono',monospace;font-size:12px}
+.availability-box{display:none;max-width:760px;margin:34px auto 0;padding:22px 24px;background:linear-gradient(135deg,rgba(192,57,43,.12),rgba(212,168,67,.08));border:1px solid rgba(212,168,67,.2);border-radius:24px}
+.availability-top{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.availability-kicker{font-size:10px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#FFB199}
+.availability-title{margin-top:6px;font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,34px);font-weight:900;color:var(--text);line-height:1.05}
+.availability-count{font-family:'JetBrains Mono',monospace;font-size:clamp(24px,5vw,36px);font-weight:700;color:#FFD740}
+.availability-count small{display:block;margin-top:4px;font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sub)}
+.availability-track{margin-top:16px;height:14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);overflow:hidden}
+.availability-fill{height:100%;width:0;background:linear-gradient(90deg,#7A0000,#C41E3A,#D4A843);border-radius:999px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.availability-note{margin-top:12px;font-size:12px;font-weight:700;letter-spacing:.3px;color:#FFD2BF;text-align:center}
 .public-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.18);border-radius:999px;padding:7px 12px;font-size:11px;color:var(--g2);font-weight:700;letter-spacing:.7px;text-transform:uppercase}
 .full-notice{display:none;margin-bottom:28px;background:rgba(0,201,167,.05);border:1px solid rgba(0,201,167,.2);border-radius:18px;padding:28px;text-align:center}
 .fn-h{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);margin-bottom:4px;margin-top:8px}
 .fn-p{font-size:13px;color:var(--sub)}
+.hero-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:26px}
+.hero-flow-card{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:18px}
+.hero-flow-step{font-size:10px;color:var(--g2);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.hero-flow-title{font-size:17px;color:var(--text);font-weight:700;margin-bottom:8px}
+.hero-flow-copy{font-size:13px;color:var(--sub);line-height:1.65}
 
 /* ═══ DRAW MODAL ═══ */
 .draw-overlay{position:fixed;inset:0;z-index:900;background:rgba(1,5,13,0);backdrop-filter:blur(0);display:flex;align-items:center;justify-content:center;pointer-events:none;transition:background 1s,backdrop-filter 1s}
@@ -518,12 +535,14 @@ footer strong{color:var(--g2)}
 .faq-help-copy h3{margin:0 0 6px;font-family:'Playfair Display',serif;font-size:28px;color:var(--text)}
 .faq-help-copy p{margin:0;font-size:13px;color:var(--sub);line-height:1.7}
 .wa-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#12b95a,#25D366);color:#fff;text-decoration:none;border-radius:999px;padding:16px 24px;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;box-shadow:0 14px 40px rgba(37,211,102,.22)}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:1200;display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#12b95a,#25D366);color:#fff;text-decoration:none;border-radius:999px;padding:14px 18px;font-size:13px;font-weight:700;box-shadow:0 18px 44px rgba(37,211,102,.35)}
 
 @media(max-width:820px){
+  .hero-flow{grid-template-columns:1fr}
   .list-head{align-items:flex-start}
-  .tblhd{grid-template-columns:56px minmax(0,1fr) 92px}
-  .tblrow{grid-template-columns:56px minmax(0,1fr) 92px}
-  .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
+  .tblhd{grid-template-columns:56px minmax(0,1fr) 120px 92px 100px}
+  .tblrow{grid-template-columns:56px minmax(0,1fr) 120px 92px 100px}
+  .th.col-time,.td.tm{display:none}
   .participant-stats{grid-template-columns:1fr}
   .faq-grid{grid-template-columns:1fr}
 }
@@ -542,8 +561,8 @@ footer strong{color:var(--g2)}
   .f-grid{grid-template-columns:1fr}.fg.full{grid-column:1}
   .tb-in{flex-direction:column;align-items:flex-start;gap:8px}
   .draw-modal{padding:36px 18px}
-  .tblhd,.tblrow{grid-template-columns:56px minmax(0,1fr) 92px}
-  .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
+  .tblhd,.tblrow{grid-template-columns:56px minmax(0,1fr) 120px 92px 100px}
+  .th.col-time,.td.tm{display:none}
 }
 @media(max-width:480px){
   .pkg-grid,.trust-grid,.how-grid{grid-template-columns:1fr}
@@ -552,12 +571,12 @@ footer strong{color:var(--g2)}
   .tblbd{max-height:none;overflow:visible;padding:12px}
   .ptbl{background:transparent;border:none}
   .tblrow{grid-template-columns:52px minmax(0,1fr);gap:12px;padding:14px;border:1px solid var(--bdr);border-radius:18px;background:var(--card);margin-bottom:12px}
-  .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
-  .td.av{grid-row:span 2}
+  .th.col-loc,.th.col-date,.th.col-time,.td.loc,.td.dt,.td.tm{display:none}
+  .td.av{grid-row:span 3}
   .td.nm small{margin-top:6px}
+  .participant-mobile-meta{display:flex}
   .td.ch{grid-column:2;justify-self:start}
   .chips-row .chip{width:50px;height:50px;font-size:9px}
-  .wheel-wrap{width:240px;height:240px}
   .participant-card{padding:22px 18px}
   .participant-head{align-items:flex-start}
   .participant-avatar{width:68px;height:68px;font-size:28px}
@@ -566,6 +585,10 @@ footer strong{color:var(--g2)}
   .faq-help{padding:18px}
   .faq-help-copy h3{font-size:24px}
   .wa-btn{width:100%}
+  .wa-float{right:12px;left:12px;bottom:12px;justify-content:center}
+  .availability-box{padding:18px}
+  .availability-top{align-items:flex-start}
+  .availability-count small{text-align:left}
 }
 </style>
 </head>
@@ -611,7 +634,7 @@ footer strong{color:var(--g2)}
     <div class="logo">
       <div class="logo-emblem">🏆</div>
       <div>
-        <div class="logo-name">SORTEO ÉLITE</div>
+        <div class="logo-name">premionline</div>
         <span class="logo-tag">Edición Oficial 2025 · Verificado</span>
       </div>
     </div>
@@ -624,44 +647,47 @@ footer strong{color:var(--g2)}
   </div>
 </div>
 
-<!-- ═══════ URGENCY BAR ═══════ -->
-<div id="urgBar">
-  <div class="urg-in W">
-    <span>🎰 ¡CUPOS LIMITADOS!</span>
-    <span>Quedan solo <strong class="urg-cupos" id="urgCupos">15</strong> cupos en esta edición</span>
-    <span class="urg-timer" id="urgTimer">00:45:00</span>
-    <span>El sorteo inicia <b>solo</b> al completarse</span>
-  </div>
-</div>
-
 <div id="root">
 <div class="W">
 
   <section id="hero" style="padding-top:28px">
-    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · Solo 100 Cupos</div>
-    <h1 class="hero-h fade-up a3">GRAN SORTEO<span class="gold">MILLONARIO</span></h1>
-    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Transparente, verificado y en vivo: al completarse los <b>100 cupos</b>, el sorteo inicia <b>automáticamente</b> y la ruleta respeta exactamente el premio donde apunta la aguja.</p>
+    <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · Solo 80 cupos</div>
+    <h1 class="hero-h fade-up a3">premio<span class="gold">nline</span></h1>
+    <p class="hero-sub fade-up a4">Participás desde cualquier lugar de la Argentina. Primero te registrás, después abonás por transferencia o checkout seguro, el pago se acredita y recién ahí quedás visible en la lista pública con tus chances activas para el sorteo.</p>
 
-    <div class="stats-grid fade-up a5">
-      <div class="stat" id="sc1"><div class="stat-n" id="stPart">0</div><div class="stat-l">Participantes</div></div>
-      <div class="stat" id="sc2"><div class="stat-n" id="stCups">100</div><div class="stat-l">Cupos Restantes</div></div>
-      <div class="stat"><div class="stat-n">$14.010.000</div><div class="stat-l">En Premios</div></div>
-      <div class="stat"><div class="stat-n" id="stDraws">248</div><div class="stat-l">Sorteos Realizados</div></div>
-      <div class="stat"><div class="stat-n" id="stPaid">$2.482.480.000</div><div class="stat-l">Total Pagado</div></div>
-    </div>
-
-    <div class="prog-wrap fade-up a6">
-      <div class="prog-top">
-        <span class="prog-lbl">🎟️ Cupos Ocupados</span>
-        <span class="prog-n" id="progN">0 <small>/ 100</small></span>
+    <div class="hero-flow fade-up a5">
+      <div class="hero-flow-card">
+        <div class="hero-flow-step">Paso 1</div>
+        <div class="hero-flow-title">Te registrás</div>
+        <div class="hero-flow-copy">Elegís tu pack, completás tus datos y reservás tu lugar en esta edición nacional.</div>
       </div>
-      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-      <div class="prog-marks"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-      <div class="urg-lbl" id="urgLbl"></div>
+      <div class="hero-flow-card">
+        <div class="hero-flow-step">Paso 2</div>
+        <div class="hero-flow-title">Abonás y se acredita</div>
+        <div class="hero-flow-copy">Cuando el pago queda aprobado, tu inscripción pasa a la lista pública de participantes y tus chances quedan confirmadas.</div>
+      </div>
+      <div class="hero-flow-card">
+        <div class="hero-flow-step">Paso 3</div>
+        <div class="hero-flow-title">Quedás confirmado</div>
+        <div class="hero-flow-copy">Una vez acreditado el pago, tu participación queda publicada y lista para entrar al sorteo de esta edición.</div>
+      </div>
     </div>
 
     <div class="ticker-outer fade-up">
       <div class="ticker" id="tickerEl"></div>
+    </div>
+    <div class="availability-box fade-up a6" id="availabilityBox">
+      <div class="availability-top">
+        <div>
+          <div class="availability-kicker">Últimos lugares disponibles</div>
+          <div class="availability-title">Se activa el cierre de la edición cuando queden 20 cupos o menos</div>
+        </div>
+        <div class="availability-count"><span id="urgCupos">20</span><small>cupos disponibles</small></div>
+      </div>
+      <div class="availability-track">
+        <div class="availability-fill" id="progFill"></div>
+      </div>
+      <div class="availability-note" id="urgLbl"></div>
     </div>
   </section>
 
@@ -675,7 +701,7 @@ footer strong{color:var(--g2)}
         <div class="pz-inf">
           <div class="pz-pl">Primer Premio</div>
           <div class="pz-val">$10.000.000</div>
-          <div class="pz-note">Transferencia inmediata · Mercado Pago · CBU · En 24 hs</div>
+          <div class="pz-note">Transferencia inmediata · Galiopay · CBU · En 24 hs</div>
         </div>
       </div>
       <div class="pz p2">
@@ -704,11 +730,7 @@ footer strong{color:var(--g2)}
       </div>
     </div>
     <div class="prize-total">
-      <span class="pt-label">🎁 Pozo total esta edición</span>
-      <span>·</span>
-      <span class="pt-val">$14.010.000</span>
-      <span>·</span>
-      <span class="pt-label">Pagado en menos de 24 hs</span>
+      <span class="pt-label">🎁 Premios pagados en menos de 24 hs</span>
     </div>
   </section>
 
@@ -721,7 +743,7 @@ footer strong{color:var(--g2)}
 
         <div class="buy-card">
           <div class="buy-img-wrap">
-            <img class="buy-img" src="assets/auto-usada-1.png" alt="Auto usada" loading="lazy">
+            <img class="buy-img" src="assets/auto-usada-3.png" alt="Auto usada" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">🚗 Transporte</span>
@@ -731,7 +753,7 @@ footer strong{color:var(--g2)}
 
         <div class="buy-card">
           <div class="buy-img-wrap">
-            <img class="buy-img" src="assets/auto-usada-2.png" alt="Auto usada" loading="lazy">
+            <img class="buy-img" src="assets/auto-usada-4.png" alt="Auto usada" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">🚗 Transporte</span>
@@ -761,7 +783,7 @@ footer strong{color:var(--g2)}
 
         <div class="buy-card">
           <div class="buy-img-wrap">
-            <img class="buy-img" src="assets/vacaciones.jpg" alt="Vacaciones" loading="lazy">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80&auto=format&fit=crop" alt="Vacaciones" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">✈️ Viajes</span>
@@ -771,11 +793,11 @@ footer strong{color:var(--g2)}
 
         <div class="buy-card">
           <div class="buy-img-wrap">
-            <img class="buy-img" src="assets/electrodomesticos.avif" alt="TV" loading="lazy">
+            <img class="buy-img" src="assets/auto-usada-5.png" alt="Auto usada" loading="lazy">
           </div>
           <div class="buy-body">
-            <span class="buy-tag">📺 Tecnología</span>
-            <div class="buy-name">TV</div>
+            <span class="buy-tag">🚗 Transporte</span>
+            <div class="buy-name">Auto Usada</div>
           </div>
         </div>
 
@@ -791,11 +813,21 @@ footer strong{color:var(--g2)}
 
         <div class="buy-card">
           <div class="buy-img-wrap">
-            <img class="buy-img" src="assets/electrodomesticos.avif" alt="Electrodomésticos" loading="lazy">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80&auto=format&fit=crop" alt="Celulares" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">📱 Tecnología</span>
             <div class="buy-name">Celulares</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="https://images.unsplash.com/photo-1586208958839-06c17cacdf08?w=600&q=80&auto=format&fit=crop" alt="Electrodomésticos" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🏠 Hogar</span>
+            <div class="buy-name">Electrodomésticos</div>
           </div>
         </div>
 
@@ -814,21 +846,18 @@ footer strong{color:var(--g2)}
     <h2 class="s-h">Confianza que <em>se demuestra</em></h2>
     <div class="trust-grid">
       <div class="tc">
-        <div class="tc-big g">248+</div>
-        <div class="tc-title">Sorteos Realizados</div>
-        <div class="tc-desc">Más de 248 ediciones completadas con éxito. Cada sorteo fue transmitido en vivo y auditado por los participantes en tiempo real.</div>
+        <div class="tc-title">Registro claro</div>
+        <div class="tc-desc">Una vez acreditado el pago, tu participación entra a la lista pública con tus chances exactas y tu perfil visible para esta edición.</div>
         <span class="tc-tag ttg">▶ Historial público</span>
       </div>
       <div class="tc">
-        <div class="tc-big t" id="tcPaid">$2.482M</div>
-        <div class="tc-title">En Premios Pagados</div>
-        <div class="tc-desc">El 100% de los premios acreditados dentro de las 24 hs. Transferencia bancaria, Mercado Pago o CBU a elección del ganador.</div>
+        <div class="tc-title">Acreditación de pago</div>
+        <div class="tc-desc">Después de registrarte y abonar, el sistema confirma tu pago y te deja habilitado para participar oficialmente en esta edición.</div>
         <span class="tc-tag ttgo">✓ Pagos en 24 hs</span>
       </div>
       <div class="tc">
-        <div class="tc-big r">100%</div>
-        <div class="tc-title">Sorteos Transparentes</div>
-        <div class="tc-desc">Lista de participantes pública antes, durante y después. Más chances = más bolillas. El bombo gira automáticamente al completar los cupos.</div>
+        <div class="tc-title">Premios rápidos</div>
+        <div class="tc-desc">Si resultás ganador, te notificamos por WhatsApp y coordinamos el pago del premio dentro de las 24 horas.</div>
         <span class="tc-tag ttg">🔒 Verificado en vivo</span>
       </div>
     </div>
@@ -840,88 +869,11 @@ footer strong{color:var(--g2)}
     <h2 class="s-h" style="margin-bottom:44px">Simple, claro <em>y verificable</em></h2>
     <div class="how-grid">
       <div class="how-step"><div class="hs-orb lit">🎟️</div><div class="hs-title">Elegís tu pack</div><div class="hs-desc">Más chances = más bolillas en el bombo = más probabilidades de ganar el gran premio.</div></div>
-      <div class="how-step"><div class="hs-orb lit">📝</div><div class="hs-title">Te inscribís</div><div class="hs-desc">Completás tu nombre y WhatsApp. Tu nombre queda en la lista pública antes del sorteo.</div></div>
-      <div class="how-step"><div class="hs-orb lit">🎰</div><div class="hs-title">Sorteo automático</div><div class="hs-desc">Al completar los 100 cupos el bombo gira solo, en vivo, frente a todos los participantes.</div></div>
-      <div class="how-step"><div class="hs-orb lit">💸</div><div class="hs-title">Premio en 24 hs</div><div class="hs-desc">Los ganadores reciben notificación por WhatsApp y el dinero en menos de 24 horas.</div></div>
+      <div class="how-step"><div class="hs-orb lit">📝</div><div class="hs-title">Te registrás y abonás</div><div class="hs-desc">Completás tu nombre y WhatsApp. Después abonás por transferencia o checkout seguro para acreditar tu lugar.</div></div>
+      <div class="how-step"><div class="hs-orb lit">✅</div><div class="hs-title">Pago aprobado</div><div class="hs-desc">Cuando el pago queda aprobado, pasás a la lista pública y tu lugar queda confirmado para esta edición.</div></div>
+      <div class="how-step"><div class="hs-orb lit">💸</div><div class="hs-title">Participás y cobrás</div><div class="hs-desc">Tus chances quedan activas para el sorteo y, si ganás, te notificamos por WhatsApp para pagarte el premio.</div></div>
     </div>
   </section>
-
-  <!-- ═══════ BONUS WHEEL ═══════ -->
-  <div class="wheel-section fade-up a1">
-  <div class="bonus-wheel-container">
-
-    <div class="wheel-title-bar">
-      <div class="wheel-eyebrow"><span class="wheel-fire">🔥</span>RULETA DE CHANCES · GIRÁ GRATIS AHORA</div>
-      <div class="wheel-main-title">Activá tu bonus <span style="color:var(--red3)">antes</span> de elegir el pack</div>
-      <div class="wheel-sub-title">Siempre ganás 1 o 3 chances gratis · <strong style="color:var(--g2)">Comprá 3+ para activar</strong> tu premio en el sorteo nacional</div>
-      <div id="wheelUrgency" style="margin-top:10px;display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.35);border-radius:30px;padding:6px 18px;font-size:11px;font-weight:700;color:#FF8A80;letter-spacing:.5px">
-        <span style="width:7px;height:7px;border-radius:50%;background:#FF6B6B;display:inline-block;animation:ldot 1.2s ease-in-out infinite;box-shadow:0 0 6px #FF6B6B"></span>
-        ¡Solo <strong id="wheelCuposLeft" style="color:#FFD740;margin:0 3px">15</strong> cupos disponibles — el sorteo cierra al completarse
-      </div>
-    </div>
-
-    <div class="wheel-stage">
-      <div class="wheel-halo"></div>
-      <div class="wheel-bezel"></div>
-      <div class="wheel-bezel-mask"></div>
-      <canvas id="ledDotsCanvas"></canvas>
-      <canvas id="sparksCanvas"></canvas>
-      <canvas id="wheelCanvas" width="380" height="380" onclick="bonusSpin()" title="¡Hacé clic para girar!"></canvas>
-      <div class="wheel-needle">
-        <svg width="24" height="48" viewBox="0 0 24 48">
-          <defs>
-            <linearGradient id="ng2" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#FFE566"/>
-              <stop offset="60%" stop-color="#D4A843"/>
-              <stop offset="100%" stop-color="#7A5200"/>
-            </linearGradient>
-            <filter id="nf"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,.7)"/></filter>
-          </defs>
-          <polygon points="12,47 22,2 12,10 2,2" fill="url(#ng2)" filter="url(#nf)" stroke="rgba(0,0,0,.4)" stroke-width="1"/>
-          <circle cx="12" cy="38" r="3" fill="rgba(255,255,255,.7)"/>
-        </svg>
-      </div>
-      <div class="wheel-center-hub"><span class="wheel-center-icon">🎯</span></div>
-    </div>
-
-    <div class="wheel-result-panel" id="wheelResultPanel">
-      <div class="wheel-result-idle" id="wheelResultIdle">
-        🎡 <strong style="color:var(--text)">Girás primero y después elegís tu pack</strong><br>
-        <span style="font-size:11px">Siempre salís con 1 o 3 chances · Comprá 3+ para activar</span>
-      </div>
-      <div class="wheel-result-prize" id="wheelResultPrize">
-        <div class="wrp-badge" id="wrpBadge"></div>
-        <div class="wrp-icon" id="wrpIcon"></div>
-        <div class="wrp-label" id="wrpLabel"></div>
-        <div class="wrp-desc" id="wrpDesc"></div>
-        <button class="wrp-add-btn" id="wrpAddBtn" onclick="addBonusChances()">✅ ¡AGREGAR CHANCES Y CONTINUAR!</button>
-      </div>
-    </div>
-
-    <div class="wheel-controls">
-      <div class="spins-info">
-        <div class="spins-badge">
-            <span>🎡 Tiros gratis disponibles:</span>
-            <span class="spins-count" id="freeSpinsCount">1</span>
-          </div>
-          <div class="spins-badge" style="border-color:rgba(0,201,167,.3);background:rgba(0,201,167,.06);color:var(--teal)">
-            🎁 Chances bonus: <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--teal);margin-left:4px" id="bonusChancesTotal">0</span>
-          </div>
-      </div>
-      <button class="wheel-spin-btn" id="wheelSpinBtn" onclick="bonusSpin()">🎰 &nbsp;¡GIRAR Y GANAR CHANCES GRATIS!</button>
-      <div style="font-size:11px;color:var(--muted);text-align:center">🔐 Siempre ganás · <b style="color:var(--g2)">1 o 3 chances</b> gratis · Comprá 3+ para <b style="color:var(--red3)">ACTIVAR</b></div>
-    </div>
-
-    <div class="wheel-prizes-row">
-      <div class="wpr wpr-mid"><div class="wpr-ico">⭐</div><div class="wpr-val">1 chance</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
-      <div class="wpr wpr-mid"><div class="wpr-ico">🎁</div><div class="wpr-val">3 chances</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
-      <div class="wpr wpr-big"><div class="wpr-ico">🔥</div><div class="wpr-val">6 ch</div><div class="wpr-lbl">BONUS</div><div class="wpr-prob">ocasional</div></div>
-      <div class="wpr wpr-jackpot"><div class="wpr-ico">🏆</div><div class="wpr-val">100 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
-      <div class="wpr wpr-jackpot"><div class="wpr-ico">💎</div><div class="wpr-val">1.000 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
-      <div class="wpr wpr-nada"><div class="wpr-ico">💰</div><div class="wpr-val">$100.000</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
-    </div>
-  </div>
-  </div>
 
   <!-- ═══════ PACKAGES ═══════ -->
   <section class="pkg-section">
@@ -952,30 +904,14 @@ footer strong{color:var(--g2)}
       </div>
     </div>
     <div style="text-align:center;margin-top:14px;padding:14px 20px;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);border-radius:14px;font-size:14px;color:var(--sub);font-weight:600">
-      💡 Con el pack de <b style="color:var(--g2)">3 chances o más</b> también <b style="color:var(--red3)">activás el premio</b> que ganaste en la ruleta. ¡No lo pierdas!
+      💡 Cuantas más chances elijas, más bolillas sumás al bombo y más posibilidades tenés de ganar.
     </div>
   </section>
 
   <!-- ═══════ FORM ═══════ -->
   <div class="form-section" id="formSection">
-    <!-- BANNER "UN PASO MÁS" — visible solo cuando hay bonus -->
-    <div id="formBonusBanner" style="display:none;margin-bottom:24px;border-radius:16px;overflow:hidden;position:relative">
-      <div style="background:linear-gradient(135deg,rgba(0,80,40,.35),rgba(0,201,167,.12));border:1px solid rgba(0,201,167,.4);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <div style="font-size:36px;flex-shrink:0;animation:halopulse 1.5s ease-in-out infinite alternate">🎁</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:3px">¡ESTÁS A UN PASO!</div>
-          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--text);line-height:1.1">Tenés <span id="bannerBonusCount" style="color:var(--teal)">0</span> chances ganadas en la ruleta listas para activar</div>
-          <div style="font-size:12px;color:var(--sub);margin-top:4px">Completá tu inscripción con <strong style="color:var(--g2)">3 chances o más</strong> y se suman automáticamente al bombo</div>
-        </div>
-        <div style="background:rgba(0,201,167,.12);border:1px solid rgba(0,201,167,.3);border-radius:12px;padding:12px 18px;text-align:center;flex-shrink:0">
-          <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal)">Total en el bombo</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--teal);line-height:1" id="bannerTotalChances">—</div>
-          <div style="font-size:10px;color:var(--sub)">bolillas 🎰</div>
-        </div>
-      </div>
-    </div>
     <h3 class="f-h">Completá tu inscripción</h3>
-    <p class="f-sub">Tu información es privada. Participás desde cualquier lugar de la Argentina. En la lista pública mostramos nombre, apellido completo, provincia y ciudad, salvo que elijas aparecer de forma anónima.</p>
+    <p class="f-sub">Tu información es privada. Participás desde cualquier lugar de la Argentina. Después de registrarte y abonar, el pago se acredita y pasás a la lista pública con tus chances activas.</p>
     <div class="f-grid">
 
       <!-- FOTO DE PERFIL -->
@@ -1045,25 +981,17 @@ footer strong{color:var(--g2)}
         <div class="sum-box">
           <div class="sum-row"><span class="sk">Pack elegido</span><span class="sv" id="sumP">— Elegí un pack arriba —</span></div>
           <div class="sum-row"><span class="sk">Chances compradas</span><span class="sv" id="sumC">—</span></div>
-          <div class="sum-row sum-bonus-row" id="sumBonusRow" style="display:none">
-            <span class="sk" style="color:var(--teal);display:flex;align-items:center;gap:5px"><span style="font-size:14px">🎁</span>Chances bonus (ruleta)</span>
-            <span class="sv" id="sumBonus" style="color:var(--teal)">—</span>
-          </div>
-          <div class="sum-row sum-total-row" id="sumTotalRow" style="display:none;border-top:1px solid rgba(212,168,67,.2);margin-top:6px;padding-top:8px">
-            <span class="sk" style="color:var(--g2);font-weight:700;display:flex;align-items:center;gap:5px"><span style="font-size:14px">🎰</span>Total bolillas en el bombo</span>
-            <span class="sv hi" id="sumTotalChances" style="color:var(--g2);font-size:19px;font-family:'JetBrains Mono',monospace">—</span>
-          </div>
           <div class="sum-row" style="margin-top:6px"><span class="sk">Total a pagar</span><span class="sv hi" id="sumT">—</span></div>
         </div>
         <!-- Mini urgency bajo el resumen -->
         <div id="sumUrgency" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;font-size:12px;color:#FF8A80;font-weight:600;text-align:center">
-          ⏳ ¡Quedan solo <strong id="sumCuposLeft" style="color:#FFD740">15</strong> cupos! El sorteo arranca automáticamente al completarse.
+          ⏳ Últimos lugares disponibles: <strong id="sumCuposLeft" style="color:#FFD740">20</strong> cupos antes de cerrar esta edición.
         </div>
       </div>
       <div class="fg full">
         <div class="terms-row">
           <div class="chk on" id="chkT" onclick="toggleTerms()"></div>
-          <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que el sorteo se realiza en vivo automáticamente al completar los 100 cupos, y los premios se pagan dentro de las 24 hs.</div>
+          <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que el sorteo se realiza en vivo automáticamente al completar los 80 cupos, y los premios se pagan dentro de las 24 hs.</div>
         </div>
       </div>
     </div>
@@ -1074,7 +1002,7 @@ footer strong{color:var(--g2)}
     </div>
     <div class="pay-row">
       <span class="pm">🏦 Transferencia</span>
-      <span class="pm">📱 Mercado Pago</span>
+      <span class="pm">💳 Galiopay</span>
       <span class="pm">💳 CBU / Alias</span>
       <span class="pm">📲 Rapipago</span>
     </div>
@@ -1084,7 +1012,7 @@ footer strong{color:var(--g2)}
   <div class="full-notice" id="fullNotice">
     <div style="font-size:36px">🔒</div>
     <h3 class="fn-h">¡CUPOS COMPLETOS!</h3>
-    <p class="fn-p">Los 100 cupos están ocupados. El sorteo comenzó automáticamente en vivo. ¡Seguilo en tiempo real!</p>
+    <p class="fn-p">Los 80 cupos están ocupados. El sorteo comenzó automáticamente en vivo. ¡Seguilo en tiempo real!</p>
   </div>
 
   <!-- ═══════ TABLE ═══════ -->
@@ -1098,7 +1026,7 @@ footer strong{color:var(--g2)}
       <div class="public-pill">🇦🇷 Participan desde toda la Argentina</div>
     </div>
     <div class="ptbl">
-      <div class="tblhd"><div class="th">Foto</div><div class="th">Participante</div><div class="th col-loc">Ubicación</div><div class="th" title="Total = compradas + bonus ruleta">🎟️ Total</div><div class="th col-time">Hora</div></div>
+      <div class="tblhd"><div class="th">Foto</div><div class="th">Participante</div><div class="th col-loc">Ubicación</div><div class="th col-date">Fecha</div><div class="th col-time">Hora</div><div class="th">🎟️ Total</div></div>
       <div class="tblbd" id="tblBody"><div class="empty-st"><span class="ei">🎟️</span>Aún no hay participantes. ¡Sé el primero!</div></div>
     </div>
   </div>
@@ -1139,16 +1067,16 @@ footer strong{color:var(--g2)}
         <div class="faq-a">Sí. El sorteo es nacional y podés inscribirte desde cualquier provincia o ciudad del país.</div>
       </div>
       <div class="faq-card">
-        <div class="faq-q">¿Cómo funciona la ruleta?</div>
-        <div class="faq-a">Girás gratis, ganás chances bonus y, si comprás 3 chances o más, ese premio queda activado automáticamente en tu inscripción.</div>
+        <div class="faq-q">¿Cuándo queda confirmada mi participación?</div>
+        <div class="faq-a">Tu participación queda confirmada cuando el pago figura como aprobado y aparecés en la lista pública de esta edición.</div>
       </div>
       <div class="faq-card">
         <div class="faq-q">¿Cuándo se hace el sorteo?</div>
-        <div class="faq-a">El sorteo arranca en vivo y de forma automática cuando se completan los 100 cupos de la edición actual.</div>
+        <div class="faq-a">El sorteo arranca en vivo y de forma automática cuando se completan los 80 cupos de la edición actual.</div>
       </div>
       <div class="faq-card">
         <div class="faq-q">¿Cómo cobran los ganadores?</div>
-        <div class="faq-a">Se notifica por WhatsApp y el pago se acredita dentro de las 24 horas por transferencia, Mercado Pago, CBU o alias.</div>
+        <div class="faq-a">Se notifica por WhatsApp y el pago se acredita dentro de las 24 horas por transferencia, Galiopay, CBU o alias.</div>
       </div>
     </div>
     <div class="faq-help">
@@ -1162,6 +1090,8 @@ footer strong{color:var(--g2)}
 
 </div>
 </div>
+
+<a class="wa-float" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20sorteo" target="_blank" rel="noopener noreferrer">WhatsApp</a>
 
 <div class="participant-modal" id="participantModal" onclick="closeParticipantModal(event)">
   <div class="participant-card" onclick="event.stopPropagation()">
@@ -1180,9 +1110,9 @@ footer strong{color:var(--g2)}
         <div class="participant-stat-sub">paquete elegido</div>
       </div>
       <div class="participant-stat">
-        <div class="participant-stat-label">Bonus ruleta</div>
-        <div class="participant-stat-value" id="pmBonus">0</div>
-        <div class="participant-stat-sub">chances extra</div>
+        <div class="participant-stat-label">Fecha de participación</div>
+        <div class="participant-stat-value" id="pmDate">—</div>
+        <div class="participant-stat-sub">registro confirmado</div>
       </div>
       <div class="participant-stat">
         <div class="participant-stat-label">Total en el bombo</div>
@@ -1203,10 +1133,10 @@ footer strong{color:var(--g2)}
 
 <footer>
   <div class="W">
-    <div>SORTEO ÉLITE 2025 · <strong>Transparente · Verificado · En Vivo</strong></div>
+    <div>premionline 2025 · <strong>Transparente · Verificado · En Vivo</strong></div>
     <div class="ft-row">
       <span class="fti">🔒 Sorteos verificados en vivo</span>
-      <span class="fti">✅ Premios pagados en 24 hs</span>
+      <span class="fti">🎁 Premios pagados en menos de 24 hs</span>
       <span class="fti">📋 Lista de participantes pública</span>
       <span class="fti">⭐ 4.9/5 en 800+ reseñas</span>
     </div>
@@ -1241,7 +1171,7 @@ footer strong{color:var(--g2)}
 /* ══════════════════════════════════════════════
    CONFIG
 ══════════════════════════════════════════════ */
-const MAX=100;
+const MAX=80;
 const PKGS=[
   {label:'1 Chance',   chances:1,  price:2000},
   {label:'3 Chances',  chances:3,  price:5000},
@@ -1256,21 +1186,21 @@ const PRIZES=[
 ];
 const PRIZE_TOTAL=14010000;
 const DEMO=[
-  {name:'Lucía Martínez',    chances:6,  bonusChances:1, totalChances:7,  time:'09:02', province:'Córdoba',       city:'Córdoba',          msg:'Compraría un auto 0km para llevar a mis hijos al colegio sin depender de nadie.', isAnonymous:false},
-  {name:'Martín Rodríguez',  chances:10, bonusChances:3, totalChances:13, time:'09:05', province:'Buenos Aires',   city:'La Plata',         msg:'Pagaría la deuda de mi casa y empezaría un pequeño negocio con mi hermano.', isAnonymous:false},
-  {name:'Sofía Gómez',       chances:3,  bonusChances:1, totalChances:4,  time:'09:08', province:'Santa Fe',       city:'Rosario',          msg:'', isAnonymous:true},
-  {name:'Diego Fernández',   chances:6,  bonusChances:0, totalChances:6,  time:'09:11', province:'Mendoza',        city:'Mendoza',          msg:'Me compraría una moto y ahorraría el resto para la universidad de mi hija.', isAnonymous:false},
-  {name:'Valentina Pérez',   chances:6,  bonusChances:3, totalChances:9,  time:'09:15', province:'CABA',           city:'Buenos Aires',     msg:'Viajaría con mi familia a Europa, algo que siempre soñamos y nunca pudimos.', isAnonymous:false},
-  {name:'Carlos Torres',     chances:3,  bonusChances:0, totalChances:3,  time:'09:18', province:'Tucumán',        city:'San Miguel',       msg:'', isAnonymous:false},
-  {name:'Ana López',         chances:6,  bonusChances:1, totalChances:7,  time:'09:22', province:'Salta',          city:'Salta',            msg:'Remodelaría la casa de mis padres que está muy deteriorada. Se lo merecen todo.', isAnonymous:false},
-  {name:'Federico Suárez',   chances:6,  bonusChances:3, totalChances:9,  time:'09:26', province:'Córdoba',        city:'Villa Carlos Paz', msg:'Abriría un local de ropa con mi pareja. Tenemos el proyecto hace 3 años.', isAnonymous:false},
-  {name:'Camila Benítez',    chances:3,  bonusChances:1, totalChances:4,  time:'09:30', province:'Entre Ríos',     city:'Paraná',           msg:'Compraría los libros y equipos para terminar mi carrera de enfermería.', isAnonymous:false},
-  {name:'Rodrigo Vargas',    chances:6,  bonusChances:0, totalChances:6,  time:'09:34', province:'Buenos Aires',   city:'Mar del Plata',    msg:'', isAnonymous:false},
-  {name:'Florencia Acosta',  chances:3,  bonusChances:3, totalChances:6,  time:'09:38', province:'Neuquén',        city:'Neuquén',          msg:'Pagaría el tratamiento médico que necesita mi mamá y que no cubre la obra social.', isAnonymous:false},
-  {name:'Pablo Núñez',       chances:3,  bonusChances:0, totalChances:3,  time:'09:41', province:'Chaco',          city:'Resistencia',      msg:'', isAnonymous:true},
-  {name:'Milagros Cabrera',  chances:3,  bonusChances:1, totalChances:4,  time:'09:45', province:'San Juan',       city:'San Juan',         msg:'Terminaría de construir el cuarto de mi bebé que está por nacer. 🍼', isAnonymous:false},
-  {name:'Tomás Herrera',     chances:1,  bonusChances:0, totalChances:1,  time:'09:48', province:'Misiones',       city:'Posadas',          msg:'', isAnonymous:false},
-  {name:'Romina Díaz',       chances:3,  bonusChances:0, totalChances:3,  time:'09:52', province:'Santa Cruz',     city:'Río Gallegos',     msg:'Invertiría en dólares y usaría las ganancias para vivir un poco más tranquila.', isAnonymous:false},
+  {name:'Lucía Martínez',    chances:6,  bonusChances:0, totalChances:6,  time:'09:02', date:'28/04/2026', province:'Córdoba',       city:'Córdoba',          msg:'Compraría un auto 0km para llevar a mis hijos al colegio sin depender de nadie.', isAnonymous:false},
+  {name:'Martín Rodríguez',  chances:10, bonusChances:0, totalChances:10, time:'09:05', date:'28/04/2026', province:'Buenos Aires',   city:'La Plata',         msg:'Pagaría la deuda de mi casa y empezaría un pequeño negocio con mi hermano.', isAnonymous:false},
+  {name:'Sofía Gómez',       chances:3,  bonusChances:0, totalChances:3,  time:'09:08', date:'28/04/2026', province:'Santa Fe',       city:'Rosario',          msg:'', isAnonymous:true},
+  {name:'Diego Fernández',   chances:6,  bonusChances:0, totalChances:6,  time:'09:11', date:'28/04/2026', province:'Mendoza',        city:'Mendoza',          msg:'Me compraría una moto y ahorraría el resto para la universidad de mi hija.', isAnonymous:false},
+  {name:'Valentina Pérez',   chances:6,  bonusChances:0, totalChances:6,  time:'09:15', date:'28/04/2026', province:'CABA',           city:'Buenos Aires',     msg:'Viajaría con mi familia a Europa, algo que siempre soñamos y nunca pudimos.', isAnonymous:false},
+  {name:'Carlos Torres',     chances:3,  bonusChances:0, totalChances:3,  time:'09:18', date:'28/04/2026', province:'Tucumán',        city:'San Miguel',       msg:'', isAnonymous:false},
+  {name:'Ana López',         chances:6,  bonusChances:0, totalChances:6,  time:'09:22', date:'28/04/2026', province:'Salta',          city:'Salta',            msg:'Remodelaría la casa de mis padres que está muy deteriorada. Se lo merecen todo.', isAnonymous:false},
+  {name:'Federico Suárez',   chances:6,  bonusChances:0, totalChances:6,  time:'09:26', date:'28/04/2026', province:'Córdoba',        city:'Villa Carlos Paz', msg:'Abriría un local de ropa con mi pareja. Tenemos el proyecto hace 3 años.', isAnonymous:false},
+  {name:'Camila Benítez',    chances:3,  bonusChances:0, totalChances:3,  time:'09:30', date:'28/04/2026', province:'Entre Ríos',     city:'Paraná',           msg:'Compraría los libros y equipos para terminar mi carrera de enfermería.', isAnonymous:false},
+  {name:'Rodrigo Vargas',    chances:6,  bonusChances:0, totalChances:6,  time:'09:34', date:'28/04/2026', province:'Buenos Aires',   city:'Mar del Plata',    msg:'', isAnonymous:false},
+  {name:'Florencia Acosta',  chances:3,  bonusChances:0, totalChances:3,  time:'09:38', date:'28/04/2026', province:'Neuquén',        city:'Neuquén',          msg:'Pagaría el tratamiento médico que necesita mi mamá y que no cubre la obra social.', isAnonymous:false},
+  {name:'Pablo Núñez',       chances:3,  bonusChances:0, totalChances:3,  time:'09:41', date:'28/04/2026', province:'Chaco',          city:'Resistencia',      msg:'', isAnonymous:true},
+  {name:'Milagros Cabrera',  chances:3,  bonusChances:0, totalChances:3,  time:'09:45', date:'28/04/2026', province:'San Juan',       city:'San Juan',         msg:'Terminaría de construir el cuarto de mi bebé que está por nacer. 🍼', isAnonymous:false},
+  {name:'Tomás Herrera',     chances:1,  bonusChances:0, totalChances:1,  time:'09:48', date:'28/04/2026', province:'Misiones',       city:'Posadas',          msg:'', isAnonymous:false},
+  {name:'Romina Díaz',       chances:3,  bonusChances:0, totalChances:3,  time:'09:52', date:'28/04/2026', province:'Santa Cruz',     city:'Río Gallegos',     msg:'Invertiría en dólares y usaría las ganancias para vivir un poco más tranquila.', isAnonymous:false},
 ];
 const TICKER=[
   '🏆 Martín R. ganó $10.000.000 — Edición anterior',
@@ -1282,7 +1212,7 @@ const TICKER=[
   '⚡ Florencia A. ganó el Premio Sorpresa',
   '🎰 Sorteo verificado en vivo por todos',
   '⭐ Calificación 4.9/5 en más de 800 reseñas',
-  '📲 Pagos por Mercado Pago, CBU, Transferencia',
+  '📲 Pagos por Galiopay, CBU y transferencia',
 ];
 
 /* ══════════════════════════════════════════════
@@ -1354,7 +1284,7 @@ let bwSpeed = 0;
 let bwSpinning = false;
 let bwTargetAngle = 0;    // target final angle
 let bwAnimId = null;
-let freeSpins = 1;        // 1 tiro gratis inicial
+let freeSpins = 0;        // se habilita luego del pago aprobado de 3+ chances
 let bonusTotal = 0;       // accumulated bonus chances
 let lastResult = null;    // last segment index
 let pendingAdd = false;   // waiting for user to click "add"
@@ -1947,7 +1877,7 @@ function updateSpinsUI(){
   const btn = document.getElementById('wheelSpinBtn');
   if(btn && !bwSpinning && !pendingAdd){
     btn.disabled = freeSpins<=0;
-    if(freeSpins<=0) btn.textContent='Sin tiros — Comprá 3+ chances';
+    if(freeSpins<=0) btn.textContent='🔒 Pago aprobado para desbloquear ruleta';
     else btn.textContent='🎰  ¡GIRAR RULETA GRATIS!';
   }
 }
@@ -2029,7 +1959,7 @@ function updateFormBonusBanner(){
 }
 
 window.processApprovedPaymentReward = function(participantId, purchasedChances){
-  const spins = purchasedChances >= 10 ? 2 : purchasedChances >= 1 ? 1 : 0;
+  const spins = purchasedChances >= 10 ? 2 : purchasedChances >= 3 ? 1 : 0;
   if(!participantId || spins <= 0) return;
   const alreadyRewarded = localStorage.getItem(`raffle_reward_done_${participantId}`);
   if(alreadyRewarded) return;
@@ -2050,6 +1980,7 @@ window.processApprovedPaymentReward = function(participantId, purchasedChances){
 };
 
 initBonusWheel();
+placeWheelAfterParticipants();
 applyDefaultSelection();
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
@@ -2094,6 +2025,21 @@ function publicName(p){
 function participantBadge(p){
   return p.isAnonymous ? 'Perfil privado' : 'Perfil público';
 }
+function participantInitials(name){
+  return String(name || '')
+    .trim()
+    .split(/\s+/)
+    .slice(0,2)
+    .map(part=>part.charAt(0).toUpperCase())
+    .join('') || 'PP';
+}
+function placeWheelAfterParticipants(){
+  const wheel = document.querySelector('.wheel-section');
+  const list = document.querySelector('.list-section');
+  if(wheel && list && list.parentNode){
+    list.insertAdjacentElement('afterend', wheel);
+  }
+}
 function applyDefaultSelection(){
   termsOk = true;
   const termsChk = document.getElementById('chkT');
@@ -2126,22 +2072,8 @@ function selPkg(i){
   document.querySelectorAll('.pkg').forEach((c,j)=>c.classList.toggle('sel',j===i));
   const p=PKGS[i];
   document.getElementById('sumP').textContent=p.label;
-  document.getElementById('sumC').textContent=p.chances+(p.chances>1?' chances compradas':' chance comprada');
+  document.getElementById('sumC').textContent=p.chances+(p.chances>1?' chances · ':' chance · ')+p.chances+(p.chances>1?' bolillas en el bombo':' bolilla en el bombo');
   document.getElementById('sumT').textContent='$'+fmt(p.price);
-
-  // Mostrar bonus si hay
-  const brow=document.getElementById('sumBonusRow');
-  const trow=document.getElementById('sumTotalRow');
-  if(bonusTotal>0){
-    brow.style.display='flex';
-    document.getElementById('sumBonus').textContent=`+${bonusTotal} chance${bonusTotal>1?'s':''} gratis 🎡`;
-    trow.style.display='flex';
-    document.getElementById('sumTotalChances').textContent=(p.chances+bonusTotal);
-  } else {
-    brow.style.display='none';
-    trow.style.display='none';
-    document.getElementById('sumC').textContent=p.chances+(p.chances>1?' chances · ':' chance · ')+p.chances+(p.chances>1?' bolillas en el bombo':' bolilla en el bombo');
-  }
   valSub();
   updateFormBonusBanner();
 }
@@ -2226,9 +2158,8 @@ function submitForm(){
   const msg=document.getElementById('fMsg').value.trim();
   const fullName=(n+' '+a).replace(/\s+/g,' ').trim();
   if(totalChances+pkg.chances>MAX){toast('⚠️ No hay suficientes cupos');return;}
-  const totalCh = pkg.chances + bonusTotal;
-  const appliedBonus = bonusTotal;
-  participants.push({name:fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic});
+  const totalCh = pkg.chances;
+  participants.push({name:fullName,chances:pkg.chances,bonusChances:0,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic});
   totalChances+=pkg.chances;
   ['fN','fA','fT','fC'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
@@ -2243,10 +2174,7 @@ function submitForm(){
   document.getElementById('chkAnon').classList.remove('on');
   document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
   termsOk=true;selPkgIdx=null;anonPublic=false;
-  // Reset bonus
   bonusTotal=0;
-  document.getElementById('sumBonusRow').style.display='none';
-  document.getElementById('sumTotalRow').style.display='none';
   updateSpinsUI();
   document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
   document.getElementById('sumP').textContent='— Elegí un pack arriba —';
@@ -2264,26 +2192,35 @@ function submitForm(){
    UI UPDATE
 ══════════════════════════════════════════════ */
 function updateUI(){
-  const pp=parseInt(document.getElementById('stPart').textContent)||0;
-  const pc=parseInt(document.getElementById('stCups').textContent)||MAX;
-  animN(document.getElementById('stPart'),pp,participants.length);
-  animN(document.getElementById('stCups'),pc,MAX-totalChances);
-  document.getElementById('stDraws').textContent=248+archive.length;
-  document.getElementById('stPaid').textContent='$'+fmt(totalPaid);
+  const stPart=document.getElementById('stPart');
+  const stCups=document.getElementById('stCups');
+  const stDraws=document.getElementById('stDraws');
+  const stPaid=document.getElementById('stPaid');
+  const progFill=document.getElementById('progFill');
+  const availabilityBox=document.getElementById('availabilityBox');
+  const urgCupos=document.getElementById('urgCupos');
+  const urgLbl=document.getElementById('urgLbl');
+  const pp=stPart ? (parseInt(stPart.textContent)||0) : 0;
+  const pc=stCups ? (parseInt(stCups.textContent)||MAX) : MAX;
+  if(stPart) animN(stPart,pp,participants.length);
+  if(stCups) animN(stCups,pc,MAX-totalChances);
+  if(stDraws) stDraws.textContent=248+archive.length;
+  if(stPaid) stPaid.textContent='$'+fmt(totalPaid);
   const pct=(totalChances/MAX*100).toFixed(1);
-  document.getElementById('progFill').style.width=pct+'%';
-  document.getElementById('progN').innerHTML=`${totalChances} <small>/ ${MAX}</small>`;
+  if(progFill) progFill.style.width=pct+'%';
   const rem=MAX-totalChances;
-  document.getElementById('urgCupos').textContent=rem;
-  const ul=document.getElementById('urgLbl');
-  if(rem<=10&&rem>0)ul.textContent=`🔴 ¡ÚLTIMOS ${rem} CUPO${rem!==1?'S':''}! Sorteo inicia automáticamente`;
-  else if(rem<=0)ul.textContent='🎰 CUPOS COMPLETOS — SORTEO EN PROGRESO';
-  else ul.textContent='';
+  if(urgCupos) urgCupos.textContent=rem;
+  if(availabilityBox) availabilityBox.style.display = rem <= 20 && rem > 0 ? 'block' : 'none';
+  if(urgLbl){
+    if(rem<=20&&rem>0) urgLbl.textContent=`Últimos lugares disponibles: ${MAX-rem} de ${MAX} cupos ya están ocupados.`;
+    else if(rem<=0) urgLbl.textContent='Cupos completos. El sorteo ya está en progreso.';
+    else urgLbl.textContent='';
+  }
   document.getElementById('heroEd').textContent=edition;
   document.getElementById('topEd').textContent='Edición #'+edition;
   document.getElementById('nextEd').textContent=edition+1;
   if(pp!==participants.length){
-    const sc=document.getElementById('sc1');sc.classList.remove('pulse-gold');void sc.offsetWidth;sc.classList.add('pulse-gold');
+    const sc=document.getElementById('sc1');if(sc){sc.classList.remove('pulse-gold');void sc.offsetWidth;sc.classList.add('pulse-gold');}
   }
   renderTable();
   updateFormBonusBanner();
@@ -2306,25 +2243,22 @@ function renderTable(){
     row.onkeydown=(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openParticipantModal(p); } };
     const avatarHtml=p.photo
       ?`<div class="av-img" style="padding:0"><img src="${p.photo}" alt="${p.name}" style="width:42px;height:42px;border-radius:50%;object-fit:cover"></div>`
-      :`<div class="av-img">👤</div>`;
+      :`<div class="av-img">${participantInitials(p.name)}</div>`;
     const locParts=[p.city,p.province].filter(Boolean);
     const locHtml=locParts.length
       ?`<div class="td loc"><span style="font-size:12px;color:var(--text)">${locParts.join(', ')}</span></div>`
       :`<div class="td loc"><span style="color:var(--muted)">—</span></div>`;
     const totalCh = p.totalChances || p.chances;
     const visibleName = publicName(p);
-    const chDetail = p.bonusChances>0
-      ? `<span class="chance-stack" title="${p.chances} compradas + ${p.bonusChances} bonus ruleta">
-          <span class="chance-total">${totalCh}ch</span>
-          <span class="chance-break">${p.chances}+<span style="color:#FFD740">${p.bonusChances}🎡</span></span>
-         </span>`
-      : `<span class="chance-badge"><strong>${totalCh}ch</strong> en juego</span>`;
+    const participationDate = p.date || nowDate();
+    const chDetail = `<span class="chance-badge"><strong>${totalCh}ch</strong> en juego</span>`;
     row.innerHTML=`
       <div class="td av">${avatarHtml}</div>
-      <div class="td nm" style="${isW?'color:var(--g2)':''}">${isW?'🏆 ':''}${visibleName}<small>${participantBadge(p)}</small></div>
+      <div class="td nm" style="${isW?'color:var(--g2)':''}">${isW?'🏆 ':''}${visibleName}<small>${participantBadge(p)}</small><div class="participant-mobile-meta"><span class="participant-mobile-chip">📍 ${locParts.join(', ') || 'Argentina'}</span><span class="participant-mobile-chip">📅 ${participationDate}</span></div></div>
       ${locHtml}
-      <div class="td ch">${chDetail}</div>
-      <div class="td tm">${p.time}</div>`;
+      <div class="td dt">${participationDate}</div>
+      <div class="td tm">${p.time}</div>
+      <div class="td ch">${chDetail}</div>`;
     body.appendChild(row);
   });
   renderDreams();
@@ -2336,20 +2270,17 @@ function renderDreams(){
   const withMsg=participants.filter(p=>p.msg&&p.msg.trim().length>2);
   if(!withMsg.length){section.style.display='none';return;}
   section.style.display='block';
-  const emojis=['🚗','🏠','✈️','📚','💊','🎓','🏍️','💻','🌍','🏋️','🎸','👨‍👩‍👧','💰','🌱','🎁','🏖️'];
   grid.innerHTML='';
   withMsg.slice().reverse().forEach((p,idx)=>{
     const card=document.createElement('div');
     card.className='dream-card';
     card.style.animationDelay=(idx*0.07)+'s';
-    const em=emojis[idx%emojis.length];
     const avHtml=p.photo
       ?`<div class="dream-av"><img src="${p.photo}" alt="${p.name}"></div>`
-      :`<div class="dream-av">${em}</div>`;
+      :`<div class="dream-av">${participantInitials(p.name)}</div>`;
     const locStr=[p.city,p.province].filter(Boolean).join(', ')||'Argentina';
     const totalCh=p.totalChances||p.chances;
     card.innerHTML=`
-      <div class="dream-quote">${em}</div>
       <div class="dream-msg">"${p.msg}"</div>
       <div class="dream-author">
         ${avHtml}
@@ -2368,11 +2299,11 @@ function openParticipantModal(p){
   const avatar=document.getElementById('pmAvatar');
   const totalCh=p.totalChances||p.chances;
   const visibleName=publicName(p);
-  avatar.innerHTML=p.photo ? `<img src="${p.photo}" alt="${visibleName}">` : '👤';
+  avatar.innerHTML=p.photo ? `<img src="${p.photo}" alt="${visibleName}">` : participantInitials(p.name);
   document.getElementById('pmName').textContent=visibleName;
-  document.getElementById('pmSub').innerHTML=`<span>${participantBadge(p)}</span><span>•</span><span>📍 ${[p.city,p.province].filter(Boolean).join(', ')||'Argentina'}</span><span>•</span><span>🕒 ${p.time}</span>`;
+  document.getElementById('pmSub').innerHTML=`<span>${participantBadge(p)}</span><span>•</span><span>📍 ${[p.city,p.province].filter(Boolean).join(', ')||'Argentina'}</span><span>•</span><span>📅 ${p.date || nowDate()}</span><span>•</span><span>🕒 ${p.time}</span>`;
   document.getElementById('pmBought').textContent=p.chances;
-  document.getElementById('pmBonus').textContent=p.bonusChances||0;
+  document.getElementById('pmDate').textContent=p.date || nowDate();
   document.getElementById('pmTotal').textContent=totalCh;
 
   const tickets=document.getElementById('pmTickets');
@@ -2412,7 +2343,7 @@ function closeParticipantModal(e){
 function kickOff(){
   if(drawRunning)return;drawRunning=true;
   launchConfetti(100);
-  toast('🎰 ¡100 CUPOS COMPLETOS! El sorteo inicia automáticamente…');
+  toast('🎰 ¡80 CUPOS COMPLETOS! El sorteo inicia automáticamente…');
   setTimeout(()=>{openModal();setTimeout(()=>runDraw(),1100);},2200);
 }
 
@@ -2570,8 +2501,10 @@ function startNew(){
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
   document.getElementById('fCity').value='';document.getElementById('fCity').className='fi';
   document.getElementById('fMsg').value='';
-  document.getElementById('sumBonusRow').style.display='none';
-  document.getElementById('sumTotalRow').style.display='none';
+  const sumBonusRow=document.getElementById('sumBonusRow');
+  const sumTotalRow=document.getElementById('sumTotalRow');
+  if(sumBonusRow) sumBonusRow.style.display='none';
+  if(sumTotalRow) sumTotalRow.style.display='none';
   document.getElementById('dreamsSection').style.display='none';
   document.getElementById('dreamsGrid').innerHTML='';
   currentPhotoDataUrl=null;
