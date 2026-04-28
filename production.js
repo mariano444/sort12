@@ -163,7 +163,11 @@
     });
     const submitButton = document.getElementById('subBtn');
     if (submitButton) {
-      submitButton.textContent = '💳 IR A PAGAR CON GALIOPAY';
+      submitButton.textContent = '🧪 IR A PAGAR EN MODO PRUEBA';
+    }
+    const sandboxBadge = document.getElementById('paymentModeBadge');
+    if (sandboxBadge) {
+      sandboxBadge.textContent = '🧪 Checkout de prueba activo';
     }
   }
 
