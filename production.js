@@ -29,13 +29,24 @@
       : date.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
   }
 
+  function localRewardFor(participantId) {
+    try {
+      const raw = localStorage.getItem(`raffle_local_reward_${participantId}`);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   function toParticipant(row) {
+    const localReward = localRewardFor(row.id);
+    const localBonus = Number(localReward?.bonusChances || 0);
     return {
       id: row.id,
       name: row.display_name,
       chances: row.chances_bought,
-      bonusChances: row.bonus_chances,
-      totalChances: row.total_chances,
+      bonusChances: Number(row.bonus_chances || 0) + localBonus,
+      totalChances: Number(row.total_chances || row.chances_bought || 0) + localBonus,
       time: formatIsoTime(row.registered_at),
       province: row.province,
       city: row.city,
@@ -200,6 +211,12 @@
       }
 
       localStorage.setItem('raffle_pending_participant_id', result.participantId);
+      localStorage.setItem(
+        `raffle_pending_reward_${result.participantId}`,
+        JSON.stringify({
+          chances: selPkgIdx !== null && PKGS[selPkgIdx] ? PKGS[selPkgIdx].chances : 0,
+        })
+      );
       window.location.href = result.checkoutUrl;
     } catch (error) {
       button.disabled = false;
@@ -218,12 +235,23 @@
 
     if (paymentState === 'failure') {
       localStorage.removeItem('raffle_pending_participant_id');
+      localStorage.removeItem(`raffle_pending_reward_${participantId}`);
       toast('El pago no se completó. Podés intentarlo nuevamente.');
       return;
     }
 
     await refreshAfterPayment(participantId);
+    try {
+      const rewardMeta = JSON.parse(localStorage.getItem(`raffle_pending_reward_${participantId}`) || 'null');
+      const boughtChances = Number(rewardMeta?.chances || 0);
+      if (paymentState === 'success' && boughtChances > 0 && typeof window.processApprovedPaymentReward === 'function') {
+        window.processApprovedPaymentReward(participantId, boughtChances);
+      }
+    } catch (_) {
+      // noop
+    }
     localStorage.removeItem('raffle_pending_participant_id');
+    localStorage.removeItem(`raffle_pending_reward_${participantId}`);
   }
 
   async function initProductionMode() {
