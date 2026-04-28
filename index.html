@@ -91,7 +91,7 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;fo
 #wheelCanvas{border-radius:50%;position:relative;z-index:4;display:block;cursor:pointer;box-shadow:0 0 0 4px rgba(10,5,0,.95),0 0 0 7px rgba(212,168,67,.65),0 0 0 9px rgba(10,5,0,.8),0 24px 80px rgba(0,0,0,.85)}
 #wheelCanvas:hover{filter:brightness(1.07)}
 #sparksCanvas{position:absolute;inset:-100px;width:calc(100% + 200px);height:calc(100% + 200px);pointer-events:none;z-index:5}
-.wheel-needle{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);z-index:10;filter:drop-shadow(0 0 14px rgba(255,220,0,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.8))}
+.wheel-needle{position:absolute;top:-10px;left:50%;transform:translateX(-50%);z-index:10;filter:drop-shadow(0 0 14px rgba(255,220,0,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.8))}
 .wheel-center-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF0A0,#C8960A 45%,#7A5200 75%,#3A2600);border:4px solid rgba(0,0,0,.7);box-shadow:0 0 0 2px rgba(212,168,67,.7),0 0 24px rgba(212,168,67,.8),0 0 48px rgba(212,168,67,.4);display:flex;align-items:center;justify-content:center;animation:hub-glow 2s ease-in-out infinite alternate}
 @keyframes hub-glow{from{box-shadow:0 0 0 2px rgba(212,168,67,.5),0 0 16px rgba(212,168,67,.4),0 0 36px rgba(212,168,67,.2)}to{box-shadow:0 0 0 2px rgba(255,230,80,1),0 0 30px rgba(212,168,67,1),0 0 60px rgba(212,168,67,.6)}}
 .wheel-center-icon{font-size:22px}
@@ -508,6 +508,16 @@ footer strong{color:var(--g2)}
 .ticket-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
 .ticket-chip{border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(0,201,167,.06));border:1px solid rgba(212,168,67,.16);font-size:11px;color:var(--text);font-weight:700}
 .ticket-chip span{display:block;font-size:9px;color:var(--sub);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:5px}
+.faq-section{padding:24px 0 84px}
+.faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.faq-card{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:20px}
+.faq-q{font-size:15px;color:var(--text);font-weight:700;margin-bottom:10px}
+.faq-a{font-size:13px;color:var(--sub);line-height:1.7}
+.faq-help{margin-top:24px;background:linear-gradient(135deg,rgba(0,201,167,.1),rgba(212,168,67,.08));border:1px solid rgba(0,201,167,.18);border-radius:20px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.faq-help-copy{max-width:560px}
+.faq-help-copy h3{margin:0 0 6px;font-family:'Playfair Display',serif;font-size:28px;color:var(--text)}
+.faq-help-copy p{margin:0;font-size:13px;color:var(--sub);line-height:1.7}
+.wa-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#12b95a,#25D366);color:#fff;text-decoration:none;border-radius:999px;padding:16px 24px;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;box-shadow:0 14px 40px rgba(37,211,102,.22)}
 
 @media(max-width:820px){
   .list-head{align-items:flex-start}
@@ -515,6 +525,7 @@ footer strong{color:var(--g2)}
   .tblrow{grid-template-columns:56px minmax(0,1fr) 92px}
   .th.col-loc,.th.col-time,.td.loc,.td.tm{display:none}
   .participant-stats{grid-template-columns:1fr}
+  .faq-grid{grid-template-columns:1fr}
 }
 .fade-up{opacity:0;transform:translateY(28px);animation:fadeup .8s cubic-bezier(.22,1,.36,1) both}
 @keyframes fadeup{to{opacity:1;transform:none}}
@@ -552,6 +563,9 @@ footer strong{color:var(--g2)}
   .participant-avatar{width:68px;height:68px;font-size:28px}
   .participant-sub{font-size:12px}
   .ticket-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .faq-help{padding:18px}
+  .faq-help-copy h3{font-size:24px}
+  .wa-btn{width:100%}
 }
 </style>
 </head>
@@ -623,93 +637,6 @@ footer strong{color:var(--g2)}
 <div id="root">
 <div class="W">
 
-  <!-- ═══════ BONUS WHEEL + HERO ═══════ -->
-  <div class="wheel-section fade-up a1">
-  <div class="bonus-wheel-container">
-
-    <!-- Title -->
-    <div class="wheel-title-bar">
-      <div class="wheel-eyebrow"><span class="wheel-fire">🔥</span>RULETA DE CHANCES · GIRÁ GRATIS AHORA</div>
-      <div class="wheel-main-title">¡Multiplicá tus chances <span style="color:var(--red3)">antes</span> de inscribirte!</div>
-      <div class="wheel-sub-title">Siempre ganás 1 o 3 chances gratis · <strong style="color:var(--g2)">Comprá 3+ para activar</strong> tu premio en el sorteo nacional</div>
-      <div id="wheelUrgency" style="margin-top:10px;display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.35);border-radius:30px;padding:6px 18px;font-size:11px;font-weight:700;color:#FF8A80;letter-spacing:.5px">
-        <span style="width:7px;height:7px;border-radius:50%;background:#FF6B6B;display:inline-block;animation:ldot 1.2s ease-in-out infinite;box-shadow:0 0 6px #FF6B6B"></span>
-        ¡Solo <strong id="wheelCuposLeft" style="color:#FFD740;margin:0 3px">15</strong> cupos disponibles — el sorteo cierra al completarse
-      </div>
-    </div>
-
-    <!-- Wheel stage -->
-    <div class="wheel-stage">
-      <div class="wheel-halo"></div>
-      <div class="wheel-bezel"></div>
-      <div class="wheel-bezel-mask"></div>
-      <canvas id="ledDotsCanvas"></canvas>
-      <canvas id="sparksCanvas"></canvas>
-      <canvas id="wheelCanvas" width="380" height="380" onclick="bonusSpin()" title="¡Hacé clic para girar!"></canvas>
-      <!-- Needle — apunta hacia abajo (al centro de la rueda) -->
-      <div class="wheel-needle">
-        <svg width="24" height="48" viewBox="0 0 24 48">
-          <defs>
-            <linearGradient id="ng2" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#FFE566"/>
-              <stop offset="60%" stop-color="#D4A843"/>
-              <stop offset="100%" stop-color="#7A5200"/>
-            </linearGradient>
-            <filter id="nf"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,.7)"/></filter>
-          </defs>
-          <polygon points="12,47 22,2 12,10 2,2" fill="url(#ng2)" filter="url(#nf)" stroke="rgba(0,0,0,.4)" stroke-width="1"/>
-          <circle cx="12" cy="38" r="3" fill="rgba(255,255,255,.7)"/>
-        </svg>
-      </div>
-      <!-- Center hub -->
-      <div class="wheel-center-hub"><span class="wheel-center-icon">🎯</span></div>
-    </div>
-
-    <!-- Result panel -->
-    <div class="wheel-result-panel" id="wheelResultPanel">
-      <div class="wheel-result-idle" id="wheelResultIdle">
-        🎡 <strong style="color:var(--text)">¡Hacé clic en la ruleta o en el botón</strong> para ganar chances gratis!<br>
-        <span style="font-size:11px">Siempre salís con 1 o 3 chances · Comprá 3+ para activar</span>
-      </div>
-      <div class="wheel-result-prize" id="wheelResultPrize">
-        <div class="wrp-badge" id="wrpBadge"></div>
-        <div class="wrp-icon" id="wrpIcon"></div>
-        <div class="wrp-label" id="wrpLabel"></div>
-        <div class="wrp-desc" id="wrpDesc"></div>
-        <button class="wrp-add-btn" id="wrpAddBtn" onclick="addBonusChances()">✅ ¡AGREGAR CHANCES Y CONTINUAR!</button>
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="wheel-controls">
-      <div class="spins-info">
-        <div class="spins-badge">
-            <span>🎡 Tiros gratis disponibles:</span>
-            <span class="spins-count" id="freeSpinsCount">1</span>
-          </div>
-          <div class="spins-badge" style="border-color:rgba(0,201,167,.3);background:rgba(0,201,167,.06);color:var(--teal)">
-            🎁 Chances bonus: <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--teal);margin-left:4px" id="bonusChancesTotal">0</span>
-          </div>
-      </div>
-      <button class="wheel-spin-btn" id="wheelSpinBtn" onclick="bonusSpin()">🎰 &nbsp;¡GIRAR Y GANAR CHANCES GRATIS!</button>
-      <div style="font-size:11px;color:var(--muted);text-align:center">🔐 Siempre ganás · <b style="color:var(--g2)">1 o 3 chances</b> gratis · Comprá 3+ para <b style="color:var(--red3)">ACTIVAR</b></div>
-    </div>
-
-    <!-- Prize legend -->
-    <div class="wheel-prizes-row">
-      <div class="wpr wpr-mid"><div class="wpr-ico">⭐</div><div class="wpr-val">1 chance</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
-      <div class="wpr wpr-mid"><div class="wpr-ico">🎁</div><div class="wpr-val">3 chances</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
-      <div class="wpr wpr-big"><div class="wpr-ico">🔥</div><div class="wpr-val">10 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
-      <div class="wpr wpr-jackpot"><div class="wpr-ico">🏆</div><div class="wpr-val">100 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
-      <div class="wpr wpr-jackpot"><div class="wpr-ico">💎</div><div class="wpr-val">1.000 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
-      <div class="wpr wpr-nada"><div class="wpr-ico">💰</div><div class="wpr-val">$100.000</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
-    </div>
-
-
-
-  </div>
-  </div>
-
   <section id="hero" style="padding-top:28px">
     <div class="hero-eyebrow fade-up a2"><span class="hero-dot"></span>Edición #<span id="heroEd">1</span> · Sorteo nacional · Solo 100 Cupos</div>
     <h1 class="hero-h fade-up a3">GRAN SORTEO<span class="gold">MILLONARIO</span></h1>
@@ -718,7 +645,7 @@ footer strong{color:var(--g2)}
     <div class="stats-grid fade-up a5">
       <div class="stat" id="sc1"><div class="stat-n" id="stPart">0</div><div class="stat-l">Participantes</div></div>
       <div class="stat" id="sc2"><div class="stat-n" id="stCups">100</div><div class="stat-l">Cupos Restantes</div></div>
-      <div class="stat"><div class="stat-n">$10.010.000</div><div class="stat-l">En Premios</div></div>
+      <div class="stat"><div class="stat-n">$14.010.000</div><div class="stat-l">En Premios</div></div>
       <div class="stat"><div class="stat-n" id="stDraws">248</div><div class="stat-l">Sorteos Realizados</div></div>
       <div class="stat"><div class="stat-n" id="stPaid">$2.482.480.000</div><div class="stat-l">Total Pagado</div></div>
     </div>
@@ -747,7 +674,7 @@ footer strong{color:var(--g2)}
         <div class="pz-ico">🏆</div>
         <div class="pz-inf">
           <div class="pz-pl">Primer Premio</div>
-          <div class="pz-val">$6.000.000</div>
+          <div class="pz-val">$10.000.000</div>
           <div class="pz-note">Transferencia inmediata · Mercado Pago · CBU · En 24 hs</div>
         </div>
       </div>
@@ -779,7 +706,7 @@ footer strong{color:var(--g2)}
     <div class="prize-total">
       <span class="pt-label">🎁 Pozo total esta edición</span>
       <span>·</span>
-      <span class="pt-val">$10.010.000</span>
+      <span class="pt-val">$14.010.000</span>
       <span>·</span>
       <span class="pt-label">Pagado en menos de 24 hs</span>
     </div>
@@ -793,114 +720,82 @@ footer strong{color:var(--g2)}
       <div class="carousel-track" id="buyCarouselTrack">
 
         <div class="buy-card">
-          <div class="buy-badge bb-gold">🏆 1er Premio</div>
-          <div class="buy-card-num">01</div>
           <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80&auto=format&fit=crop" alt="Auto" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80&auto=format&fit=crop'">
+            <img class="buy-img" src="assets/auto-usada-1.png" alt="Auto usada" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">🚗 Transporte</span>
-            <div class="buy-name">Auto 0km</div>
-            <div class="buy-price">Hasta $6.000.000</div>
-            <div class="buy-note">Un 0km de alta gama o financiá el tuyo propio. Con el 1er premio te lo comprás sin crédito.</div>
+            <div class="buy-name">Auto Usada</div>
           </div>
         </div>
 
         <div class="buy-card">
-          <div class="buy-badge bb-silver">🥈 2do Premio</div>
-          <div class="buy-card-num">02</div>
           <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Moto" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600&q=80&auto=format&fit=crop'">
+            <img class="buy-img" src="assets/auto-usada-2.png" alt="Auto usada" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🚗 Transporte</span>
+            <div class="buy-name">Auto Usada</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="assets/moto-xr-1.webp" alt="Moto 0km" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">🏍️ Movilidad</span>
-            <div class="buy-name">Moto 0km Premium</div>
-            <div class="buy-price">$1.500.000 – $3.000.000</div>
-            <div class="buy-note">Una moto de alta cilindrada o varias motos para tu familia. El 2do premio te da eso y más.</div>
+            <div class="buy-name">Moto 0km</div>
           </div>
         </div>
 
         <div class="buy-card">
-          <div class="buy-badge bb-gold">🏆 1er Premio</div>
-          <div class="buy-card-num">03</div>
           <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80&auto=format&fit=crop" alt="Viaje" loading="lazy">
+            <img class="buy-img" src="assets/moto-xr-2.webp" alt="Moto 0km" loading="lazy">
+          </div>
+          <div class="buy-body">
+            <span class="buy-tag">🏍️ Movilidad</span>
+            <div class="buy-name">Moto 0km</div>
+          </div>
+        </div>
+
+        <div class="buy-card">
+          <div class="buy-img-wrap">
+            <img class="buy-img" src="assets/vacaciones.jpg" alt="Vacaciones" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">✈️ Viajes</span>
-            <div class="buy-name">Viaje Internacional</div>
-            <div class="buy-price">Europa, USA o el mundo</div>
-            <div class="buy-note">Pasajes, hotel 5 estrellas y gastos para dos personas por 30 días en Europa o Estados Unidos.</div>
+            <div class="buy-name">Vacaciones</div>
           </div>
         </div>
 
         <div class="buy-card">
-          <div class="buy-badge bb-teal">⚡ Premio Sorpresa</div>
-          <div class="buy-card-num">04</div>
           <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80&auto=format&fit=crop" alt="Electrodomésticos" loading="lazy">
+            <img class="buy-img" src="assets/electrodomesticos.avif" alt="TV" loading="lazy">
           </div>
           <div class="buy-body">
-            <span class="buy-tag">🏠 Hogar</span>
-            <div class="buy-name">Electrodomésticos</div>
-            <div class="buy-price">Renovación completa</div>
-            <div class="buy-note">Smart TV, lavarropas, heladera, aire acondicionado y microondas. Todo nuevo para tu hogar.</div>
+            <span class="buy-tag">📺 Tecnología</span>
+            <div class="buy-name">TV</div>
           </div>
         </div>
 
         <div class="buy-card">
-          <div class="buy-badge bb-silver">🥉 3er Premio</div>
-          <div class="buy-card-num">05</div>
           <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80&auto=format&fit=crop" alt="Tecnología" loading="lazy">
-          </div>
-          <div class="buy-body">
-            <span class="buy-tag">📱 Tecnología</span>
-            <div class="buy-name">Pack Tech Completo</div>
-            <div class="buy-price">$600.000 – $1.000.000</div>
-            <div class="buy-note">iPhone última generación, MacBook, iPad, AirPods y accesorios. Todo lo último en tecnología.</div>
-          </div>
-        </div>
-
-        <div class="buy-card">
-          <div class="buy-badge bb-gold">🏆 1er Premio</div>
-          <div class="buy-card-num">06</div>
-          <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80&auto=format&fit=crop" alt="Inversión" loading="lazy">
-          </div>
-          <div class="buy-body">
-            <span class="buy-tag">💰 Inversión</span>
-            <div class="buy-name">Capital para invertir</div>
-            <div class="buy-price">Libertad financiera</div>
-            <div class="buy-note">Invertí en dólares, propiedades o tu propio negocio. Con el 1er premio empezás a generar pasivos.</div>
-          </div>
-        </div>
-
-        <div class="buy-card">
-          <div class="buy-badge bb-silver">🥈 2do Premio</div>
-          <div class="buy-card-num">07</div>
-          <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80&auto=format&fit=crop" alt="Casa" loading="lazy">
+            <img class="buy-img" src="assets/materiales.png" alt="Materiales" loading="lazy">
           </div>
           <div class="buy-body">
             <span class="buy-tag">🏗️ Construcción</span>
-            <div class="buy-name">Refacción del hogar</div>
-            <div class="buy-price">$1.500.000 – $3.000.000</div>
-            <div class="buy-note">Remodelá tu casa completa: pisos, baños, cocina, aberturas. El 2do premio alcanza para todo.</div>
+            <div class="buy-name">Materiales</div>
           </div>
         </div>
 
         <div class="buy-card">
-          <div class="buy-badge bb-gold">🏆 1er Premio</div>
-          <div class="buy-card-num">08</div>
           <div class="buy-img-wrap">
-            <img class="buy-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&auto=format&fit=crop" alt="Negocio" loading="lazy">
+            <img class="buy-img" src="assets/electrodomesticos.avif" alt="Electrodomésticos" loading="lazy">
           </div>
           <div class="buy-body">
-            <span class="buy-tag">🏪 Emprendimiento</span>
-            <div class="buy-name">Tu propio negocio</div>
-            <div class="buy-price">Independencia total</div>
-            <div class="buy-note">Abrí tu local, franquicia o emprendimiento digital. Con el 1er premio tenés el capital inicial.</div>
+            <span class="buy-tag">📱 Tecnología</span>
+            <div class="buy-name">Celulares</div>
           </div>
         </div>
 
@@ -950,6 +845,83 @@ footer strong{color:var(--g2)}
       <div class="how-step"><div class="hs-orb lit">💸</div><div class="hs-title">Premio en 24 hs</div><div class="hs-desc">Los ganadores reciben notificación por WhatsApp y el dinero en menos de 24 horas.</div></div>
     </div>
   </section>
+
+  <!-- ═══════ BONUS WHEEL ═══════ -->
+  <div class="wheel-section fade-up a1">
+  <div class="bonus-wheel-container">
+
+    <div class="wheel-title-bar">
+      <div class="wheel-eyebrow"><span class="wheel-fire">🔥</span>RULETA DE CHANCES · GIRÁ GRATIS AHORA</div>
+      <div class="wheel-main-title">Activá tu bonus <span style="color:var(--red3)">antes</span> de elegir el pack</div>
+      <div class="wheel-sub-title">Siempre ganás 1 o 3 chances gratis · <strong style="color:var(--g2)">Comprá 3+ para activar</strong> tu premio en el sorteo nacional</div>
+      <div id="wheelUrgency" style="margin-top:10px;display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.35);border-radius:30px;padding:6px 18px;font-size:11px;font-weight:700;color:#FF8A80;letter-spacing:.5px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#FF6B6B;display:inline-block;animation:ldot 1.2s ease-in-out infinite;box-shadow:0 0 6px #FF6B6B"></span>
+        ¡Solo <strong id="wheelCuposLeft" style="color:#FFD740;margin:0 3px">15</strong> cupos disponibles — el sorteo cierra al completarse
+      </div>
+    </div>
+
+    <div class="wheel-stage">
+      <div class="wheel-halo"></div>
+      <div class="wheel-bezel"></div>
+      <div class="wheel-bezel-mask"></div>
+      <canvas id="ledDotsCanvas"></canvas>
+      <canvas id="sparksCanvas"></canvas>
+      <canvas id="wheelCanvas" width="380" height="380" onclick="bonusSpin()" title="¡Hacé clic para girar!"></canvas>
+      <div class="wheel-needle">
+        <svg width="24" height="48" viewBox="0 0 24 48">
+          <defs>
+            <linearGradient id="ng2" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#FFE566"/>
+              <stop offset="60%" stop-color="#D4A843"/>
+              <stop offset="100%" stop-color="#7A5200"/>
+            </linearGradient>
+            <filter id="nf"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,.7)"/></filter>
+          </defs>
+          <polygon points="12,47 22,2 12,10 2,2" fill="url(#ng2)" filter="url(#nf)" stroke="rgba(0,0,0,.4)" stroke-width="1"/>
+          <circle cx="12" cy="38" r="3" fill="rgba(255,255,255,.7)"/>
+        </svg>
+      </div>
+      <div class="wheel-center-hub"><span class="wheel-center-icon">🎯</span></div>
+    </div>
+
+    <div class="wheel-result-panel" id="wheelResultPanel">
+      <div class="wheel-result-idle" id="wheelResultIdle">
+        🎡 <strong style="color:var(--text)">Girás primero y después elegís tu pack</strong><br>
+        <span style="font-size:11px">Siempre salís con 1 o 3 chances · Comprá 3+ para activar</span>
+      </div>
+      <div class="wheel-result-prize" id="wheelResultPrize">
+        <div class="wrp-badge" id="wrpBadge"></div>
+        <div class="wrp-icon" id="wrpIcon"></div>
+        <div class="wrp-label" id="wrpLabel"></div>
+        <div class="wrp-desc" id="wrpDesc"></div>
+        <button class="wrp-add-btn" id="wrpAddBtn" onclick="addBonusChances()">✅ ¡AGREGAR CHANCES Y CONTINUAR!</button>
+      </div>
+    </div>
+
+    <div class="wheel-controls">
+      <div class="spins-info">
+        <div class="spins-badge">
+            <span>🎡 Tiros gratis disponibles:</span>
+            <span class="spins-count" id="freeSpinsCount">1</span>
+          </div>
+          <div class="spins-badge" style="border-color:rgba(0,201,167,.3);background:rgba(0,201,167,.06);color:var(--teal)">
+            🎁 Chances bonus: <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--teal);margin-left:4px" id="bonusChancesTotal">0</span>
+          </div>
+      </div>
+      <button class="wheel-spin-btn" id="wheelSpinBtn" onclick="bonusSpin()">🎰 &nbsp;¡GIRAR Y GANAR CHANCES GRATIS!</button>
+      <div style="font-size:11px;color:var(--muted);text-align:center">🔐 Siempre ganás · <b style="color:var(--g2)">1 o 3 chances</b> gratis · Comprá 3+ para <b style="color:var(--red3)">ACTIVAR</b></div>
+    </div>
+
+    <div class="wheel-prizes-row">
+      <div class="wpr wpr-mid"><div class="wpr-ico">⭐</div><div class="wpr-val">1 chance</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
+      <div class="wpr wpr-mid"><div class="wpr-ico">🎁</div><div class="wpr-val">3 chances</div><div class="wpr-lbl">SIEMPRE</div><div class="wpr-prob">50%</div></div>
+      <div class="wpr wpr-big"><div class="wpr-ico">🔥</div><div class="wpr-val">6 ch</div><div class="wpr-lbl">BONUS</div><div class="wpr-prob">ocasional</div></div>
+      <div class="wpr wpr-jackpot"><div class="wpr-ico">🏆</div><div class="wpr-val">100 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
+      <div class="wpr wpr-jackpot"><div class="wpr-ico">💎</div><div class="wpr-val">1.000 ch</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
+      <div class="wpr wpr-nada"><div class="wpr-ico">💰</div><div class="wpr-val">$100.000</div><div class="wpr-lbl">VISUAL</div><div class="wpr-prob">—</div></div>
+    </div>
+  </div>
+  </div>
 
   <!-- ═══════ PACKAGES ═══════ -->
   <section class="pkg-section">
@@ -1090,7 +1062,7 @@ footer strong{color:var(--g2)}
       </div>
       <div class="fg full">
         <div class="terms-row">
-          <div class="chk" id="chkT" onclick="toggleTerms()"></div>
+          <div class="chk on" id="chkT" onclick="toggleTerms()"></div>
           <div class="terms-txt" onclick="toggleTerms()">Acepto los <a href="#">Términos y Condiciones</a>. Entiendo que el sorteo se realiza en vivo automáticamente al completar los 100 cupos, y los premios se pagan dentro de las 24 hs.</div>
         </div>
       </div>
@@ -1157,6 +1129,36 @@ footer strong{color:var(--g2)}
     <h2 class="s-h" style="margin-bottom:28px">Archivo de <em>ganadores</em></h2>
     <div id="archList"></div>
   </div>
+
+  <section class="faq-section">
+    <span class="s-eye">❓ Preguntas frecuentes</span>
+    <h2 class="s-h" style="margin-bottom:24px">Todo lo importante <em>antes de participar</em></h2>
+    <div class="faq-grid">
+      <div class="faq-card">
+        <div class="faq-q">¿Puedo participar desde cualquier parte de Argentina?</div>
+        <div class="faq-a">Sí. El sorteo es nacional y podés inscribirte desde cualquier provincia o ciudad del país.</div>
+      </div>
+      <div class="faq-card">
+        <div class="faq-q">¿Cómo funciona la ruleta?</div>
+        <div class="faq-a">Girás gratis, ganás chances bonus y, si comprás 3 chances o más, ese premio queda activado automáticamente en tu inscripción.</div>
+      </div>
+      <div class="faq-card">
+        <div class="faq-q">¿Cuándo se hace el sorteo?</div>
+        <div class="faq-a">El sorteo arranca en vivo y de forma automática cuando se completan los 100 cupos de la edición actual.</div>
+      </div>
+      <div class="faq-card">
+        <div class="faq-q">¿Cómo cobran los ganadores?</div>
+        <div class="faq-a">Se notifica por WhatsApp y el pago se acredita dentro de las 24 horas por transferencia, Mercado Pago, CBU o alias.</div>
+      </div>
+    </div>
+    <div class="faq-help">
+      <div class="faq-help-copy">
+        <h3>¿Necesitás ayuda rápida?</h3>
+        <p>Si querés confirmar medios de pago, validar tu inscripción o resolver una duda antes de comprar, escribinos directo por WhatsApp.</p>
+      </div>
+      <a class="wa-btn" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20sorteo" target="_blank" rel="noopener noreferrer">WhatsApp de soporte</a>
+    </div>
+  </section>
 
 </div>
 </div>
@@ -1247,12 +1249,12 @@ const PKGS=[
   {label:'10 Chances', chances:10, price:12000},
 ];
 const PRIZES=[
-  {label:'1er Premio',  amount:'$6.000.000', icon:'🏆', cls:'gw', val:6000000},
+  {label:'1er Premio',  amount:'$10.000.000', icon:'🏆', cls:'gw', val:10000000},
   {label:'2do Premio',  amount:'$3.000.000', icon:'🥈', cls:'sw', val:3000000},
   {label:'3er Premio',  amount:'$1.000.000', icon:'🥉', cls:'bw', val:1000000},
   {label:'Premio Sorpresa', amount:'$10.000', icon:'⚡', cls:'ew', val:10000},
 ];
-const PRIZE_TOTAL=10010000;
+const PRIZE_TOTAL=14010000;
 const DEMO=[
   {name:'Lucía Martínez',    chances:6,  bonusChances:1, totalChances:7,  time:'09:02', province:'Córdoba',       city:'Córdoba',          msg:'Compraría un auto 0km para llevar a mis hijos al colegio sin depender de nadie.', isAnonymous:false},
   {name:'Martín Rodríguez',  chances:10, bonusChances:3, totalChances:13, time:'09:05', province:'Buenos Aires',   city:'La Plata',         msg:'Pagaría la deuda de mi casa y empezaría un pequeño negocio con mi hermano.', isAnonymous:false},
@@ -1271,7 +1273,7 @@ const DEMO=[
   {name:'Romina Díaz',       chances:3,  bonusChances:0, totalChances:3,  time:'09:52', province:'Santa Cruz',     city:'Río Gallegos',     msg:'Invertiría en dólares y usaría las ganancias para vivir un poco más tranquila.', isAnonymous:false},
 ];
 const TICKER=[
-  '🏆 Martín R. ganó $6.000.000 — Edición anterior',
+  '🏆 Martín R. ganó $10.000.000 — Edición anterior',
   '🥈 Valentina P. ganó $3.000.000 hace 3 días',
   '✅ 248 sorteos realizados con éxito total',
   '💸 $2.482.480.000 en premios pagados',
@@ -1288,7 +1290,7 @@ const TICKER=[
 ══════════════════════════════════════════════ */
 let participants=[...DEMO];
 let totalChances=participants.reduce((a,p)=>a+p.chances,0);
-let selPkgIdx=null,termsOk=false,anonPublic=false;
+let selPkgIdx=null,termsOk=true,anonPublic=false;
 let drawPhase=0,isDrawing=false,drawRunning=false;
 let winners=[],edition=1,archive=[],totalPaid=2482480000;
 let cdTarget=null,cdInt=null;
@@ -1328,19 +1330,19 @@ let cdTarget=null,cdInt=null;
 ══════════════════════════════════════════════ */
 
 // ── WHEEL PRIZE SEGMENTS — exactamente 6 segmentos únicos ──
-// El random SIEMPRE elige índice 0 (1 chance) o índice 1 (3 chances).
-// Los otros 4 son visuales pero nunca sorteados (w:0).
+// Los premios reales de la ruleta son 1 chance, 3 chances y algunas veces 6 chances.
+// Los otros segmentos quedan como visuales.
 const BSEGMENTS = [
   { label:'1 CHANCE',    icon:'⭐', chances:1,    cash:0,      c1:'#0A1030', c2:'#091828', rim:'#4488FF', txt:'#88BBFF', w:5, type:'mid1'    },
-  { label:'3 CHANCES',   icon:'🎁', chances:3,    cash:0,      c1:'#081818', c2:'#051010', rim:'#00C9A7', txt:'#00E8C0', w:5, type:'mid3'    },
-  { label:'10 CHANCES',  icon:'🔥', chances:10,   cash:0,      c1:'#1A0A00', c2:'#100600', rim:'#FF8C00', txt:'#FFB347', w:0, type:'big'     },
+  { label:'3 CHANCES',   icon:'🎁', chances:3,    cash:0,      c1:'#081818', c2:'#051010', rim:'#00C9A7', txt:'#00E8C0', w:4, type:'mid3'    },
+  { label:'6 CHANCES',   icon:'🔥', chances:6,    cash:0,      c1:'#1A0A00', c2:'#100600', rim:'#FF8C00', txt:'#FFB347', w:1, type:'mid6'     },
   { label:'100 CHANCES', icon:'🏆', chances:100,  cash:0,      c1:'#1A1000', c2:'#120C00', rim:'#FFD700', txt:'#FFE066', w:0, type:'jackpot' },
   { label:'1.000 CH.',   icon:'💎', chances:1000, cash:0,      c1:'#0A2010', c2:'#0D3518', rim:'#00FF88', txt:'#00FF88', w:0, type:'legend'  },
   { label:'$100.000',    icon:'💰', chances:0,    cash:100000, c1:'#2A0800', c2:'#1A0400', rim:'#FF6B00', txt:'#FF9944', w:0, type:'mega'    },
 ];
 const N_SEGS = BSEGMENTS.length; // 6 — uno por premio, sin repetir
 
-// Pool de random — SOLO índices con w > 0 (siempre 1 o 3 chances)
+// Pool de random — premios reales: 1, 3 y algunas veces 6 chances
 const weightedPool = [];
 BSEGMENTS.forEach((s,i)=>{
   for(let w=0;w<s.w;w++) weightedPool.push(i);
@@ -1367,6 +1369,7 @@ let bwStartAngle = 0;
 let bwTurns = 0;
 let needleAngle = 0;      // needle wobble
 let tickSounds = [];      // tick timestamps
+let paymentRewardContext = null;
 
 // ── CANVAS SETUP ──────────────────────────────────────────────────
 function initBonusWheel(){
@@ -1797,13 +1800,13 @@ function initBonusWheel(){
       btnEl.style.display='none';
       pendingAdd=true;
       showBuyPrompt(seg);
-    } else if(seg.type==='big'){
-      badgeEl.textContent='🔥 ¡10 CHANCES!';
+    } else if(seg.type==='mid6'){
+      badgeEl.textContent='🔥 ¡6 CHANCES!';
       badgeEl.style.cssText='background:rgba(255,140,0,.12);border:1px solid rgba(255,140,0,.4);color:#FFB347';
       iconEl.textContent=seg.icon;
-      lblEl.textContent='¡10 CHANCES GRATIS!';
+      lblEl.textContent='¡6 CHANCES GRATIS!';
       lblEl.style.color='#FFB347';
-      descEl.innerHTML=`<strong style="color:#FFB347">¡Ganaste 10 chances!</strong><br><span style="color:#FF8C44;font-size:12px">⚠️ Para activar este premio necesitás comprar 3 chances o más.</span>`;
+      descEl.innerHTML=`<strong style="color:#FFB347">¡Ganaste 6 chances!</strong><br><span style="color:#FF8C44;font-size:12px">⚠️ Este premio queda listo para acreditarse en tu perfil.</span>`;
       btnEl.style.display='none';
       pendingAdd=true;
       showBuyPrompt(seg);
@@ -1836,6 +1839,14 @@ function initBonusWheel(){
   }
 
   function showBuyPrompt(seg){
+    if(paymentRewardContext && paymentRewardContext.participantId){
+      setTimeout(()=>{
+        if(pendingAdd && pendingWheelResult === seg){
+          addBonusChances();
+        }
+      },220);
+      return;
+    }
     // Mostrar panel de aviso "comprá para activar"
     const desc = document.getElementById('wrpDesc');
     const existing = document.getElementById('buyActivatePanel');
@@ -1849,6 +1860,16 @@ function initBonusWheel(){
         <button onclick="document.querySelector('.pkg-section').scrollIntoView({behavior:'smooth'})" style="background:linear-gradient(135deg,#A67C00,#F0C96A);color:#000;font-family:Rajdhani,sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:30px;padding:10px 28px;cursor:pointer">🎟️ COMPRAR Y ACTIVAR PREMIO</button>
       </div>`;
       desc.parentNode.appendChild(panel2);
+    }
+    const selectedPkg = selPkgIdx !== null ? PKGS[selPkgIdx] : null;
+    if(selectedPkg && selectedPkg.chances >= 3){
+      setTimeout(()=>{
+        if(pendingAdd && pendingWheelResult === seg){
+          addBonusChances();
+          toast(`✅ Premio de ruleta activado automáticamente con tu pack de ${selectedPkg.chances} chances`);
+        }
+      },220);
+      return;
     }
     setTimeout(()=>{
       document.getElementById('wheelSpinBtn').disabled=freeSpins<=0;
@@ -1866,27 +1887,55 @@ function initBonusWheel(){
 window.addBonusChances = function(){
   if(!pendingAdd || lastResult===null) return;
   const seg = BSEGMENTS[lastResult];
-  if(seg.chances>0) bonusTotal += seg.chances;
+  const paymentCtx = paymentRewardContext;
+  if(paymentCtx && paymentCtx.participantId){
+    const participant = participants.find(p=>String(p.id)===String(paymentCtx.participantId));
+    if(participant && seg.chances>0){
+      participant.bonusChances = (participant.bonusChances || 0) + seg.chances;
+      participant.totalChances = (participant.totalChances || participant.chances || 0) + seg.chances;
+      paymentCtx.totalAwarded = (paymentCtx.totalAwarded || 0) + seg.chances;
+      localStorage.setItem(`raffle_local_reward_${paymentCtx.participantId}`, JSON.stringify({
+        bonusChances: paymentCtx.totalAwarded,
+      }));
+    }
+  } else if(seg.chances>0){
+    bonusTotal += seg.chances;
+  }
   pendingAdd = false;
   pendingWheelResult = null;
   // Remove buy prompt panel if exists
   const bp = document.getElementById('buyActivatePanel');
   if(bp) bp.remove();
   updateSpinsUI();
-  const msg = seg.type==='mega'
+  const msg = paymentCtx && paymentCtx.participantId
+    ? `🎁 ¡${seg.chances} chance${seg.chances>1?'s':''} acreditadas en tu perfil!`
+    : seg.type==='mega'
     ? `💰 ¡$100.000 activados! Se aplicarán al validar tu inscripción.`
     : `🎁 ¡${seg.chances} chances activadas! Total bonus: ${bonusTotal}`;
   toast(msg);
-  launchConfetti(seg.type==='jackpot'||seg.type==='mega'?200:seg.type==='big'?120:60);
+  launchConfetti(seg.type==='jackpot'||seg.type==='mega'?200:seg.type==='mid6'?120:60);
   document.getElementById('wheelResultPrize').style.display='none';
   document.getElementById('wheelResultIdle').style.display='block';
-  const bonusTxt = seg.type==='mega'
+  const bonusTxt = paymentCtx && paymentCtx.participantId
+    ? `🎉 <strong style="color:var(--g2)">${paymentCtx.totalAwarded || seg.chances} chances extra acreditadas en tu perfil</strong>`
+    : seg.type==='mega'
     ? `🎉 <strong style="color:#FF9944">$100.000 bonus activados</strong>`
     : `🎉 <strong style="color:var(--g2)">${bonusTotal} chances bonus acumuladas</strong>`;
-  document.getElementById('wheelResultIdle').innerHTML=`${bonusTxt}<br><span style="font-size:11px">Se aplicarán automáticamente al inscribirte en el sorteo</span>`;
+  document.getElementById('wheelResultIdle').innerHTML=`${bonusTxt}<br><span style="font-size:11px">${paymentCtx && paymentCtx.participantId ? 'Ya quedó reflejado en tu perfil de participante' : 'Se aplicarán automáticamente al inscribirte en el sorteo'}</span>`;
   document.getElementById('wheelSpinBtn').disabled = freeSpins<=0;
   document.getElementById('wheelSpinBtn').textContent='🎰  ¡GIRAR RULETA GRATIS!';
-  updateFormBonusBanner();
+  if(paymentCtx && paymentCtx.participantId){
+    updateUI();
+    paymentCtx.remainingSpins = Math.max(0, (paymentCtx.remainingSpins || 1) - 1);
+    if(paymentCtx.remainingSpins > 0){
+      setTimeout(()=>bonusSpin(), 900);
+    } else {
+      paymentRewardContext = null;
+      toast(`✅ Bonus acreditado en tu perfil de participante`);
+    }
+  } else {
+    updateFormBonusBanner();
+  }
 };
 
 // ── Update spins UI ─────────────────────────────────────────────────
@@ -1933,11 +1982,6 @@ window.selPkg = function(i){
         btnEl.textContent = lbl;
       }
       toast(`🔓 ¡Comprando ${pkg.chances} chances desbloqueás tu premio ganado en la ruleta!`);
-    } else {
-      // Dar 1 tiro extra
-      freeSpins++;
-      updateSpinsUI();
-      toast(`🎡 ¡Comprás ${pkg.chances} chances → Recibís 1 tiro de ruleta EXTRA!`);
     }
   }
 };
@@ -1984,7 +2028,29 @@ function updateFormBonusBanner(){
   }
 }
 
+window.processApprovedPaymentReward = function(participantId, purchasedChances){
+  const spins = purchasedChances >= 10 ? 2 : purchasedChances >= 1 ? 1 : 0;
+  if(!participantId || spins <= 0) return;
+  const alreadyRewarded = localStorage.getItem(`raffle_reward_done_${participantId}`);
+  if(alreadyRewarded) return;
+
+  paymentRewardContext = {
+    participantId,
+    remainingSpins: spins,
+    totalAwarded: 0,
+  };
+  localStorage.setItem(`raffle_reward_done_${participantId}`, '1');
+  freeSpins += spins;
+  updateSpinsUI();
+  toast(spins === 2 ? '🎰 Pago aprobado: recibiste 2 tiros de ruleta por comprar 10 chances' : '🎰 Pago aprobado: recibiste 1 tiro de ruleta de regalo');
+  setTimeout(()=>{
+    document.querySelector('.wheel-section')?.scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(()=>bonusSpin(), 550);
+  },300);
+};
+
 initBonusWheel();
+applyDefaultSelection();
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
     closeParticipantModal();
@@ -2027,6 +2093,18 @@ function publicName(p){
 }
 function participantBadge(p){
   return p.isAnonymous ? 'Perfil privado' : 'Perfil público';
+}
+function applyDefaultSelection(){
+  termsOk = true;
+  const termsChk = document.getElementById('chkT');
+  if(termsChk) termsChk.classList.add('on');
+  if(document.querySelectorAll('.pkg').length){
+    setTimeout(()=>{
+      if(selPkgIdx===null){
+        selPkg(2);
+      }
+    },0);
+  }
 }
 function animN(el,from,to,dur=700){
   const s=performance.now();
@@ -2163,8 +2241,8 @@ function submitForm(){
   prev.innerHTML='👤';prev.style.padding='';
   document.getElementById('photoInput').value='';
   document.getElementById('chkAnon').classList.remove('on');
-  document.getElementById('chkT').classList.remove('on');
-  termsOk=false;selPkgIdx=null;anonPublic=false;
+  document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
+  termsOk=true;selPkgIdx=null;anonPublic=false;
   // Reset bonus
   bonusTotal=0;
   document.getElementById('sumBonusRow').style.display='none';
@@ -2173,6 +2251,7 @@ function submitForm(){
   document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
   document.getElementById('sumP').textContent='— Elegí un pack arriba —';
   document.getElementById('sumC').textContent='—';document.getElementById('sumT').textContent='—';
+  applyDefaultSelection();
   document.getElementById('subBtn').disabled=true;
   updateUI();
   toast(`✅ ¡${fullName} inscripto con ${totalCh} chance${totalCh>1?'s':''}!`);
@@ -2431,7 +2510,7 @@ function finalDraw(){
   document.getElementById('dmBadge').textContent='🏆 SORTEO COMPLETADO';
   document.getElementById('dmTitle').textContent='¡TODOS LOS PREMIOS!';
   document.getElementById('dmSub').textContent='El sorteo finalizó exitosamente. ¡Felicitaciones a los ganadores!';
-  document.getElementById('curPrize').innerHTML=`<span>Total distribuido</span><strong>$10.010.000</strong>`;
+  document.getElementById('curPrize').innerHTML=`<span>Total distribuido</span><strong>$14.010.000</strong>`;
   document.getElementById('orb').textContent='🎊';
   document.getElementById('dmBtn').textContent='🏆 Ver Ganadores';
   document.getElementById('dmBtn').disabled=false;
@@ -2478,7 +2557,7 @@ function renderArchive(){
 function toggleArch(idx){document.getElementById('ac'+idx).classList.toggle('open');}
 
 function startNew(){
-  edition++;participants=[];totalChances=0;selPkgIdx=null;termsOk=false;anonPublic=false;
+  edition++;participants=[];totalChances=0;selPkgIdx=null;termsOk=true;anonPublic=false;
   drawPhase=0;isDrawing=false;drawRunning=false;winners=[];
   document.getElementById('winnersList').innerHTML='';
   document.getElementById('winnersSection').classList.remove('vis');
@@ -2499,11 +2578,11 @@ function startNew(){
   const prev=document.getElementById('photoPreview');if(prev){prev.innerHTML='👤';prev.style.padding='';}
   document.getElementById('photoInput').value='';
   document.getElementById('chkAnon').classList.remove('on');
-  document.getElementById('chkT').classList.remove('on');
   closeParticipantModal();
   document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('sel'));
   document.getElementById('sumP').textContent='— Elegí un pack arriba —';
   document.getElementById('sumC').textContent='—';document.getElementById('sumT').textContent='—';
+  applyDefaultSelection();
   document.getElementById('subBtn').disabled=true;
   updateUI();toast(`🎰 ¡Edición #${edition} abierta! Inscripción disponible.`);
   launchConfetti(80);startCountdown();
