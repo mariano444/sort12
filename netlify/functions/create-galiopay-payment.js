@@ -81,14 +81,33 @@ exports.handler = async (event) => {
       ? `Anonimo ${anonymousCode}`
       : `${firstName} ${lastName}`.replace(/\s+/g, ' ').trim();
 
-    await supabaseRequest(config, `/participants?id=eq.${normalizedParticipantId}`, {
-      method: 'PATCH',
-      body: {
-        display_name: publicDisplayName,
-        photo_url: photoUrl,
-        payment_provider: 'galiopay',
-      },
-    });
+    const participantPatch = {
+      display_name: publicDisplayName,
+      photo_url: photoUrl,
+      payment_provider: 'galiopay',
+      is_anonymous: anonymousPublic,
+      anonymous_code: anonymousPublic ? anonymousCode : null,
+    };
+
+    try {
+      await supabaseRequest(config, `/participants?id=eq.${normalizedParticipantId}`, {
+        method: 'PATCH',
+        body: participantPatch,
+      });
+    } catch (error) {
+      const details = String(error && error.message ? error.message : error);
+      const missingAnonColumns =
+        details.includes('is_anonymous') || details.includes('anonymous_code');
+      if (!missingAnonColumns) throw error;
+      await supabaseRequest(config, `/participants?id=eq.${normalizedParticipantId}`, {
+        method: 'PATCH',
+        body: {
+          display_name: publicDisplayName,
+          photo_url: photoUrl,
+          payment_provider: 'galiopay',
+        },
+      });
+    }
 
     const referenceId = `raffle_${edition.edition_number}_${normalizedParticipantId.replace(/-/g, '')}`;
     const successUrl = `${config.publicSiteUrl}/?payment=success&participant_id=${encodeURIComponent(normalizedParticipantId)}`;
