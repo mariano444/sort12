@@ -1,0 +1,556 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.curso{padding:1.5rem 0;max-width:860px}
+.hero{background:linear-gradient(135deg,#3C3489 0%,#534AB7 60%,#1D9E75 100%);border-radius:16px;padding:2.5rem 2rem;margin-bottom:2rem;color:#fff;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06)}
+.hero h1{font-size:1.6rem;font-weight:500;margin-bottom:.5rem;line-height:1.3}
+.hero p{font-size:.95rem;opacity:.85;margin-bottom:1.5rem}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px}
+.badge{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:.8rem;color:#fff}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.nav-btn{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 16px;font-size:.85rem;cursor:pointer;color:var(--color-text-secondary);transition:all .2s}
+.nav-btn.active{background:#534AB7;color:#fff;border-color:#534AB7}
+.nav-btn:hover:not(.active){border-color:#534AB7;color:#534AB7}
+.section{display:none}
+.section.active{display:block}
+.modulos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:1.5rem}
+.mod-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;cursor:pointer;transition:all .2s}
+.mod-card:hover{border-color:#534AB7;transform:translateY(-2px)}
+.mod-card.done{border-left:3px solid #1D9E75}
+.mod-num{font-size:.75rem;color:#534AB7;font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.mod-title{font-size:.95rem;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.mod-desc{font-size:.8rem;color:var(--color-text-secondary);line-height:1.5}
+.mod-badge{display:inline-block;margin-top:8px;padding:2px 8px;border-radius:10px;font-size:.75rem}
+.mb-teoria{background:#EEEDFE;color:#3C3489}
+.mb-practica{background:#E1F5EE;color:#085041}
+.mb-ejercicio{background:#FAEEDA;color:#633806}
+.section-title{font-size:1.1rem;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.content-block{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.content-block h3{font-size:.95rem;font-weight:500;margin-bottom:.75rem;color:var(--color-text-primary)}
+.formula-box{background:#EEEDFE;border-radius:8px;padding:.75rem 1rem;font-size:.9rem;font-family:var(--font-mono);color:#3C3489;margin:.75rem 0}
+.step-list{list-style:none;counter-reset:steps}
+.step-list li{counter-increment:steps;padding:.5rem 0 .5rem 2.5rem;position:relative;font-size:.9rem;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);line-height:1.6}
+.step-list li:last-child{border-bottom:none}
+.step-list li::before{content:counter(steps);position:absolute;left:0;top:.5rem;width:22px;height:22px;background:#534AB7;color:#fff;border-radius:50%;font-size:.75rem;display:flex;align-items:center;justify-content:center;font-weight:500}
+.table-wrap{overflow-x:auto;margin:.75rem 0}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:#EEEDFE;color:#3C3489;padding:8px 10px;text-align:left;font-weight:500;font-size:.8rem}
+td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+tr:hover td{background:var(--color-background-secondary)}
+.highlight-td{color:#1D9E75;font-weight:500}
+.red-td{color:#A32D2D;font-weight:500}
+.calc-container{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.calc-label{font-size:.8rem;color:var(--color-text-secondary);margin-bottom:4px}
+.calc-input{width:100%;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:.9rem;background:var(--color-background-primary);color:var(--color-text-primary)}
+.calc-result{margin-top:12px;padding:1rem;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.result-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.88rem;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.result-row:last-child{border-bottom:none;font-weight:500;color:var(--color-text-primary);font-size:.95rem;padding-top:10px;margin-top:4px}
+.result-row .neg{color:#A32D2D}
+.result-row .pos{color:#1D9E75}
+.btn-calc{background:#534AB7;color:#fff;border:none;border-radius:var(--border-radius-md);padding:10px 20px;font-size:.9rem;cursor:pointer;width:100%;margin-top:8px;transition:all .2s}
+.btn-calc:hover{background:#3C3489}
+.quiz-container{margin-bottom:1rem}
+.quiz-q{font-size:.95rem;font-weight:500;color:var(--color-text-primary);margin-bottom.75rem;padding:.75rem 0}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:.75rem}
+.quiz-opt{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.7rem 1rem;cursor:pointer;font-size:.88rem;color:var(--color-text-secondary);text-align:left;transition:all .2s}
+.quiz-opt:hover{border-color:#534AB7;color:#534AB7}
+.quiz-opt.correct{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+.quiz-opt.wrong{background:#FCEBEB;border-color:#A32D2D;color:#791F1F}
+.quiz-feedback{padding:.75rem;border-radius:var(--border-radius-md);font-size:.88rem;margin-top:.5rem;display:none}
+.feedback-ok{background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5}
+.feedback-err{background:#FCEBEB;color:#791F1F;border:0.5px solid #F09595}
+.progress-bar{background:var(--color-background-secondary);border-radius:10px;height:8px;overflow:hidden;margin-bottom:1.5rem}
+.progress-fill{height:100%;background:linear-gradient(90deg,#534AB7,#1D9E75);border-radius:10px;transition:width .5s}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.tip-card{border-radius:var(--border-radius-md);padding:1rem;font-size:.85rem;line-height:1.6}
+.tip-purple{background:#EEEDFE;border-left:3px solid #534AB7;color:#3C3489}
+.tip-teal{background:#E1F5EE;border-left:3px solid #1D9E75;color:#085041}
+.tip-amber{background:#FAEEDA;border-left:3px solid #EF9F27;color:#633806}
+.tip-red{background:#FCEBEB;border-left:3px solid #E24B4A;color:#791F1F}
+.tip-title{font-weight:500;margin-bottom:4px;font-size:.88rem}
+.sueldo-visual{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1rem 0}
+.sv-col h4{font-size:.85rem;font-weight:500;margin-bottom:8px;padding:6px 10px;border-radius:6px;text-align:center}
+.sv-col.hab h4{background:#E1F5EE;color:#085041}
+.sv-col.ded h4{background:#FCEBEB;color:#791F1F}
+.sv-item{display:flex;justify-content:space-between;padding:5px 0;font-size:.83rem;color:var(--color-text-secondary);border-bottom:0.5px dashed var(--color-border-tertiary)}
+.sv-item:last-child{border-bottom:none;font-weight:500;color:var(--color-text-primary)}
+.neto-box{background:linear-gradient(135deg,#534AB7,#1D9E75);border-radius:var(--border-radius-md);padding:1rem;text-align:center;color:#fff;margin-top:12px}
+.neto-label{font-size:.8rem;opacity:.85}
+.neto-val{font-size:1.5rem;font-weight:500}
+.sim-tabs{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+.sim-tab{padding:6px 14px;border-radius:20px;font-size:.82rem;cursor:pointer;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);transition:all .2s}
+.sim-tab.active{background:#534AB7;color:#fff;border-color:#534AB7}
+.sim-panel{display:none}
+.sim-panel.active{display:block}
+</style>
+
+<div class="curso">
+<div class="hero">
+  <div class="badge-row" style="margin-bottom:1rem">
+    <span class="badge">Nivel profesional</span>
+    <span class="badge">Argentina</span>
+    <span class="badge">6 módulos</span>
+    <span class="badge">Ejercicios prácticos</span>
+  </div>
+  <h1>Liquidación de Sueldos y Jornales</h1>
+  <p>Curso completo paso a paso. Aprende a liquidar remuneraciones, calcular aportes, retenciones y confeccionar recibos de sueldo como un profesional.</p>
+  <div class="badge-row">
+    <span class="badge">Ley 20.744 — LCT</span>
+    <span class="badge">AFIP / SIPA</span>
+    <span class="badge">Simulador incluido</span>
+  </div>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progBar" style="width:0%"></div></div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showSection('inicio')">Inicio</button>
+  <button class="nav-btn" onclick="showSection('modulos')">Módulos</button>
+  <button class="nav-btn" onclick="showSection('simulador')">Simulador</button>
+  <button class="nav-btn" onclick="showSection('quiz')">Quiz</button>
+  <button class="nav-btn" onclick="showSection('tips')">Consejos clave</button>
+</div>
+
+<!-- INICIO -->
+<div class="section active" id="sec-inicio">
+  <div class="section-title">¿Qué vas a aprender?</div>
+  <div class="modulos-grid">
+    <div class="mod-card" onclick="goToMod(1)">
+      <div class="mod-num">Módulo 1</div>
+      <div class="mod-title">Conceptos fundamentales</div>
+      <div class="mod-desc">Remuneración, jornales, salarios. Marco legal LCT. Tipos de contratos.</div>
+      <span class="mod-badge mb-teoria">Teoría</span>
+    </div>
+    <div class="mod-card" onclick="goToMod(2)">
+      <div class="mod-num">Módulo 2</div>
+      <div class="mod-title">Haberes y remuneraciones</div>
+      <div class="mod-desc">Sueldo básico, horas extras, adicionales, comisiones, premios y presentismo.</div>
+      <span class="mod-badge mb-practica">Práctica</span>
+    </div>
+    <div class="mod-card" onclick="goToMod(3)">
+      <div class="mod-num">Módulo 3</div>
+      <div class="mod-title">Aportes y contribuciones</div>
+      <div class="mod-desc">Jubilación, obra social, ART, ANSSAL, Fondo de desempleo. Tasas vigentes.</div>
+      <span class="mod-badge mb-teoria">Teoría</span>
+    </div>
+    <div class="mod-card" onclick="goToMod(4)">
+      <div class="mod-num">Módulo 4</div>
+      <div class="mod-title">Recibo de sueldo</div>
+      <div class="mod-desc">Estructura completa del recibo. Haberes, deducciones y sueldo neto.</div>
+      <span class="mod-badge mb-practica">Práctica</span>
+    </div>
+    <div class="mod-card" onclick="goToMod(5)">
+      <div class="mod-num">Módulo 5</div>
+      <div class="mod-title">Liquidaciones especiales</div>
+      <div class="mod-desc">SAC (aguinaldo), vacaciones, licencias, despidos e indemnizaciones.</div>
+      <span class="mod-badge mb-ejercicio">Ejercicio</span>
+    </div>
+    <div class="mod-card" onclick="goToMod(6)">
+      <div class="mod-num">Módulo 6</div>
+      <div class="mod-title">Casos prácticos completos</div>
+      <div class="mod-desc">Liquidación de empleado mensual, jornalero y con categoría convenio.</div>
+      <span class="mod-badge mb-ejercicio">Ejercicio</span>
+    </div>
+  </div>
+  <div class="content-block">
+    <h3>Estructura de una liquidación de sueldos</h3>
+    <div class="sueldo-visual">
+      <div class="sv-col hab">
+        <h4>+ Haberes (ingresos)</h4>
+        <div class="sv-item"><span>Sueldo básico</span><span class="highlight-td">$350.000</span></div>
+        <div class="sv-item"><span>Horas extras 50%</span><span class="highlight-td">$26.250</span></div>
+        <div class="sv-item"><span>Adicional antigüedad</span><span class="highlight-td">$17.500</span></div>
+        <div class="sv-item"><span>Presentismo</span><span class="highlight-td">$10.500</span></div>
+        <div class="sv-item"><span>Total bruto</span><span class="highlight-td">$404.250</span></div>
+      </div>
+      <div class="sv-col ded">
+        <h4>− Deducciones</h4>
+        <div class="sv-item"><span>Jubilación (11%)</span><span class="red-td">-$44.468</span></div>
+        <div class="sv-item"><span>Obra social (3%)</span><span class="red-td">-$12.128</span></div>
+        <div class="sv-item"><span>ANSSAL (0,5%)</span><span class="red-td">-$2.021</span></div>
+        <div class="sv-item"><span>Seg. desempleo (1%)</span><span class="red-td">-$4.043</span></div>
+        <div class="sv-item"><span>Total retenciones</span><span class="red-td">-$62.659</span></div>
+      </div>
+    </div>
+    <div class="neto-box">
+      <div class="neto-label">Sueldo neto a cobrar</div>
+      <div class="neto-val">$341.591</div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULOS -->
+<div class="section" id="sec-modulos">
+  <div class="sim-tabs">
+    <div class="sim-tab active" onclick="showMod('m1')">1. Fundamentos</div>
+    <div class="sim-tab" onclick="showMod('m2')">2. Haberes</div>
+    <div class="sim-tab" onclick="showMod('m3')">3. Aportes</div>
+    <div class="sim-tab" onclick="showMod('m4')">4. Recibo</div>
+    <div class="sim-tab" onclick="showMod('m5')">5. Especiales</div>
+    <div class="sim-tab" onclick="showMod('m6')">6. Casos</div>
+  </div>
+
+  <div class="sim-panel active" id="mod-m1">
+    <div class="content-block">
+      <h3>¿Qué es la remuneración?</h3>
+      <ol class="step-list">
+        <li>La <strong>remuneración</strong> es toda contraprestación que recibe el trabajador por su trabajo en relación de dependencia (art. 103 LCT).</li>
+        <li>El <strong>salario</strong> se paga por unidad de tiempo (mes o quincena). El <strong>jornal</strong> se paga por día trabajado.</li>
+        <li>El <strong>salario mínimo vital y móvil (SMVyM)</strong> es el piso por debajo del cual no puede pagarse ninguna remuneración.</li>
+        <li>Los <strong>convenios colectivos de trabajo (CCT)</strong> fijan las escalas salariales mínimas por actividad y categoría.</li>
+        <li>El período de pago mensual vence el día 4 del mes siguiente; el pago quincenal, a los 3 días hábiles del período.</li>
+      </ol>
+    </div>
+    <div class="content-block">
+      <h3>Tipos de remuneración</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Tipo</th><th>Descripción</th><th>Ejemplo</th></tr>
+          <tr><td>Mensual</td><td>Se divide por 30 días para jornadas parciales</td><td>Empleado administrativo</td></tr>
+          <tr><td>Jornal diario</td><td>Se multiplica por días efectivamente trabajados</td><td>Construcción, industria</td></tr>
+          <tr><td>Por hora</td><td>Jornal ÷ 8 horas de jornada normal</td><td>Part-time, temporario</td></tr>
+          <tr><td>A comisión</td><td>Porcentaje sobre ventas o producción</td><td>Vendedores, corredores</td></tr>
+          <tr><td>A destajo</td><td>Por unidad producida</td><td>Cosecha, manufactura</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="sim-panel" id="mod-m2">
+    <div class="content-block">
+      <h3>Cálculo de horas extras</h3>
+      <div class="formula-box">Hora ordinaria = Sueldo mensual ÷ 200 horas (jornada de 8hs/día × 25 días)</div>
+      <div class="formula-box">Hora extra 50% = Hora ordinaria × 1,50</div>
+      <div class="formula-box">Hora extra 100% = Hora ordinaria × 2,00 (feriados o descanso)</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Sueldo base</th><th>Valor hora normal</th><th>HE al 50%</th><th>HE al 100%</th></tr>
+          <tr><td>$300.000</td><td>$1.500</td><td>$2.250</td><td>$3.000</td></tr>
+          <tr><td>$400.000</td><td>$2.000</td><td>$3.000</td><td>$4.000</td></tr>
+          <tr><td>$500.000</td><td>$2.500</td><td>$3.750</td><td>$5.000</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="content-block">
+      <h3>Adicionales habituales en convenios</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Adicional</th><th>Base de cálculo</th><th>%/Monto típico</th></tr>
+          <tr><td>Antigüedad</td><td>Básico de convenio</td><td>1% por año</td></tr>
+          <tr><td>Presentismo</td><td>Básico</td><td>5–10%</td></tr>
+          <tr><td>Título/función</td><td>Básico</td><td>Fijo según CCT</td></tr>
+          <tr><td>Asignación familiar</td><td>No remunerativo</td><td>Escala ANSES</td></tr>
+          <tr><td>Viáticos (comprobados)</td><td>No remunerativo</td><td>Gasto real</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="sim-panel" id="mod-m3">
+    <div class="content-block">
+      <h3>Aportes del trabajador (se descuentan del bruto)</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Concepto</th><th>Destino</th><th>Tasa</th></tr>
+          <tr><td>Jubilación</td><td>ANSES / SIPA</td><td class="red-td">11%</td></tr>
+          <tr><td>Obra social</td><td>OS elegida</td><td class="red-td">3%</td></tr>
+          <tr><td>ANSSAL</td><td>Fondo solidaridad salud</td><td class="red-td">0,5%</td></tr>
+          <tr><td>Fondo desempleo</td><td>ANSES</td><td class="red-td">1%</td></tr>
+          <tr><td colspan="2"><strong>Total aportes trabajador</strong></td><td class="red-td"><strong>17%</strong></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="content-block">
+      <h3>Contribuciones patronales (a cargo del empleador)</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Concepto</th><th>Tasa general</th></tr>
+          <tr><td>Jubilación (SIPA)</td><td class="highlight-td">10,17%</td></tr>
+          <tr><td>Obra social</td><td class="highlight-td">6%</td></tr>
+          <tr><td>ANSSAL</td><td class="highlight-td">1,5%</td></tr>
+          <tr><td>Asig. familiares (ANSES)</td><td class="highlight-td">4,44%</td></tr>
+          <tr><td>Fondo desempleo</td><td class="highlight-td">0,89%</td></tr>
+          <tr><td>ART (variable)</td><td class="highlight-td">~2–5%</td></tr>
+          <tr><td><strong>Total aprox.</strong></td><td class="highlight-td"><strong>~23–26%</strong></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="sim-panel" id="mod-m4">
+    <div class="content-block">
+      <h3>Estructura del recibo de sueldo</h3>
+      <ol class="step-list">
+        <li>Encabezado: datos del empleador (razón social, CUIT, domicilio) y datos del empleado (nombre, CUIL, categoría, fecha ingreso).</li>
+        <li>Período de liquidación (mes y año) y fecha de pago.</li>
+        <li>Columna de haberes: todos los conceptos que aumentan el bruto (sueldo básico, adicionales, horas extras, etc.).</li>
+        <li>Columna de deducciones: todos los descuentos (aportes previsionales, obra social, embargos, cuotas sindicales).</li>
+        <li>Total de haberes − Total de deducciones = <strong>Sueldo neto a cobrar</strong>.</li>
+        <li>Asignaciones familiares: se suman al neto pero no son base imponible de cargas sociales.</li>
+        <li>Firma del empleado al retirar el recibo equivale a conformidad de pago (art. 140 LCT).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="sim-panel" id="mod-m5">
+    <div class="content-block">
+      <h3>Sueldo Anual Complementario (SAC / Aguinaldo)</h3>
+      <div class="formula-box">SAC = Mejor remuneración del semestre ÷ 2</div>
+      <ol class="step-list">
+        <li>Se paga en dos cuotas: 30 de junio y 31 de diciembre.</li>
+        <li>Si el trabajador no completó el semestre, se calcula proporcional a los días trabajados.</li>
+        <li>El SAC integra la base imponible de aportes y contribuciones.</li>
+      </ol>
+      <div class="formula-box">SAC proporcional = (Mejor sueldo ÷ 2) × (días trabajados ÷ 180)</div>
+    </div>
+    <div class="content-block">
+      <h3>Vacaciones — días según antigüedad (art. 150 LCT)</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Antigüedad</th><th>Días hábiles</th></tr>
+          <tr><td>Hasta 5 años</td><td>14 días</td></tr>
+          <tr><td>5 a 10 años</td><td>21 días</td></tr>
+          <tr><td>10 a 20 años</td><td>28 días</td></tr>
+          <tr><td>Más de 20 años</td><td>35 días</td></tr>
+        </table>
+      </div>
+      <div class="formula-box">Valor día vacaciones = Sueldo mensual ÷ 25</div>
+    </div>
+    <div class="content-block">
+      <h3>Indemnización por despido sin causa (art. 245 LCT)</h3>
+      <div class="formula-box">Indemnización = Mejor remuneración mensual × años de antigüedad (mín. 1 año)</div>
+      <p style="font-size:.85rem;color:var(--color-text-secondary);margin-top:.5rem">+ Preaviso (1–2 meses) + Integración mes de despido + SAC proporcional + Vacaciones proporcionales</p>
+    </div>
+  </div>
+
+  <div class="sim-panel" id="mod-m6">
+    <div class="content-block">
+      <h3>Caso práctico completo — Empleado mensual</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th colspan="2">Datos del empleado</th></tr>
+          <tr><td>Nombre</td><td>Juan García</td></tr>
+          <tr><td>Categoría</td><td>Administrativo A</td></tr>
+          <tr><td>Antigüedad</td><td>3 años</td></tr>
+          <tr><td>Sueldo básico convenio</td><td>$380.000</td></tr>
+          <tr><td>Horas extras 50%</td><td>10 horas</td></tr>
+        </table>
+      </div>
+      <div class="table-wrap" style="margin-top:12px">
+        <table>
+          <tr><th>Concepto</th><th>Cálculo</th><th>Importe</th></tr>
+          <tr><td>Sueldo básico</td><td>—</td><td class="highlight-td">$380.000</td></tr>
+          <tr><td>Antigüedad (3%)</td><td>$380.000 × 3%</td><td class="highlight-td">$11.400</td></tr>
+          <tr><td>Hora extra (valor)</td><td>$380.000 ÷ 200 = $1.900</td><td>—</td></tr>
+          <tr><td>HE 50% (10hs)</td><td>$1.900 × 1,5 × 10</td><td class="highlight-td">$28.500</td></tr>
+          <tr><td colspan="2"><strong>Total remunerativo bruto</strong></td><td class="highlight-td"><strong>$419.900</strong></td></tr>
+          <tr><td>Jubilación (11%)</td><td>$419.900 × 11%</td><td class="red-td">-$46.189</td></tr>
+          <tr><td>Obra social (3%)</td><td>$419.900 × 3%</td><td class="red-td">-$12.597</td></tr>
+          <tr><td>ANSSAL (0,5%)</td><td>$419.900 × 0,5%</td><td class="red-td">-$2.100</td></tr>
+          <tr><td>F. desempleo (1%)</td><td>$419.900 × 1%</td><td class="red-td">-$4.199</td></tr>
+          <tr><td colspan="2"><strong>Total deducciones</strong></td><td class="red-td"><strong>-$65.085</strong></td></tr>
+          <tr><td colspan="2" style="font-weight:500;color:var(--color-text-primary)">Sueldo neto</td><td class="highlight-td" style="font-size:1rem;font-weight:500">$354.815</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIMULADOR -->
+<div class="section" id="sec-simulador">
+  <div class="section-title">Simulador de liquidación</div>
+  <div class="calc-container">
+    <div class="calc-row">
+      <div>
+        <div class="calc-label">Sueldo básico mensual ($)</div>
+        <input class="calc-input" type="number" id="sBasico" value="400000" oninput="calcular()">
+      </div>
+      <div>
+        <div class="calc-label">Antigüedad (años)</div>
+        <input class="calc-input" type="number" id="sAnt" value="3" min="0" max="40" oninput="calcular()">
+      </div>
+    </div>
+    <div class="calc-row">
+      <div>
+        <div class="calc-label">Horas extras al 50%</div>
+        <input class="calc-input" type="number" id="sHE50" value="0" min="0" oninput="calcular()">
+      </div>
+      <div>
+        <div class="calc-label">Horas extras al 100%</div>
+        <input class="calc-input" type="number" id="sHE100" value="0" min="0" oninput="calcular()">
+      </div>
+    </div>
+    <div class="calc-row">
+      <div>
+        <div class="calc-label">Presentismo ($)</div>
+        <input class="calc-input" type="number" id="sPres" value="0" oninput="calcular()">
+      </div>
+      <div>
+        <div class="calc-label">Otros haberes remunerativos ($)</div>
+        <input class="calc-input" type="number" id="sOtros" value="0" oninput="calcular()">
+      </div>
+    </div>
+    <div class="calc-result" id="resultado">
+      <div class="result-row"><span>Sueldo básico</span><span id="r-basico" class="pos">$400.000</span></div>
+      <div class="result-row"><span>Adicional antigüedad</span><span id="r-ant" class="pos">$12.000</span></div>
+      <div class="result-row"><span>Horas extras</span><span id="r-he" class="pos">$0</span></div>
+      <div class="result-row"><span>Presentismo + Otros</span><span id="r-otros" class="pos">$0</span></div>
+      <div class="result-row" style="border-top:1px solid var(--color-border-secondary);padding-top:8px"><span>Total bruto</span><span id="r-bruto" class="pos">$412.000</span></div>
+      <div class="result-row"><span>Jubilación (11%)</span><span id="r-jub" class="neg"></span></div>
+      <div class="result-row"><span>Obra social (3%)</span><span id="r-os" class="neg"></span></div>
+      <div class="result-row"><span>ANSSAL (0,5%)</span><span id="r-ans" class="neg"></span></div>
+      <div class="result-row"><span>F. desempleo (1%)</span><span id="r-fd" class="neg"></span></div>
+      <div class="result-row"><span>Total deducciones</span><span id="r-ded" class="neg"></span></div>
+      <div class="result-row"><span>Sueldo neto a cobrar</span><span id="r-neto" class="pos" style="font-size:1.1rem"></span></div>
+    </div>
+  </div>
+  <button class="btn-calc" onclick="sendPrompt('Quiero ver el recibo de sueldo completo para el empleado que simulé ↗')">Ver recibo completo detallado ↗</button>
+</div>
+
+<!-- QUIZ -->
+<div class="section" id="sec-quiz">
+  <div class="section-title">Quiz de evaluación</div>
+  <div id="quiz-area"></div>
+  <div id="quiz-score" style="display:none;padding:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);text-align:center;font-size:1rem;font-weight:500;color:var(--color-text-primary)"></div>
+</div>
+
+<!-- TIPS -->
+<div class="section" id="sec-tips">
+  <div class="section-title">Consejos clave para el liquidador</div>
+  <div class="tips-grid">
+    <div class="tip-card tip-purple">
+      <div class="tip-title">Verificá siempre el convenio</div>
+      Antes de liquidar, identificá el CCT aplicable. Los básicos y adicionales varían significativamente por actividad.
+    </div>
+    <div class="tip-card tip-teal">
+      <div class="tip-title">Control del tope de aportes</div>
+      Los aportes previsionales tienen un tope máximo imponible que se actualiza periódicamente. Verificá el valor vigente en AFIP.
+    </div>
+    <div class="tip-card tip-amber">
+      <div class="tip-title">Remunerativos vs. no remunerativos</div>
+      Solo los conceptos remunerativos integran la base imponible. Los no remunerativos (viáticos, reintegros) no llevan aportes.
+    </div>
+    <div class="tip-card tip-red">
+      <div class="tip-title">Plazos de pago inviolables</div>
+      El incumplimiento en los plazos de pago genera intereses automáticos y puede habilitar al trabajador a considerarse despedido.
+    </div>
+    <div class="tip-card tip-purple">
+      <div class="tip-title">Registro en el SUSS</div>
+      Toda liquidación debe declararse en el F.931 mensual a AFIP con los datos de cada trabajador activo.
+    </div>
+    <div class="tip-card tip-teal">
+      <div class="tip-title">SAC sobre horas extras</div>
+      Las horas extras forman parte de la base para calcular el SAC si son habituales. No omitirlas en la mejor remuneración semestral.
+    </div>
+  </div>
+  <div style="margin-top:1.5rem">
+    <button class="btn-calc" onclick="sendPrompt('Dame un caso práctico de liquidación de sueldo con SAC y vacaciones proporcionales ↗')">Ejercicio completo con SAC y vacaciones ↗</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+function goToMod(n){
+  showSection('modulos');
+  document.querySelectorAll('.nav-btn').forEach(b=>{if(b.textContent==='Módulos')b.classList.add('active')});
+  showMod('m'+n);
+}
+function showMod(id){
+  document.querySelectorAll('.sim-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sim-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod-'+id).classList.add('active');
+  const tabs=document.querySelectorAll('.sim-tab');
+  const map={m1:0,m2:1,m3:2,m4:3,m5:4,m6:5};
+  tabs[map[id]].classList.add('active');
+}
+function fmt(n){return'$'+Math.round(n).toLocaleString('es-AR')}
+function calcular(){
+  const bas=parseFloat(document.getElementById('sBasico').value)||0;
+  const ant=parseFloat(document.getElementById('sAnt').value)||0;
+  const he50=parseFloat(document.getElementById('sHE50').value)||0;
+  const he100=parseFloat(document.getElementById('sHE100').value)||0;
+  const pres=parseFloat(document.getElementById('sPres').value)||0;
+  const otros=parseFloat(document.getElementById('sOtros').value)||0;
+  const antMonto=bas*ant*0.01;
+  const vh=bas/200;
+  const heMonto=vh*1.5*he50+vh*2*he100;
+  const bruto=bas+antMonto+heMonto+pres+otros;
+  const jub=bruto*0.11;
+  const os=bruto*0.03;
+  const ans=bruto*0.005;
+  const fd=bruto*0.01;
+  const ded=jub+os+ans+fd;
+  const neto=bruto-ded;
+  document.getElementById('r-basico').textContent=fmt(bas);
+  document.getElementById('r-ant').textContent=fmt(antMonto);
+  document.getElementById('r-he').textContent=fmt(heMonto);
+  document.getElementById('r-otros').textContent=fmt(pres+otros);
+  document.getElementById('r-bruto').textContent=fmt(bruto);
+  document.getElementById('r-jub').textContent='-'+fmt(jub);
+  document.getElementById('r-os').textContent='-'+fmt(os);
+  document.getElementById('r-ans').textContent='-'+fmt(ans);
+  document.getElementById('r-fd').textContent='-'+fmt(fd);
+  document.getElementById('r-ded').textContent='-'+fmt(ded);
+  document.getElementById('r-neto').textContent=fmt(neto);
+}
+const preguntas=[
+  {q:'¿Cuál es la tasa de aporte jubilatorio a cargo del trabajador?',opts:['8%','11%','13%','17%'],ok:1,exp:'El aporte a jubilación (SIPA/ANSES) es del 11% del salario bruto remunerativo.'},
+  {q:'¿Cuántos días hábiles de vacaciones corresponden a un trabajador con 7 años de antigüedad?',opts:['14 días','21 días','28 días','35 días'],ok:1,exp:'Entre 5 y 10 años de antigüedad corresponden 21 días hábiles (art. 150 LCT).'},
+  {q:'¿Cómo se calcula el valor de la hora extra al 50%?',opts:['Hora normal + 50% de la hora','Hora normal × 1,50','Sueldo ÷ 150','Sueldo ÷ 200 × 50%'],ok:1,exp:'El valor de la hora extra al 50% = valor hora ordinaria × 1,50.'},
+  {q:'¿Cuándo vence el pago del SAC (primera cuota)?',opts:['31 de marzo','30 de junio','31 de julio','31 de diciembre'],ok:1,exp:'La primera cuota del SAC se abona el 30 de junio; la segunda, el 31 de diciembre.'},
+  {q:'¿Qué conceptos NO integran la base imponible para aportes?',opts:['Sueldo básico','Horas extras','Viáticos con comprobantes','Presentismo'],ok:2,exp:'Los viáticos con comprobantes son no remunerativos y no llevan aportes ni contribuciones.'},
+];
+let pActual=0,respuestas=0;
+function renderQuiz(){
+  if(pActual>=preguntas.length){
+    document.getElementById('quiz-area').innerHTML='';
+    const score=document.getElementById('quiz-score');
+    score.style.display='block';
+    const pct=Math.round(respuestas/preguntas.length*100);
+    const emoji=pct>=80?'Excelente trabajo!':pct>=60?'Bien, seguí practicando.':'Repasá los módulos.';
+    score.innerHTML=`Resultado: ${respuestas}/${preguntas.length} correctas (${pct}%) — ${emoji}<br><button class="btn-calc" style="margin-top:12px;max-width:260px" onclick="resetQuiz()">Reiniciar quiz</button>`;
+    return;
+  }
+  const p=preguntas[pActual];
+  document.getElementById('quiz-area').innerHTML=`
+    <div class="content-block">
+      <div style="font-size:.8rem;color:var(--color-text-secondary);margin-bottom:.5rem">Pregunta ${pActual+1} de ${preguntas.length}</div>
+      <div class="quiz-q">${p.q}</div>
+      <div class="quiz-opts">${p.opts.map((o,i)=>`<button class="quiz-opt" onclick="responder(${i})">${o}</button>`).join('')}</div>
+      <div class="quiz-feedback" id="qf"></div>
+    </div>`;
+}
+function responder(idx){
+  const p=preguntas[pActual];
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('qf');
+  fb.style.display='block';
+  if(idx===p.ok){
+    opts[idx].classList.add('correct');
+    fb.className='quiz-feedback feedback-ok';
+    fb.textContent='Correcto! '+p.exp;
+    respuestas++;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[p.ok].classList.add('correct');
+    fb.className='quiz-feedback feedback-err';
+    fb.textContent='Incorrecto. '+p.exp;
+  }
+  document.getElementById('progBar').style.width=((pActual+1)/preguntas.length*100)+'%';
+  setTimeout(()=>{pActual++;renderQuiz();},2200);
+}
+function resetQuiz(){pActual=0;respuestas=0;document.getElementById('quiz-score').style.display='none';renderQuiz();}
+renderQuiz();
+calcular();
+</script>
