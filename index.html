@@ -327,6 +327,14 @@ select.fi option{background:#050D1A;color:var(--text)}
 .sk{font-size:13px;color:var(--sub);font-weight:500}
 .sv{font-size:13px;font-weight:700;color:var(--text);font-family:'JetBrains Mono',monospace}
 .sv.hi{color:var(--g2);font-size:18px}
+.daily-promo{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:22px 0 30px;padding:18px 20px;border-radius:20px;background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(0,201,167,.08));border:1px solid rgba(212,168,67,.2)}
+.daily-promo-copy{max-width:640px}
+.daily-promo-kicker{font-size:10px;font-weight:700;letter-spacing:2.1px;text-transform:uppercase;color:var(--g2)}
+.daily-promo-title{margin-top:6px;font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);line-height:1.15}
+.daily-promo-meta{margin-top:8px;font-size:13px;color:var(--sub);line-height:1.6}
+.daily-promo-side{min-width:170px;padding:14px 16px;border-radius:16px;background:rgba(3,8,15,.55);border:1px solid rgba(255,255,255,.08);text-align:center}
+.daily-promo-clock-label{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--sub)}
+.daily-promo-clock{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--teal)}
 .terms-row{display:flex;gap:12px;align-items:flex-start;padding:18px 0 0}
 .chk{width:20px;height:20px;min-width:20px;border:1.5px solid rgba(255,255,255,.15);border-radius:6px;background:rgba(255,255,255,.04);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px;flex-shrink:0}
 .chk.on{background:var(--g2);border-color:var(--g2)}
@@ -542,6 +550,12 @@ footer strong{color:var(--g2)}
 .participant-block{margin-top:20px;padding:18px;border-radius:18px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06)}
 .participant-block h4{margin:0 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g2)}
 .participant-msg{font-size:14px;color:var(--text);line-height:1.7}
+.promo-profile-grid{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.promo-profile-title{font-size:15px;color:var(--text);font-weight:700;line-height:1.45}
+.promo-profile-copy{margin-top:6px;font-size:12px;color:var(--sub);line-height:1.6;max-width:440px}
+.promo-profile-timer{min-width:150px;padding:12px 14px;border-radius:16px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.16);text-align:center}
+.promo-profile-timer span{display:block;font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--sub)}
+.promo-profile-timer strong{display:block;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:24px;color:var(--g2)}
 .ticket-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
 .ticket-chip{border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(0,201,167,.06));border:1px solid rgba(212,168,67,.16);font-size:11px;color:var(--text);font-weight:700}
 .ticket-chip span{display:block;font-size:9px;color:var(--sub);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:5px}
@@ -580,6 +594,8 @@ footer strong{color:var(--g2)}
   .trust-grid,.how-grid{grid-template-columns:1fr 1fr}
   .form-section{padding:28px 18px}
   .f-grid{grid-template-columns:1fr}.fg.full{grid-column:1}
+  .daily-promo{flex-direction:column;align-items:flex-start}
+  .daily-promo-side{width:100%}
   .tb-in{flex-direction:column;align-items:flex-start;gap:8px}
   .draw-modal{padding:36px 18px}
   .tblhd,.tblrow{grid-template-columns:56px minmax(0,1fr) 120px 92px 100px}
@@ -602,6 +618,7 @@ footer strong{color:var(--g2)}
   .participant-head{align-items:flex-start}
   .participant-avatar{width:68px;height:68px;font-size:28px}
   .participant-sub{font-size:12px}
+  .promo-profile-timer{width:100%}
   .ticket-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .faq-help{padding:18px}
   .faq-help-copy h3{font-size:24px}
@@ -932,6 +949,18 @@ footer strong{color:var(--g2)}
   </section>
 
   <!-- ═══════ FORM ═══════ -->
+    <div class="daily-promo" id="dailyPromoBanner">
+      <div class="daily-promo-copy">
+        <div class="daily-promo-kicker" id="promoTodayLabel">Promo de hoy</div>
+        <div class="daily-promo-title">Comprando 6 chances te llevas 1 extra y comprando 10 chances te llevas 2 extras.</div>
+        <div class="daily-promo-meta" id="promoBannerMeta">La promo se renueva todos los dias para darte mas posibilidades de ganar antes del cierre diario.</div>
+      </div>
+      <div class="daily-promo-side">
+        <div class="daily-promo-clock-label">Cierra en</div>
+        <div class="daily-promo-clock" id="promoCountdown">23:59:59</div>
+      </div>
+    </div>
+
   <div class="form-section" id="formSection">
     <h3 class="f-h">Completá tu inscripción</h3>
     <p class="f-sub">Tu información es privada. Participás desde cualquier lugar de la Argentina. Después de registrarte y abonar, el pago se acredita y pasás a la lista pública con tus chances activas.</p>
@@ -1001,6 +1030,8 @@ footer strong{color:var(--g2)}
         <div class="sum-box">
           <div class="sum-row"><span class="sk">Pack elegido</span><span class="sv" id="sumP">— Elegí un pack arriba —</span></div>
           <div class="sum-row"><span class="sk">Chances compradas</span><span class="sv" id="sumC">—</span></div>
+          <div class="sum-row" id="sumBonusRow" style="display:none"><span class="sk">Chance extra de hoy</span><span class="sv" id="sumBonus">—</span></div>
+          <div class="sum-row" id="sumTotalRow" style="display:none"><span class="sk">Total con promo</span><span class="sv" id="sumTotalChances">—</span></div>
           <div class="sum-row" style="margin-top:6px"><span class="sk">Total a pagar</span><span class="sv hi" id="sumT">—</span></div>
         </div>
         <!-- Mini urgency bajo el resumen -->
@@ -1155,6 +1186,19 @@ footer strong{color:var(--g2)}
         <div class="participant-stat-sub">chances activas</div>
       </div>
     </div>
+    <div class="participant-block" id="pmPromoWrap">
+      <h4>Promo del dia</h4>
+      <div class="promo-profile-grid">
+        <div>
+          <div class="promo-profile-title" id="pmPromoTitle">Hoy 6 chances suman 1 extra y 10 chances suman 2 extras.</div>
+          <div class="promo-profile-copy" id="pmPromoCopy">La promo diaria se actualiza automaticamente y la cuenta regresiva reinicia cada dia a las 00:00.</div>
+        </div>
+        <div class="promo-profile-timer">
+          <span>Cierra en</span>
+          <strong id="pmPromoTimer">23:59:59</strong>
+        </div>
+      </div>
+    </div>
     <div class="participant-block">
       <h4>Chances visibles</h4>
       <div class="ticket-grid" id="pmTickets"></div>
@@ -1237,6 +1281,7 @@ const DEMO=[
   {name:'Tomás Herrera',     chances:1,  bonusChances:0, totalChances:1,  time:'09:48', date:'28/04/2026', province:'Misiones',       city:'Posadas',          msg:'', isAnonymous:false},
   {name:'Romina Díaz',       chances:3,  bonusChances:0, totalChances:3,  time:'09:52', date:'28/04/2026', province:'Santa Cruz',     city:'Río Gallegos',     msg:'compraria un auto', isAnonymous:false},
 ];
+const DAILY_PROMO_RULES=Object.freeze({6:1,10:2});
 const TICKER=[
   '🏆 Martín R. ganó $10.000.000 — Edición anterior',
   '🥈 Valentina P. ganó $3.000.000 hace 3 días',
@@ -1253,13 +1298,14 @@ const TICKER=[
 /* ══════════════════════════════════════════════
    STATE
 ══════════════════════════════════════════════ */
-let participants=[...DEMO];
-let totalChances=participants.reduce((a,p)=>a+p.chances,0);
+let participants=[];
+let totalChances=0;
 let selPkgIdx=null,termsOk=true,anonPublic=false;
 let drawPhase=0,isDrawing=false,drawRunning=false;
 let winners=[],edition=1,archive=[],totalPaid=2482480000;
 let cdTarget=null,cdInt=null;
 let participantFeedIndex=0, participantFeedTimer=null;
+let dailyPromoInterval=null;
 
 /* ══════════════════════════════════════════════
    PARTICLES
@@ -1968,18 +2014,52 @@ function updateFormBonusBanner(){
   const banner = document.getElementById('formBonusBanner');
   const bannerCount = document.getElementById('bannerBonusCount');
   const bannerTotal = document.getElementById('bannerTotalChances');
+  const promoMeta = document.getElementById('promoBannerMeta');
+  const sumBonusRow = document.getElementById('sumBonusRow');
+  const sumBonus = document.getElementById('sumBonus');
+  const sumTotalRow = document.getElementById('sumTotalRow');
+  const sumTotalChances = document.getElementById('sumTotalChances');
   const sumUrgency = document.getElementById('sumUrgency');
   const rem = MAX - totalChances;
+  const pkg = selPkgIdx !== null ? PKGS[selPkgIdx] : null;
+  const bought = pkg ? pkg.chances : 0;
+  const promoBonus = getSelectedPromoBonus();
+  const totalBonus = getCombinedSelectedBonus();
 
   if(bonusTotal > 0){
     if(banner) banner.style.display='block';
     if(bannerCount) bannerCount.textContent = bonusTotal;
-    // Show projected total
-    const pkg = selPkgIdx !== null ? PKGS[selPkgIdx] : null;
-    const bought = pkg ? pkg.chances : 0;
     if(bannerTotal) bannerTotal.textContent = bought > 0 ? (bought + bonusTotal) : ('+'+ bonusTotal);
   } else {
     if(banner) banner.style.display='none';
+  }
+
+  if(sumBonusRow && sumBonus && sumTotalRow && sumTotalChances){
+    sumBonusRow.style.display = totalBonus > 0 ? 'flex' : 'none';
+    sumTotalRow.style.display = bought > 0 && totalBonus > 0 ? 'flex' : 'none';
+    if(totalBonus > 0){
+      sumBonus.textContent = `+${totalBonus} chance${totalBonus!==1?'s':''}`;
+      sumTotalChances.textContent = `${bought + totalBonus} chance${bought + totalBonus!==1?'s':''}`;
+    }else{
+      sumBonus.textContent = '—';
+      sumTotalChances.textContent = '—';
+    }
+  }
+
+  if(promoMeta){
+    if(bought > 0 && promoBonus > 0){
+      promoMeta.textContent = `Con tu selecciÃ³n actual participÃ¡s con ${bought} chances compradas + ${promoBonus} extra = ${bought + promoBonus} chances activas.`;
+    }else{
+      promoMeta.textContent = 'La promo se renueva todos los dÃ­as para darte mÃ¡s posibilidades de ganar antes del cierre diario.';
+    }
+  }
+
+  if(promoMeta){
+    if(bought > 0 && promoBonus > 0){
+      promoMeta.textContent = `Con tu seleccion actual participas con ${bought} chances compradas + ${promoBonus} extra = ${bought + promoBonus} chances activas.`;
+    }else{
+      promoMeta.textContent = 'La promo se renueva todos los dias para darte mas posibilidades de ganar antes del cierre diario.';
+    }
   }
 
   // Show urgency hint in form if <= 20 cupos
@@ -2049,6 +2129,45 @@ function tickCD(){
 const fmt=n=>n.toLocaleString('es-AR');
 function nowTime(){return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
 function nowDate(){return new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function getDailyPromoBonus(chances){
+  return DAILY_PROMO_RULES[Number(chances)] || 0;
+}
+function getSelectedPromoBonus(){
+  const pkg=selPkgIdx!==null ? PKGS[selPkgIdx] : null;
+  return pkg ? getDailyPromoBonus(pkg.chances) : 0;
+}
+function getCombinedSelectedBonus(){
+  return getSelectedPromoBonus() + bonusTotal;
+}
+function getPromoDeadline(now=new Date()){
+  const next=new Date(now);
+  next.setHours(24,0,0,0);
+  return next;
+}
+function formatPromoCountdown(ms){
+  const totalSeconds=Math.max(0,Math.floor(ms/1000));
+  const h=Math.floor(totalSeconds/3600);
+  const m=Math.floor((totalSeconds%3600)/60);
+  const s=totalSeconds%60;
+  return [h,m,s].map(v=>String(v).padStart(2,'0')).join(':');
+}
+function updateDailyPromoCountdown(){
+  const now=new Date();
+  const deadline=getPromoDeadline(now);
+  const text=formatPromoCountdown(deadline.getTime()-now.getTime());
+  const todayLabel=`Promo de hoy · ${nowDate()}`;
+  const topTimer=document.getElementById('promoCountdown');
+  const profileTimer=document.getElementById('pmPromoTimer');
+  const label=document.getElementById('promoTodayLabel');
+  if(topTimer) topTimer.textContent=text;
+  if(profileTimer) profileTimer.textContent=text;
+  if(label) label.textContent=todayLabel;
+}
+function startDailyPromoCountdown(){
+  if(dailyPromoInterval) clearInterval(dailyPromoInterval);
+  updateDailyPromoCountdown();
+  dailyPromoInterval=setInterval(updateDailyPromoCountdown,1000);
+}
 function publicName(p){
   return p.isAnonymous ? 'Participante anónimo/a' : p.name;
 }
@@ -2126,6 +2245,36 @@ function applyDefaultSelection(){
       }
     },0);
   }
+}
+function updatePromoProfileCard(participant){
+  const title=document.getElementById('pmPromoTitle');
+  const copy=document.getElementById('pmPromoCopy');
+  if(!title || !copy) return;
+  const bought=Number(participant?.chances || 0);
+  const extra=Number(participant?.bonusChances || 0);
+  const total=Number(participant?.totalChances || bought || 0);
+  if(extra>0){
+    title.textContent=`Este perfil participa con ${bought} compradas + ${extra} extra = ${total} chances activas.`;
+    copy.textContent='La promo ya quedÃ³ sumada en el perfil y se ve reflejada tambiÃ©n en la base de datos.';
+    return;
+  }
+  title.textContent='Hoy 6 chances suman 1 extra y 10 chances suman 2 extras.';
+  copy.textContent='La promo diaria se actualiza automÃ¡ticamente y el reloj vuelve a empezar cada dÃ­a a las 00:00.';
+}
+function updatePromoProfileCard(participant){
+  const title=document.getElementById('pmPromoTitle');
+  const copy=document.getElementById('pmPromoCopy');
+  if(!title || !copy) return;
+  const bought=Number(participant?.chances || 0);
+  const extra=Number(participant?.bonusChances || 0);
+  const total=Number(participant?.totalChances || bought || 0);
+  if(extra>0){
+    title.textContent=`Este perfil participa con ${bought} compradas + ${extra} extra = ${total} chances activas.`;
+    copy.textContent='La promo ya quedo sumada en el perfil y se ve reflejada tambien en la base de datos.';
+    return;
+  }
+  title.textContent='Hoy 6 chances suman 1 extra y 10 chances suman 2 extras.';
+  copy.textContent='La promo diaria se actualiza automaticamente y el reloj vuelve a empezar cada dia a las 00:00.';
 }
 function animN(el,from,to,dur=700){
   const s=performance.now();
@@ -2233,8 +2382,9 @@ function submitForm(){
   const msg=document.getElementById('fMsg').value.trim();
   const fullName=(n+' '+a).replace(/\s+/g,' ').trim();
   if(totalChances+pkg.chances>MAX){toast('⚠️ No hay suficientes chances disponibles');return;}
-  const totalCh = pkg.chances;
-  participants.push({name:fullName,chances:pkg.chances,bonusChances:0,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic});
+  const appliedBonus = getCombinedSelectedBonus();
+  const totalCh = pkg.chances + appliedBonus;
+  participants.push({name:fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic});
   totalChances+=pkg.chances;
   ['fN','fA','fT'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
@@ -2381,6 +2531,7 @@ function openParticipantModal(p){
   document.getElementById('pmBought').textContent=p.chances;
   document.getElementById('pmDate').textContent=p.date || nowDate();
   document.getElementById('pmTotal').textContent=totalCh;
+  updatePromoProfileCard(p);
 
   const tickets=document.getElementById('pmTickets');
   tickets.innerHTML='';
@@ -2717,6 +2868,7 @@ function launchConfetti(n){
 
 buildTicker();
 startCountdown();
+startDailyPromoCountdown();
 updateUI();
 </script>
 <script src="./production.js"></script>
