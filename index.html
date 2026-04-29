@@ -1131,13 +1131,13 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
     </div>
   </div>
 
-   <section class="courses-section" id="coursesSection">
+  <section class="courses-section" id="coursesSection">
     <div class="courses-copy">
       <div>
         <span class="s-eye">🎓 Cursos bonus por compra</span>
-        <h2 class="s-h">Accedé a formación <em>Profesional</em></h2>
+        <h2 class="s-h">Accedé a formación <em>según tus chances</em></h2>
       </div>
-      <div class="courses-note">Comprando `3 chances` se activa el curso sobre compra de autos usados. Con `6 chances o más` se activa ese curso y también matemáticas financieras, liquidación de sueldos y jornales, y funciones.</div>
+      <div class="courses-note">Con `3 chances` se activa el curso sobre compra de autos usados. Con `6 chances o más` se activa ese curso y también matemáticas financieras, liquidación de sueldos y jornales, y funciones esenciales. Después del pago aprobado, el acceso queda habilitado automáticamente.</div>
     </div>
     <div class="courses-grid">
       <article class="course-offer locked" data-course-card="auto-usado">
@@ -1146,7 +1146,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
           <span class="course-state locked" data-course-state>Bloqueado</span>
         </div>
         <div class="course-icon">🚗</div>
-        <div class="course-title">Todo lo que tenes que saber antes de comprar un auto usado, financiado o al contado</div>
+        <div class="course-title">Todo lo que tenés que saber antes de comprar un auto usado, financiado o al contado</div>
         <div class="course-desc">Checklist profesional, costos ocultos, evaluación del financiamiento y señales para comprar con más seguridad.</div>
         <div class="course-meta">
           <span>Guía completa</span>
@@ -1165,7 +1165,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
           <span class="course-state locked" data-course-state>Bloqueado</span>
         </div>
         <div class="course-icon">📈</div>
-        <div class="course-title">Matematicas financieras</div>
+        <div class="course-title">Matemáticas financieras</div>
         <div class="course-desc">Interés simple y compuesto, anualidades, amortización y simulaciones para tomar mejores decisiones financieras.</div>
         <div class="course-meta">
           <span>Simuladores</span>
@@ -1184,7 +1184,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
           <span class="course-state locked" data-course-state>Bloqueado</span>
         </div>
         <div class="course-icon">🧾</div>
-        <div class="course-title">Liquidacion de sueldos y jornales</div>
+        <div class="course-title">Liquidación de sueldos y jornales</div>
         <div class="course-desc">Aprendé haberes, aportes, recibo de sueldo, liquidaciones especiales y ejercicios aplicados al contexto argentino.</div>
         <div class="course-meta">
           <span>Argentina</span>
@@ -1217,7 +1217,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
       </article>
     </div>
   </section>
-   
+
   <!-- ═══════ SUEÑOS ═══════ -->
   <div class="dreams-section" id="dreamsSection" style="display:none">
     <span class="s-eye">💬 Sueños de los participantes</span>
@@ -2258,8 +2258,106 @@ function updateFormBonusBanner(){
   }
 }
 
+function readCourseAccessBundle(){
+  try{
+    const raw=localStorage.getItem(COURSE_ACCESS_STORAGE_KEY);
+    if(!raw) return {maxChances:0,unlocked:[],participantId:null,approvedAt:null};
+    const parsed=JSON.parse(raw);
+    return {
+      maxChances:Number(parsed?.maxChances||0),
+      unlocked:Array.isArray(parsed?.unlocked) ? parsed.unlocked : [],
+      participantId:parsed?.participantId||null,
+      approvedAt:parsed?.approvedAt||null,
+    };
+  }catch(_){
+    return {maxChances:0,unlocked:[],participantId:null,approvedAt:null};
+  }
+}
+function saveCourseAccessBundle(bundle){
+  localStorage.setItem(COURSE_ACCESS_STORAGE_KEY, JSON.stringify(bundle));
+}
+function unlockedCoursesForChances(chances){
+  return COURSE_OFFERS.filter(course=>Number(chances||0) >= course.minChances).map(course=>course.id);
+}
+function courseOfferById(courseId){
+  return COURSE_OFFERS.find(course=>course.id===courseId) || null;
+}
+window.grantCourseAccess = function(purchasedChances, participantId){
+  const chances=Number(purchasedChances||0);
+  if(chances < 3) return [];
+  const current=readCourseAccessBundle();
+  const nextUnlocked=[...new Set([...current.unlocked,...unlockedCoursesForChances(chances)])];
+  const grantedNow=nextUnlocked.filter(id=>!current.unlocked.includes(id));
+  saveCourseAccessBundle({
+    maxChances:Math.max(current.maxChances||0,chances),
+    unlocked:nextUnlocked,
+    participantId:participantId || current.participantId || null,
+    approvedAt:new Date().toISOString(),
+  });
+  renderCourseOffers();
+  return grantedNow;
+};
+window.openCourseOffer = function(courseId){
+  const course=courseOfferById(courseId);
+  if(!course) return;
+  const bundle=readCourseAccessBundle();
+  const unlocked=bundle.unlocked.includes(courseId);
+  if(unlocked){
+    window.location.href=course.href;
+    return;
+  }
+  const pkg=selPkgIdx!==null ? PKGS[selPkgIdx] : null;
+  if(pkg && pkg.chances >= course.minChances){
+    toast(`✅ Este curso se habilita automáticamente cuando se acredita el pago de tu pack de ${pkg.chances} chances.`);
+  }else{
+    toast(`🔒 Comprando ${course.minChances} chances o más se activa este curso después del pago aprobado.`);
+  }
+  document.querySelector('.pkg-section')?.scrollIntoView({behavior:'smooth',block:'start'});
+};
+function renderCourseOffers(){
+  const bundle=readCourseAccessBundle();
+  const pkg=selPkgIdx!==null ? PKGS[selPkgIdx] : null;
+  COURSE_OFFERS.forEach(course=>{
+    const card=document.querySelector(`[data-course-card="${course.id}"]`);
+    if(!card) return;
+    const stateEl=card.querySelector('[data-course-state]');
+    const hintEl=card.querySelector('[data-course-hint]');
+    const btnEl=card.querySelector('[data-course-btn]');
+    const unlocked=bundle.unlocked.includes(course.id);
+    const preview=!unlocked && !!pkg && pkg.chances >= course.minChances;
+    card.classList.remove('locked','preview','unlocked');
+    if(unlocked){
+      card.classList.add('unlocked');
+      if(stateEl){ stateEl.textContent='Disponible'; stateEl.className='course-state unlocked'; }
+      if(hintEl) hintEl.textContent='Tu pago aprobado ya habilitó este curso en este dispositivo.';
+      if(btnEl){ btnEl.textContent='Ingresar'; btnEl.className='course-btn'; }
+      return;
+    }
+    if(preview){
+      card.classList.add('preview');
+      if(stateEl){ stateEl.textContent='Se activa con este pack'; stateEl.className='course-state preview'; }
+      if(hintEl) hintEl.textContent=`Cuando se apruebe el pago de ${pkg.chances} chances, este curso quedará habilitado automáticamente.`;
+      if(btnEl){ btnEl.textContent='Se activa al pagar'; btnEl.className='course-btn preview-btn'; }
+      return;
+    }
+    card.classList.add('locked');
+    if(stateEl){ stateEl.textContent='Bloqueado'; stateEl.className='course-state locked'; }
+    if(hintEl) hintEl.textContent=`Se activa automáticamente al acreditar ${course.minChances} chances o más.`;
+    if(btnEl){ btnEl.textContent='Desbloquear'; btnEl.className='course-btn locked-btn'; }
+  });
+}
+
 window.processApprovedPaymentReward = function(participantId, purchasedChances){
+  const grantedCourses=window.grantCourseAccess(purchasedChances, participantId);
   const spins = purchasedChances >= 10 ? 2 : purchasedChances >= 3 ? 1 : 0;
+  if(grantedCourses.length){
+    const grantedLabels=grantedCourses
+      .map(id=>courseOfferById(id))
+      .filter(Boolean)
+      .map(course=>course.label)
+      .join(', ');
+    setTimeout(()=>toast(`🎓 Pago aprobado: ya tenés acceso a ${grantedLabels}.`), 120);
+  }
   if(!participantId || spins <= 0) return;
   const alreadyRewarded = localStorage.getItem(`raffle_reward_done_${participantId}`);
   if(alreadyRewarded) return;
@@ -2272,6 +2370,7 @@ window.processApprovedPaymentReward = function(participantId, purchasedChances){
   localStorage.setItem(`raffle_reward_done_${participantId}`, '1');
   freeSpins += spins;
   updateSpinsUI();
+  renderCourseOffers();
   toast(spins === 2 ? '🎰 Pago aprobado: recibiste 2 tiros de ruleta por comprar 10 chances' : '🎰 Pago aprobado: recibiste 1 tiro de ruleta de regalo');
   setTimeout(()=>{
     document.querySelector('.wheel-section')?.scrollIntoView({behavior:'smooth', block:'start'});
