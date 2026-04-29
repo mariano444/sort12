@@ -53,7 +53,10 @@
   }
 
   function toParticipant(row) {
-    const anonymousCode = parseAnonymousDisplayName(row.display_name);
+    const anonymousCode =
+      (row && row.anonymous_code ? String(row.anonymous_code).toUpperCase() : null) ||
+      parseAnonymousDisplayName(row.display_name);
+    const isAnonymous = !!(row && row.is_anonymous) || !!anonymousCode;
     return {
       id: row.id,
       name: row.display_name,
@@ -66,7 +69,7 @@
       city: row.city,
       photo: row.photo_url || null,
       msg: row.message || '',
-      isAnonymous: !!anonymousCode,
+      isAnonymous,
       anonymousCode,
       isWinner: !!row.is_winner,
     };
@@ -184,6 +187,13 @@
     return selPkgIdx === null ? null : selPkgIdx + 1;
   }
 
+  function isAnonymousChecked() {
+    const checkbox = document.getElementById('chkAnon');
+    if (checkbox) return checkbox.classList.contains('on');
+    if (typeof window.isAnonEnabled === 'function') return !!window.isAnonEnabled();
+    return !!window.anonPublic;
+  }
+
   const originalSubmit = window.submitForm;
   window.submitForm = async function submitFormProduction() {
     if (typeof originalSubmit !== 'function') return;
@@ -204,7 +214,7 @@
       province: document.getElementById('fProv').value,
       city: document.getElementById('fCity').value.trim(),
       message: document.getElementById('fMsg').value.trim(),
-      anonymousPublic: !!window.anonPublic,
+      anonymousPublic: isAnonymousChecked(),
       photoDataUrl: currentPhotoDataUrl,
       bonusChances:
         typeof window.getCombinedSelectedBonus === 'function' ? window.getCombinedSelectedBonus() : 0,
