@@ -332,6 +332,10 @@ select.fi option{background:#050D1A;color:var(--text)}
 .daily-promo-kicker{font-size:10px;font-weight:700;letter-spacing:2.1px;text-transform:uppercase;color:var(--g2)}
 .daily-promo-title{margin-top:6px;font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);line-height:1.15}
 .daily-promo-meta{margin-top:8px;font-size:13px;color:var(--sub);line-height:1.6}
+.daily-promo-points{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.daily-promo-points span{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);font-size:11px;color:var(--text);font-weight:700}
+.daily-promo-cta{margin-top:16px;display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border:none;border-radius:999px;background:linear-gradient(135deg,#F0C96A,#D4A843);color:#09111d;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;cursor:pointer;box-shadow:0 14px 34px rgba(212,168,67,.22);transition:transform .2s ease, box-shadow .2s ease}
+.daily-promo-cta:hover{transform:translateY(-1px);box-shadow:0 18px 42px rgba(212,168,67,.3)}
 .daily-promo-side{min-width:170px;padding:14px 16px;border-radius:16px;background:rgba(3,8,15,.55);border:1px solid rgba(255,255,255,.08);text-align:center}
 .daily-promo-clock-label{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--sub)}
 .daily-promo-clock{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--teal)}
@@ -951,12 +955,18 @@ footer strong{color:var(--g2)}
   <!-- ═══════ FORM ═══════ -->
     <div class="daily-promo" id="dailyPromoBanner">
       <div class="daily-promo-copy">
-        <div class="daily-promo-kicker" id="promoTodayLabel">Promo de hoy</div>
-        <div class="daily-promo-title">Comprando 6 chances te llevas 1 extra y comprando 10 chances te llevas 2 extras.</div>
-        <div class="daily-promo-meta" id="promoBannerMeta">La promo se renueva todos los dias para darte mas posibilidades de ganar antes del cierre diario.</div>
+        <div class="daily-promo-kicker" id="promoTodayLabel">Ultima ventana de hoy</div>
+        <div class="daily-promo-title">Participa hoy y activa chances extra antes de que cierre la promo diaria.</div>
+        <div class="daily-promo-meta" id="promoBannerMeta">Hoy 6 chances suman 1 extra y 10 chances suman 2 extras. Es el mejor momento del dia para entrar con mas fuerza al sorteo.</div>
+        <div class="daily-promo-points">
+          <span>+1 extra con 6 chances</span>
+          <span>+2 extras con 10 chances</span>
+          <span>Bonus solo hasta hoy</span>
+        </div>
+        <button class="daily-promo-cta" type="button" onclick="document.getElementById('formSection').scrollIntoView({behavior:'smooth',block:'start'})">Quiero participar hoy</button>
       </div>
       <div class="daily-promo-side">
-        <div class="daily-promo-clock-label">Cierra en</div>
+        <div class="daily-promo-clock-label">Termina hoy en</div>
         <div class="daily-promo-clock" id="promoCountdown">23:59:59</div>
       </div>
     </div>
@@ -2056,9 +2066,9 @@ function updateFormBonusBanner(){
 
   if(promoMeta){
     if(bought > 0 && promoBonus > 0){
-      promoMeta.textContent = `Con tu seleccion actual participas con ${bought} chances compradas + ${promoBonus} extra = ${bought + promoBonus} chances activas.`;
+      promoMeta.textContent = `Si participas hoy con este pack entras con ${bought} chances compradas + ${promoBonus} extra = ${bought + promoBonus} chances activas antes de que cierre la promo del dia.`;
     }else{
-      promoMeta.textContent = 'La promo se renueva todos los dias para darte mas posibilidades de ganar antes del cierre diario.';
+      promoMeta.textContent = 'Hoy es el mejor momento para entrar: la promo diaria te da mas chances y el reloj corre hasta las 00:00.';
     }
   }
 
@@ -2286,6 +2296,26 @@ function toast(msg){
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),3500);
 }
 
+function anonymousParticipantCode(p){
+  if(p && p.anonymousCode) return p.anonymousCode;
+  const nameMatch = String((p && p.name) || '').match(/anonimo\s+([A-Z0-9-]{4,})/i);
+  if(nameMatch) return nameMatch[1].toUpperCase();
+  const rawId = String((p && p.id) || '').replace(/-/g,'').slice(-6).toUpperCase();
+  return rawId || 'A00001';
+}
+function generateAnonymousCode(){
+  return Math.random().toString(36).slice(2,8).toUpperCase();
+}
+function isAnonymousParticipant(p){
+  return !!(p && (p.isAnonymous || /^anonimo\b/i.test(String(p.name || ''))));
+}
+function publicName(p){
+  return isAnonymousParticipant(p) ? `Anonimo ${anonymousParticipantCode(p)}` : p.name;
+}
+function participantBadge(p){
+  return isAnonymousParticipant(p) ? 'Perfil anonimo' : 'Perfil publico';
+}
+
 /* ══════════════════════════════════════════════
    PACKAGES
 ══════════════════════════════════════════════ */
@@ -2380,7 +2410,8 @@ function submitForm(){
   const fullName=(n+' '+a).replace(/\s+/g,' ').trim();
   const appliedBonus = getCombinedSelectedBonus();
   const totalCh = pkg.chances + appliedBonus;
-  participants.push({name:fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic});
+  const anonymousCode = anonPublic ? generateAnonymousCode() : null;
+  participants.push({name:anonPublic ? `Anonimo ${anonymousCode}` : fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic,anonymousCode});
   totalChances+=pkg.chances;
   ['fN','fA','fT'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
