@@ -393,13 +393,19 @@ select.fi option{background:#050D1A;color:var(--text)}
 .availability-title{margin-top:6px;font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,34px);font-weight:900;color:var(--text);line-height:1.05}
 .availability-count{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.22);font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:#B7FFF0;font-weight:700}
 .availability-count::before{content:'';width:8px;height:8px;border-radius:50%;background:#00C9A7;box-shadow:0 0 0 0 rgba(0,201,167,.55);animation:liveDot 1.4s ease-out infinite}
-.availability-track{margin-top:16px;height:14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);overflow:hidden}
-.availability-fill{height:100%;background:linear-gradient(90deg,#7A0000,#C41E3A,#D4A843);border-radius:999px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.availability-track{margin-top:16px;height:16px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);overflow:hidden;position:relative;box-shadow:inset 0 2px 10px rgba(0,0,0,.28)}
+.availability-track::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.03),transparent 24%,rgba(255,255,255,.05) 48%,transparent 72%,rgba(255,255,255,.03));opacity:.65}
+.availability-fill{height:100%;background:linear-gradient(90deg,#7A0000,#C41E3A,#D4A843,#F0C96A,#D4A843);background-size:220% 100%;border-radius:999px;transition:width .95s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;animation:availabilityFlow 3.4s linear infinite}
+.availability-fill::after{content:'';position:absolute;top:0;bottom:0;left:-28%;width:30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:availabilitySheen 2.2s ease-in-out infinite}
+.availability-meter{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#FFE7C7;text-align:right}
+.availability-meter strong{color:#FFF2DB}
 .availability-note{margin-top:12px;font-size:12px;font-weight:700;letter-spacing:.3px;color:#FFD2BF;text-align:center}
 .urgency-chip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 12px;border-radius:999px;background:rgba(255,86,86,.15);border:1px solid rgba(255,86,86,.34);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#FFD7D7;animation:urgencyBlink 1.1s steps(2,end) infinite}
 @keyframes urgencyPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,86,86,.22)}50%{box-shadow:0 0 0 10px rgba(255,86,86,0)}}
 @keyframes urgencyBlink{0%,100%{opacity:1}50%{opacity:.45}}
 @keyframes liveDot{0%{box-shadow:0 0 0 0 rgba(0,201,167,.5)}100%{box-shadow:0 0 0 10px rgba(0,201,167,0)}}
+@keyframes availabilityFlow{0%{background-position:0 0}100%{background-position:220% 0}}
+@keyframes availabilitySheen{0%{left:-34%;opacity:0}20%{opacity:1}65%{opacity:.9}100%{left:112%;opacity:0}}
 .public-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.18);border-radius:999px;padding:7px 12px;font-size:11px;color:var(--g2);font-weight:700;letter-spacing:.7px;text-transform:uppercase}
 .live-summary{margin:0 0 18px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .live-card{background:linear-gradient(135deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid rgba(212,168,67,.12);border-radius:18px;padding:16px 18px;position:relative;overflow:hidden}
@@ -754,6 +760,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
       <div class="availability-track">
         <div class="availability-fill" id="progFill" style="width: 95%!important;"></div>
       </div>
+      <div class="availability-meter" id="progMeta"><strong>95%</strong> de ocupación proyectada para hoy</div>
       <div class="availability-note" id="urgLbl"></div>
     </div>
   </section>
@@ -977,6 +984,93 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
     </div>
     <div style="text-align:center;margin-top:14px;padding:14px 20px;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.15);border-radius:14px;font-size:14px;color:var(--sub);font-weight:600">
       💡 Quedan pocos cupos: cuanto antes compres tus chances hoy, más rápido asegurás tu lugar en el sorteo.
+    </div>
+  </section>
+
+  <section class="courses-section" id="coursesSection">
+    <div class="courses-copy">
+      <div>
+        <span class="s-eye">🎓 Cursos bonus por compra</span>
+        <h2 class="s-h">Accedé a formación <em>según tus chances</em></h2>
+      </div>
+      <div class="courses-note">Comprando `3 chances` se activa el curso sobre compra de autos usados. Con `6 chances o más` se activa ese curso y también matemáticas financieras, liquidación de sueldos y jornales, y funciones.</div>
+    </div>
+    <div class="courses-grid">
+      <article class="course-offer locked" data-course-card="auto-usado">
+        <div class="course-topline">
+          <span class="course-pill">Compra con 3 chances</span>
+          <span class="course-state locked" data-course-state>Bloqueado</span>
+        </div>
+        <div class="course-icon">🚗</div>
+        <div class="course-title">Todo lo que tenes que saber antes de comprar un auto usado, financiado o al contado</div>
+        <div class="course-desc">Checklist profesional, costos ocultos, evaluación del financiamiento y señales para comprar con más seguridad.</div>
+        <div class="course-meta">
+          <span>Guía completa</span>
+          <span>Checklist real</span>
+          <span>Acceso por compra</span>
+        </div>
+        <div class="course-action">
+          <div class="course-hint" data-course-hint>Se activa automáticamente al acreditar 3 chances o más.</div>
+          <button class="course-btn locked-btn" type="button" data-course-btn onclick="openCourseOffer('auto-usado')">Desbloquear</button>
+        </div>
+      </article>
+
+      <article class="course-offer locked" data-course-card="matematicas">
+        <div class="course-topline">
+          <span class="course-pill">Compra con 6 chances</span>
+          <span class="course-state locked" data-course-state>Bloqueado</span>
+        </div>
+        <div class="course-icon">📈</div>
+        <div class="course-title">Matematicas financieras</div>
+        <div class="course-desc">Interés simple y compuesto, anualidades, amortización y simulaciones para tomar mejores decisiones financieras.</div>
+        <div class="course-meta">
+          <span>Simuladores</span>
+          <span>Casos prácticos</span>
+          <span>Nivel inicial a medio</span>
+        </div>
+        <div class="course-action">
+          <div class="course-hint" data-course-hint>Se activa automáticamente al acreditar 6 chances o más.</div>
+          <button class="course-btn locked-btn" type="button" data-course-btn onclick="openCourseOffer('matematicas')">Desbloquear</button>
+        </div>
+      </article>
+
+      <article class="course-offer locked" data-course-card="sueldos">
+        <div class="course-topline">
+          <span class="course-pill">Compra con 6 chances</span>
+          <span class="course-state locked" data-course-state>Bloqueado</span>
+        </div>
+        <div class="course-icon">🧾</div>
+        <div class="course-title">Liquidacion de sueldos y jornales</div>
+        <div class="course-desc">Aprendé haberes, aportes, recibo de sueldo, liquidaciones especiales y ejercicios aplicados al contexto argentino.</div>
+        <div class="course-meta">
+          <span>Argentina</span>
+          <span>Ejercicios</span>
+          <span>Simulador</span>
+        </div>
+        <div class="course-action">
+          <div class="course-hint" data-course-hint>Se activa automáticamente al acreditar 6 chances o más.</div>
+          <button class="course-btn locked-btn" type="button" data-course-btn onclick="openCourseOffer('sueldos')">Desbloquear</button>
+        </div>
+      </article>
+
+      <article class="course-offer locked" data-course-card="funciones">
+        <div class="course-topline">
+          <span class="course-pill">Compra con 6 chances</span>
+          <span class="course-state locked" data-course-state>Bloqueado</span>
+        </div>
+        <div class="course-icon">📐</div>
+        <div class="course-title">Funciones esenciales</div>
+        <div class="course-desc">Conceptos base de funciones, lectura de gráficas, dominio, imagen y aplicaciones prácticas para estudio y trabajo.</div>
+        <div class="course-meta">
+          <span>Fundamentos</span>
+          <span>Ejemplos</span>
+          <span>Acceso directo</span>
+        </div>
+        <div class="course-action">
+          <div class="course-hint" data-course-hint>Se activa automáticamente al acreditar 6 chances o más.</div>
+          <button class="course-btn locked-btn" type="button" data-course-btn onclick="openCourseOffer('funciones')">Desbloquear</button>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -1282,6 +1376,36 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
 /* ══ SUM-BOX mejoras ══ */
 .sum-bonus-row .sk{display:flex;align-items:center;gap:5px}
 .sum-total-row{background:rgba(212,168,67,.04);border-radius:8px;padding:8px 10px !important;margin:0 -6px}
+
+/* ══ CURSOS BONUS ══ */
+.courses-section{padding:12px 0 56px}
+.courses-copy{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+.courses-copy .s-h{margin-bottom:0}
+.courses-note{max-width:420px;font-size:13px;color:var(--sub);line-height:1.6}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.course-offer{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(10,18,30,.98),rgba(5,12,22,1));border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:22px 20px;min-height:270px;display:flex;flex-direction:column;gap:14px;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.course-offer::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g1),var(--g3),var(--teal));opacity:.95}
+.course-offer:hover{transform:translateY(-5px);box-shadow:0 24px 55px rgba(0,0,0,.35);border-color:rgba(212,168,67,.26)}
+.course-offer.locked{opacity:.88}
+.course-offer.unlocked{border-color:rgba(0,201,167,.28);box-shadow:0 0 0 1px rgba(0,201,167,.1),0 26px 62px rgba(0,0,0,.34)}
+.course-offer.preview{border-color:rgba(212,168,67,.3);box-shadow:0 0 0 1px rgba(212,168,67,.12),0 20px 48px rgba(0,0,0,.28)}
+.course-topline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.course-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:var(--sub)}
+.course-state{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
+.course-state.locked{background:rgba(255,86,86,.12);border:1px solid rgba(255,86,86,.2);color:#FFD7D7}
+.course-state.preview{background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.22);color:#F7DF9B}
+.course-state.unlocked{background:rgba(0,201,167,.12);border:1px solid rgba(0,201,167,.22);color:#B7FFF0}
+.course-icon{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;background:rgba(212,168,67,.09);border:1px solid rgba(212,168,67,.15)}
+.course-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;line-height:1.15;color:var(--text)}
+.course-desc{font-size:13px;color:var(--sub);line-height:1.7;min-height:64px}
+.course-meta{display:flex;flex-wrap:wrap;gap:8px}
+.course-meta span{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:11px;font-weight:700;color:var(--text)}
+.course-action{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.course-hint{font-size:12px;color:var(--sub);line-height:1.5}
+.course-btn{border:none;border-radius:14px;padding:13px 16px;background:linear-gradient(135deg,var(--g1),var(--g3));color:#09111d;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;box-shadow:0 12px 28px rgba(212,168,67,.18);transition:transform .2s ease,box-shadow .2s ease}
+.course-btn:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(212,168,67,.28)}
+.course-btn.locked-btn{background:linear-gradient(135deg,#3A4153,#596176);color:#F4F7FB;box-shadow:none}
+.course-btn.preview-btn{background:linear-gradient(135deg,#8B640C,#D4A843);color:#09111d}
 </style>
 
 <script>
@@ -1321,6 +1445,33 @@ const DEMO=[
   {name:'Romina Díaz',       chances:3,  bonusChances:0, totalChances:3,  time:'09:52', date:'28/04/2026', province:'Santa Cruz',     city:'Río Gallegos',     msg:'compraria un auto', isAnonymous:false},
 ];
 const DAILY_PROMO_RULES=Object.freeze({6:1,10:2});
+const COURSE_ACCESS_STORAGE_KEY='bonus_course_bundle_v1';
+const COURSE_OFFERS=Object.freeze([
+  {
+    id:'auto-usado',
+    minChances:3,
+    href:'cursos/curso-guia-auto-argentina.html',
+    label:'Auto usado',
+  },
+  {
+    id:'matematicas',
+    minChances:6,
+    href:'cursos/curso_matematicas_financieras.html',
+    label:'Matematicas financieras',
+  },
+  {
+    id:'sueldos',
+    minChances:6,
+    href:'cursos/curso_liquidacion_sueldos.html',
+    label:'Liquidacion de sueldos',
+  },
+  {
+    id:'funciones',
+    minChances:6,
+    href:'cursos/curso_funciones.html',
+    label:'Funciones esenciales',
+  },
+]);
 const TICKER=[
   '🏆 Martín R. ganó $10.000.000 — Edición anterior',
   '🥈 Valentina P. ganó $3.000.000 hace 3 días',
