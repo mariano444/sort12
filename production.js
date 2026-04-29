@@ -127,7 +127,7 @@
     participants = (publicParticipants || []).map(toParticipant).reverse();
     updateUI();
 
-    if (activeEdition.status === 'full' || activeEdition.status === 'drawing') {
+    if (activeEdition.status === 'drawing') {
       document.getElementById('formSection').style.display = 'none';
       document.getElementById('fullNotice').style.display = 'block';
     }
