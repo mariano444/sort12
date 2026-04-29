@@ -46,7 +46,14 @@
     }
   }
 
+  function parseAnonymousDisplayName(value) {
+    const match = String(value || '').trim().match(/^anonimo\s+([A-Z0-9-]{4,})$/i);
+    if (!match) return null;
+    return match[1].toUpperCase();
+  }
+
   function toParticipant(row) {
+    const anonymousCode = parseAnonymousDisplayName(row.display_name);
     return {
       id: row.id,
       name: row.display_name,
@@ -59,6 +66,8 @@
       city: row.city,
       photo: row.photo_url || null,
       msg: row.message || '',
+      isAnonymous: !!anonymousCode,
+      anonymousCode,
       isWinner: !!row.is_winner,
     };
   }
@@ -195,6 +204,7 @@
       province: document.getElementById('fProv').value,
       city: document.getElementById('fCity').value.trim(),
       message: document.getElementById('fMsg').value.trim(),
+      anonymousPublic: !!window.anonPublic,
       photoDataUrl: currentPhotoDataUrl,
       bonusChances:
         typeof window.getCombinedSelectedBonus === 'function' ? window.getCombinedSelectedBonus() : 0,
