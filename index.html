@@ -2216,10 +2216,11 @@ function startParticipantFeed(){
     const p=participants[participantFeedIndex % participants.length];
     const loc=[p.city,p.province].filter(Boolean).join(', ') || 'Argentina';
     const total=p.totalChances || p.chances || 0;
-    if(p.photo){
+    const isAnon = isAnonymousParticipant(p);
+    if(p.photo && !isAnon){
       avatar.innerHTML=`<img src="${p.photo}" alt="${publicName(p)}">`;
     }else{
-      avatar.textContent=participantInitials(p.name);
+      avatar.textContent=isAnon ? '🕶️' : participantInitials(p.name);
     }
     text.innerHTML=`<strong>${publicName(p)}</strong> participa con <strong>${total} chance${total!==1?'s':''}</strong>.`;
     meta.textContent=`📍 ${loc} · 📅 ${p.date || nowDate()} · 🕒 ${p.time || '—'}`;
@@ -2309,6 +2310,11 @@ function generateAnonymousCode(){
 function isAnonymousParticipant(p){
   return !!(p && (p.isAnonymous || /^anonimo\b/i.test(String(p.name || ''))));
 }
+function isAnonEnabled(){
+  const anonCheck=document.getElementById('chkAnon');
+  if(anonCheck) return anonCheck.classList.contains('on');
+  return !!anonPublic;
+}
 function publicName(p){
   return isAnonymousParticipant(p) ? `Anonimo ${anonymousParticipantCode(p)}` : p.name;
 }
@@ -2385,7 +2391,8 @@ function toggleTerms(){
 }
 function toggleAnon(){
   anonPublic=!anonPublic;
-  document.getElementById('chkAnon').classList.toggle('on',anonPublic);
+  const anonCheck=document.getElementById('chkAnon');
+  if(anonCheck) anonCheck.classList.toggle('on',anonPublic);
 }
 function valSub(){
   const n=document.getElementById('fN').value.trim();
@@ -2410,8 +2417,9 @@ function submitForm(){
   const fullName=(n+' '+a).replace(/\s+/g,' ').trim();
   const appliedBonus = getCombinedSelectedBonus();
   const totalCh = pkg.chances + appliedBonus;
-  const anonymousCode = anonPublic ? generateAnonymousCode() : null;
-  participants.push({name:anonPublic ? `Anonimo ${anonymousCode}` : fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:currentPhotoDataUrl,msg:msg,isAnonymous:anonPublic,anonymousCode});
+  const useAnonymous = isAnonEnabled();
+  const anonymousCode = useAnonymous ? generateAnonymousCode() : null;
+  participants.push({name:useAnonymous ? `Anonimo ${anonymousCode}` : fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:useAnonymous ? null : currentPhotoDataUrl,msg:msg,isAnonymous:useAnonymous,anonymousCode});
   totalChances+=pkg.chances;
   ['fN','fA','fT'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
   document.getElementById('fProv').value='';document.getElementById('fProv').className='fi';
@@ -2434,7 +2442,9 @@ function submitForm(){
   applyDefaultSelection();
   document.getElementById('subBtn').disabled=true;
   updateUI();
-  toast(`✅ ¡${fullName} inscripto con ${totalCh} chance${totalCh>1?'s':''}!`);
+  toast(useAnonymous
+    ? `✅ ¡Inscripcion anonima confirmada con ${totalCh} chance${totalCh>1?'s':''}!`
+    : `✅ ¡${fullName} inscripto con ${totalCh} chance${totalCh>1?'s':''}!`);
   launchConfetti(20);
   setTimeout(()=>document.querySelector('.list-section').scrollIntoView({behavior:'smooth'}),300);
 }
@@ -2487,9 +2497,10 @@ function renderTable(){
     row.setAttribute('role','button');
     row.setAttribute('tabindex','0');
     row.onkeydown=(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openParticipantModal(p); } };
-    const avatarHtml=p.photo
-      ?`<div class="av-img" style="padding:0"><img src="${p.photo}" alt="${p.name}" style="width:42px;height:42px;border-radius:50%;object-fit:cover"></div>`
-      :`<div class="av-img">${participantInitials(p.name)}</div>`;
+    const isAnon = isAnonymousParticipant(p);
+    const avatarHtml=(p.photo && !isAnon)
+      ?`<div class="av-img" style="padding:0"><img src="${p.photo}" alt="${publicName(p)}" style="width:42px;height:42px;border-radius:50%;object-fit:cover"></div>`
+      :`<div class="av-img">${isAnon ? '🕶️' : participantInitials(p.name)}</div>`;
     const locParts=[p.city,p.province].filter(Boolean);
     const locHtml=locParts.length
       ?`<div class="td loc"><span style="font-size:12px;color:var(--text)">${locParts.join(', ')}</span></div>`
@@ -2521,9 +2532,10 @@ function renderDreams(){
     const card=document.createElement('div');
     card.className='dream-card';
     card.style.animationDelay=(idx*0.07)+'s';
-    const avHtml=p.photo
-      ?`<div class="dream-av"><img src="${p.photo}" alt="${p.name}"></div>`
-      :`<div class="dream-av">${participantInitials(p.name)}</div>`;
+    const isAnon = isAnonymousParticipant(p);
+    const avHtml=(p.photo && !isAnon)
+      ?`<div class="dream-av"><img src="${p.photo}" alt="${publicName(p)}"></div>`
+      :`<div class="dream-av">${isAnon ? '🕶️' : participantInitials(p.name)}</div>`;
     const locStr=[p.city,p.province].filter(Boolean).join(', ')||'Argentina';
     const totalCh=p.totalChances||p.chances;
     card.innerHTML=`
@@ -2545,7 +2557,8 @@ function openParticipantModal(p){
   const avatar=document.getElementById('pmAvatar');
   const totalCh=p.totalChances||p.chances;
   const visibleName=publicName(p);
-  avatar.innerHTML=p.photo ? `<img src="${p.photo}" alt="${visibleName}">` : participantInitials(p.name);
+  const isAnon = isAnonymousParticipant(p);
+  avatar.innerHTML=(p.photo && !isAnon) ? `<img src="${p.photo}" alt="${visibleName}">` : (isAnon ? '🕶️' : participantInitials(p.name));
   document.getElementById('pmName').textContent=visibleName;
   document.getElementById('pmSub').innerHTML=`<span>${participantBadge(p)}</span><span>•</span><span>📍 ${[p.city,p.province].filter(Boolean).join(', ')||'Argentina'}</span><span>•</span><span>📅 ${p.date || nowDate()}</span><span>•</span><span>🕒 ${p.time}</span>`;
   document.getElementById('pmBought').textContent=p.chances;
