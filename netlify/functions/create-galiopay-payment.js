@@ -7,6 +7,13 @@ function firstRow(result) {
   return Array.isArray(result) ? result[0] : result;
 }
 
+function buildAnonymousCode(participantId) {
+  return String(participantId || '')
+    .replace(/-/g, '')
+    .slice(-6)
+    .toUpperCase();
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return json(405, { error: 'Method not allowed' });
@@ -22,6 +29,7 @@ exports.handler = async (event) => {
     const province = String(body.province || '').trim();
     const city = String(body.city || '').trim();
     const message = String(body.message || '').trim();
+    const anonymousPublic = Boolean(body.anonymousPublic);
     const packageId = Number(body.packageId);
     const bonusChances = Number(body.bonusChances || 0);
     const photoDataUrl = body.photoDataUrl ? String(body.photoDataUrl) : null;
@@ -68,11 +76,15 @@ exports.handler = async (event) => {
 
     const normalizedParticipantId = String(participantId).replace(/"/g, '');
     const photoUrl = await uploadProfilePhoto(config, normalizedParticipantId, photoDataUrl);
+    const anonymousCode = buildAnonymousCode(normalizedParticipantId);
+    const publicDisplayName = anonymousPublic
+      ? `Anonimo ${anonymousCode}`
+      : `${firstName} ${lastName}`.replace(/\s+/g, ' ').trim();
 
     await supabaseRequest(config, `/participants?id=eq.${normalizedParticipantId}`, {
       method: 'PATCH',
       body: {
-        display_name: `${firstName} ${lastName}`.replace(/\s+/g, ' ').trim(),
+        display_name: publicDisplayName,
         photo_url: photoUrl,
         payment_provider: 'galiopay',
       },
