@@ -2304,11 +2304,23 @@ function anonymousParticipantCode(p){
   const rawId = String((p && p.id) || '').replace(/-/g,'').slice(-6).toUpperCase();
   return rawId || 'A00001';
 }
-function generateAnonymousCode(){
-  return Math.random().toString(36).slice(2,8).toUpperCase();
+function generateUniqueAnonymousCode(){
+  const usedCodes = new Set(
+    participants
+      .map(p=>anonymousParticipantCode(p))
+      .filter(Boolean)
+      .map(code=>String(code).toUpperCase())
+  );
+  for(let i=0;i<50;i++){
+    const rand = Math.random().toString(36).slice(2,6).toUpperCase();
+    const stamp = Date.now().toString(36).slice(-2).toUpperCase();
+    const code = `${rand}${stamp}`;
+    if(!usedCodes.has(code)) return code;
+  }
+  return `A${Date.now().toString(36).slice(-5).toUpperCase()}`;
 }
 function isAnonymousParticipant(p){
-  return !!(p && (p.isAnonymous || /^anonimo\b/i.test(String(p.name || ''))));
+  return !!(p && (p.isAnonymous || !!p.anonymousCode || /^anonimo\b/i.test(String(p.name || ''))));
 }
 function isAnonEnabled(){
   const anonCheck=document.getElementById('chkAnon');
@@ -2417,8 +2429,8 @@ function submitForm(){
   const fullName=(n+' '+a).replace(/\s+/g,' ').trim();
   const appliedBonus = getCombinedSelectedBonus();
   const totalCh = pkg.chances + appliedBonus;
-  const useAnonymous = isAnonEnabled();
-  const anonymousCode = useAnonymous ? generateAnonymousCode() : null;
+  const useAnonymous = anonPublic || isAnonEnabled();
+  const anonymousCode = useAnonymous ? generateUniqueAnonymousCode() : null;
   participants.push({name:useAnonymous ? `Anonimo ${anonymousCode}` : fullName,chances:pkg.chances,bonusChances:appliedBonus,totalChances:totalCh,time:nowTime(),date:nowDate(),province:prov,city:city,photo:useAnonymous ? null : currentPhotoDataUrl,msg:msg,isAnonymous:useAnonymous,anonymousCode});
   totalChances+=pkg.chances;
   ['fN','fA','fT'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='fi';});
