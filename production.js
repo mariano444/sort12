@@ -50,9 +50,9 @@
     return {
       id: row.id,
       name: row.display_name,
-      chances: row.chances_bought,
-      bonusChances: 0,
-      totalChances: Number(row.chances_bought || 0),
+      chances: Number(row.chances_bought || 0),
+      bonusChances: Number(row.bonus_chances || 0),
+      totalChances: Number(row.total_chances || row.chances_bought || 0),
       time: formatIsoTime(row.registered_at),
       date: formatIsoDate(row.registered_at),
       province: row.province,
@@ -196,7 +196,8 @@
       city: document.getElementById('fCity').value.trim(),
       message: document.getElementById('fMsg').value.trim(),
       photoDataUrl: currentPhotoDataUrl,
-      bonusChances: 0,
+      bonusChances:
+        typeof window.getCombinedSelectedBonus === 'function' ? window.getCombinedSelectedBonus() : 0,
     };
 
     button.disabled = true;
