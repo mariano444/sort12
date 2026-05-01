@@ -690,7 +690,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
   <div class="urg-in">
     🔥 EL SORTEO FINALIZA EN: (O AL AGOTAR STOCK)
     <div class="urg-timer" id="urgTimer">00:00:00:00</div>
-    <div class="urg-cupos" style="color: #FFD740; background: rgba(0,0,0,0.2); padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(255,215,64,0.3)">⚡ 96.2% DE CHANCES AGOTADAS</div>
+    <div class="urg-cupos" id="urgCupos" style="color: #FFD740; background: rgba(0,0,0,0.2); padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(255,215,64,0.3)">⚡ 95.5% DE CHANCES AGOTADAS</div>
     <div class="tp-live" style="padding: 2px 8px; font-size: 10px; border-color: rgba(255,255,255,0.3); background: rgba(0,0,0,0.2); color: #fff"><div class="live-dot" style="background: #fff; box-shadow: 0 0 8px #fff"></div>EN VIVO</div>
   </div>
 </div>
@@ -801,9 +801,9 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
         <div class="availability-count">Actualización en vivo</div>
       </div>
       <div class="availability-track">
-        <div class="availability-fill" id="progFill" style="width: 96.2%;"></div>
+        <div class="availability-fill" id="progFill" style="width: 95.5%;"></div>
       </div>
-      <div class="availability-meter" id="progMeta"><strong>96.2%</strong> de ocupación</div>
+      <div class="availability-meter" id="progMeta"><strong>95.5%</strong> de ocupación</div>
       <div class="availability-note" id="urgLbl"></div>
     </div>
   </section>
@@ -1464,7 +1464,7 @@ src="https://www.facebook.com/tr?id=675114246370648&ev=PageView&noscript=1"
 /* ══════════════════════════════════════════════
    CONFIG
 ══════════════════════════════════════════════ */
-const MAX=100000;
+const MAX=999999999;
 const PKGS=[
   {label:'1 Chance',   chances:1,  price:2200},
   {label:'3 Chances',  chances:3,  price:5400},
@@ -2807,20 +2807,22 @@ function updateUI(){
   if(stDraws) stDraws.textContent=248+archive.length;
   if(stPaid) stPaid.textContent='$'+fmt(totalPaid);
   
-  // Cálculo dinámico para mantener el sentimiento de "últimos cupos" (95.5% - 99.9%)
+  // Cálculo dinámico para mantener el sentimiento de "últimos cupos" (95.5% - 98.0%)
   const basePct = 95.5;
   const growth = (totalChances * 0.005);
-  const pct = Math.min(basePct + growth, 99.9).toFixed(1);
+  const pct = Math.min(basePct + growth, 98.0).toFixed(1);
   
   if(progFill) progFill.style.width=pct+'%';
   if(progMeta) progMeta.innerHTML=`<strong>${pct}%</strong> de ocupación`;
+  const urgCupos=document.getElementById('urgCupos');
+  if(urgCupos) urgCupos.textContent=`⚡ ${pct}% DE CHANCES AGOTADAS`;
 
   const rem=MAX-totalChances;
   const urgencyWindow = 120;
   const urgencyRem = Math.max(0, Math.min(rem, urgencyWindow));
   if(availabilityBox){
     availabilityBox.style.display = 'block';
-    availabilityBox.classList.toggle('urgency-hot', rem > 0);
+    availabilityBox.classList.toggle('urgency-hot', true); // Siempre caliente ya que es ilimitado
   }
   const urgChip=document.getElementById('urgChip');
   if(urgChip){
