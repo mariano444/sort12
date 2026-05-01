@@ -13,7 +13,7 @@ function getOptionalEnv(name, fallback) {
 
 function getConfig() {
   return {
-    supabaseUrl: getOptionalEnv('SUPABASE_URL', 'https://nksszbvoiqarfjlrfmor.supabase.co'),
+    supabaseUrl: getOptionalEnv('SUPABASE_URL', 'https://golbktrdgpkfdkrkvrll.supabase.co'),
     supabaseServiceRoleKey: requireEnv('SUPABASE_SERVICE_ROLE_KEY'),
     galiopayClientId: requireEnv('GALIOPAY_CLIENT_ID'),
     galiopayApiKey: requireEnv('GALIOPAY_API_KEY'),
