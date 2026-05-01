@@ -2,10 +2,10 @@
   const APP_CONFIG = Object.freeze({
     supabaseUrl:
       (window.__APP_CONFIG__ && window.__APP_CONFIG__.supabaseUrl) ||
-      'https://nksszbvoiqarfjlrfmor.supabase.co',
+      'https://golbktrdgpkfdkrkvrll.supabase.co',
     supabaseAnonKey:
       (window.__APP_CONFIG__ && window.__APP_CONFIG__.supabaseAnonKey) ||
-      'sb_publishable_f97pAya_2yZoySsTh3uuIg_CeyqiyC-',
+      'sb_publishable_-i4JCotNAgm0BBNpJ2s9dQ_ea6cIhky',
     createPaymentEndpoint:
       (window.__APP_CONFIG__ && window.__APP_CONFIG__.createPaymentEndpoint) || '/api/create-payment',
     paymentStatusEndpoint:
